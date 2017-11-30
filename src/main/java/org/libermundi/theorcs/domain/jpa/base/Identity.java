@@ -20,8 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.UUID;
 
 
@@ -35,9 +34,10 @@ import java.util.UUID;
 @ToString(of = "id")
 @MappedSuperclass
 public abstract class Identity {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean deleted=Boolean.FALSE;
 
     @Transient
     private final String tempUuid = UUID.randomUUID().toString();
