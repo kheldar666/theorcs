@@ -37,7 +37,7 @@ public class AuthorityServiceImpl extends AbstractServiceImpl<Authority> impleme
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#createNew()
+	 * @see org.libermundi.theorcs.services.base.BaseService#createNew()
 	 */
 	@Override
 	public Authority createNew() {

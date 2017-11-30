@@ -9,10 +9,10 @@ import java.util.Optional;
 
 
 /**
- * Interface of any Manager Service
+ * Interface of any Manager BaseService
  *
  */
-public interface Service<T extends Identity> {
+public interface BaseService<T extends Identity> {
 
 	/**
 	 * Duplicate the Object
@@ -60,13 +60,13 @@ public interface Service<T extends Identity> {
 	long count();
 	
 	/**
-	 * Getter of the DAO of the Service Manager
+	 * Getter of the DAO of the BaseService Manager
 	 * @return the instance of the Dao used by the Manager
 	 */
 	CrudRepository<T,Long> getRepository();
 
 	/**
-	 * Setter of the DAO of the Service Manager
+	 * Setter of the DAO of the BaseService Manager
 	 * @param repository
 	 */
 	void setRepository(JpaRepository<T, Long> repository);

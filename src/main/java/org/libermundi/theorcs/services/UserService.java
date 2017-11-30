@@ -3,10 +3,10 @@ package org.libermundi.theorcs.services;
 import org.libermundi.theorcs.domain.jpa.User;
 
 /**
- * Interface of the User Manager Service
+ * Interface of the User Manager BaseService
  *
  */
-public interface UserService extends Service<User> {
+public interface UserService extends BaseService<User> {
 
 	/**
 	 * Getter of User

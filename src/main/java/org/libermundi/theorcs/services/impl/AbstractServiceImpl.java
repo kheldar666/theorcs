@@ -2,7 +2,7 @@ package org.libermundi.theorcs.services.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.base.Identity;
-import org.libermundi.theorcs.services.Service;
+import org.libermundi.theorcs.services.BaseService;
 import org.libermundi.theorcs.utils.ObjectUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,20 +13,20 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Abstract Service
+ * Abstract BaseService
  * Implements an set of utility methods used by all manager
  * @param <T>
  *
  */
 @Slf4j
 @Transactional(rollbackFor=Exception.class,propagation=Propagation.REQUIRED)
-public abstract class AbstractServiceImpl<T extends Identity> implements Service<T> {
+public abstract class AbstractServiceImpl<T extends Identity> implements BaseService<T> {
 
 	protected JpaRepository<T,Long> repository;
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#getRepository()
+	 * @see org.libermundi.theorcs.services.base.BaseService#getRepository()
 	 */
 	@Override
 	public CrudRepository<T,Long> getRepository() {
@@ -35,7 +35,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements Service
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#setDao(org.libermundi.theorcs.repositories.base.BaseRepository)
+	 * @see org.libermundi.theorcs.services.base.BaseService#setDao(org.libermundi.theorcs.repositories.base.BaseRepository)
 	 */
 	@Override
 	public void setRepository(JpaRepository<T,Long> repository) {
@@ -47,7 +47,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements Service
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#delete(java.io.Serializable)
+	 * @see org.libermundi.theorcs.services.base.BaseService#delete(java.io.Serializable)
 	 */
 	@Override
 	public void deleteById(Long id) {
@@ -59,7 +59,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements Service
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#delete(org.libermundi.theorcs.core.model.base.Identifiable)
+	 * @see org.libermundi.theorcs.services.base.BaseService#delete(org.libermundi.theorcs.core.model.base.Identifiable)
 	 */
 	@Override
 	public void delete(T entity) {
@@ -68,7 +68,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements Service
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#getAll()
+	 * @see org.libermundi.theorcs.services.base.BaseService#getAll()
 	 */
 	@Override
 	public Iterable<T> findAll() {
@@ -77,7 +77,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements Service
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#duplicate(org.libermundi.theorcs.core.model.base.Identifiable)
+	 * @see org.libermundi.theorcs.services.base.BaseService#duplicate(org.libermundi.theorcs.core.model.base.Identifiable)
 	 */
 	@Override
 	public T duplicate(T original) {
@@ -85,7 +85,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements Service
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#duplicate(org.libermundi.theorcs.core.model.base.Identifiable, boolean)
+	 * @see org.libermundi.theorcs.services.base.BaseService#duplicate(org.libermundi.theorcs.core.model.base.Identifiable, boolean)
 	 */
 	@Override
 	public T duplicate(T original, boolean resetPrimaryKey) {
@@ -97,7 +97,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements Service
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#count()
+	 * @see org.libermundi.theorcs.services.base.BaseService#count()
 	 */
 	@Override
 	public long count() {
@@ -109,7 +109,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements Service
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#findOne(java.io.Serializable)
+	 * @see org.libermundi.theorcs.services.base.BaseService#findOne(java.io.Serializable)
 	 */
 	@Override
 	public Optional<T> findOne(Example<T> example) {
@@ -118,16 +118,19 @@ public abstract class AbstractServiceImpl<T extends Identity> implements Service
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#save(org.libermundi.theorcs.domain.base.Identifiable)
+	 * @see org.libermundi.theorcs.services.base.BaseService#save(org.libermundi.theorcs.domain.base.Identifiable)
 	 */
 	@Override
 	public <S extends T> S save(S entity) {
+		if(log.isDebugEnabled()) {
+			log.debug("Saving : " + entity);
+		}
 		return this.repository.save(entity);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#saveAll(java.lang.Iterable)
+	 * @see org.libermundi.theorcs.services.base.BaseService#saveAll(java.lang.Iterable)
 	 */
 	@Override
 	public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {

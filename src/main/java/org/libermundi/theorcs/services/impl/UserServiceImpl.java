@@ -126,7 +126,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.Service#createNew()
+	 * @see org.libermundi.theorcs.services.base.BaseService#createNew()
 	 */
 	@Override
 	public User createNew() {
@@ -153,7 +153,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 			rootUser.setAccountNonLocked(Boolean.TRUE);
 			rootUser.setAccountNonExpired(Boolean.TRUE);
 			rootUser.setCredentialsNonExpired(Boolean.TRUE);
-			save(rootUser);				
+			save(rootUser);
 		
 		User adminUser = createNew();
 			adminUser.setUsername("admin");
