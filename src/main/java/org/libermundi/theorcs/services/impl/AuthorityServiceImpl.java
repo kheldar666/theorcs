@@ -1,7 +1,7 @@
 package org.libermundi.theorcs.services.impl;
 
 import com.google.common.collect.Lists;
-import org.libermundi.theorcs.domain.jpa.Authority;
+import org.libermundi.theorcs.domain.jpa.security.Authority;
 import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.repositories.AuthorityRepository;
 import org.libermundi.theorcs.services.AuthorityService;

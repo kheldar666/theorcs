@@ -10,6 +10,7 @@ import org.libermundi.theorcs.domain.Salutation;
 import org.libermundi.theorcs.domain.jpa.base.Account;
 import org.libermundi.theorcs.domain.jpa.base.UidAuditableEntity;
 import org.libermundi.theorcs.domain.jpa.listeners.PasswordListener;
+import org.libermundi.theorcs.domain.jpa.security.Authority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;

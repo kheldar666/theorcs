@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.libermundi.theorcs.domain.jpa.Authority;
+import org.libermundi.theorcs.domain.jpa.security.Authority;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package org.libermundi.theorcs.domain.jpa;
+package org.libermundi.theorcs.domain.jpa.security;
 
 import com.google.common.collect.Sets;
 import lombok.Getter;
