@@ -1,13 +1,13 @@
 package org.libermundi.theorcs.domain.jpa.base;
 
 
-public interface CreatedOrModifiedBy {
+public interface CreatedOrUpdatedBy {
 
     String getCreatedBy();
 
     void setCreatedBy(String username);
     
-    String getModifiedBy();
+    String getUpdatedBy();
 
-    void setModifiedBy(String username);
+    void setUpdatedBy(String username);
 }

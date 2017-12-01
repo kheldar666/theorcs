@@ -1,28 +1,27 @@
 package org.libermundi.theorcs.domain.jpa.listeners;
 
-import org.libermundi.theorcs.domain.jpa.base.CreatedOrModifiedBy;
-import org.libermundi.theorcs.domain.jpa.base.Timestampable;
+import org.libermundi.theorcs.domain.jpa.base.CreatedOrUpdatedBy;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import java.util.Date;
 
-public class CreatedOrModifiedByListener {
+public class CreatedOrUpdatedByListener {
+	public static final String SYSTEM="__System__";
 
 	@PrePersist
-	public void setCreatedBy(CreatedOrModifiedBy c) {
+	public void setCreatedBy(CreatedOrUpdatedBy c) {
 		String username = getCurrentUsername();
 		c.setCreatedBy(username);
-		c.setModifiedBy(username);
+		c.setUpdatedBy(username);
 	}
 
 	@PreUpdate
-	public void setModifiedBy(CreatedOrModifiedBy c) {
+	public void setUpdatedBy(CreatedOrUpdatedBy c) {
 		String username = getCurrentUsername();
-		c.setModifiedBy(username);
+		c.setUpdatedBy(username);
 	}
 
 	/**
@@ -37,7 +36,7 @@ public class CreatedOrModifiedByListener {
 		UserDetails userDetails = getUserDetails(SecurityContextHolder.getContext());
 
 		if (userDetails == null || userDetails.getUsername().isEmpty()) {
-			return "__System__"; // return System as default.
+			return SYSTEM; // return System as default.
 		}
 
 		return userDetails.getUsername();

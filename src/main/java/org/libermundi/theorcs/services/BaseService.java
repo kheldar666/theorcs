@@ -83,7 +83,7 @@ public interface BaseService<T extends Identity> {
 	 * @param entity
 	 * @return the saved entity
 	 */
-	<S extends T> S save(S entity);
+	T save(T entity);
 	
 	/**
 	 * Saves all given entities.
@@ -92,7 +92,7 @@ public interface BaseService<T extends Identity> {
 	 * @return the saved entities
 	 * @throws IllegalArgumentException in case the given entity is {@literal null}.
 	 */
-	<S extends T> Iterable<S> saveAll(Iterable<S> entities);
+	Iterable<T> saveAll(Iterable<T> entities);
 	
 	/**
 	 * Initialize Data when the Application starts for the first time.

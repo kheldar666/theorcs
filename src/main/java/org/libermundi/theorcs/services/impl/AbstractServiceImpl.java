@@ -10,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 /**
@@ -121,7 +122,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 	 * @see org.libermundi.theorcs.services.base.BaseService#save(org.libermundi.theorcs.domain.base.Identifiable)
 	 */
 	@Override
-	public <S extends T> S save(S entity) {
+	public T save(T entity) {
 		if(log.isDebugEnabled()) {
 			log.debug("Saving : " + entity);
 		}
@@ -133,9 +134,14 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 	 * @see org.libermundi.theorcs.services.base.BaseService#saveAll(java.lang.Iterable)
 	 */
 	@Override
-	public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
+	public Iterable<T> saveAll(Iterable<T> entities) {
 		return this.repository.saveAll(entities);
 	}
 	
-
+	protected T getResultfromOptional(Optional<T> optional) {
+		if(!optional.isPresent()){
+			throw new EntityNotFoundException();
+		}
+		return optional.get();
+	}
 }

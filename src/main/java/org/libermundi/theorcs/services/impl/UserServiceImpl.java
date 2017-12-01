@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -44,7 +45,8 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 	 */
 	@Override
 	public User findByUsername(String username) {
-		return ((UserRepository)getRepository()).findByUsername(username);
+		Optional<User> result = ((UserRepository)getRepository()).findByUsername(username);
+		return getResultfromOptional(result);
 	}
 	
 	/*
@@ -53,7 +55,8 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 	 */
 	@Override
 	public User findByNickName(String nickname) {
-		return ((UserRepository)getRepository()).findByNickName(nickname);
+		Optional<User> result = ((UserRepository)getRepository()).findByNickName(nickname);
+		return getResultfromOptional(result);
 	}
 
 	/*
@@ -62,7 +65,8 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 	 */
 	@Override
 	public User findByUID(String uid) {
-		return ((UserRepository)getRepository()).findByUid(uid);
+		Optional<User> result = ((UserRepository)getRepository()).findByUid(uid);
+		return getResultfromOptional(result);
 	}
 
 	/*
@@ -121,7 +125,8 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 	 */
 	@Override
 	public User findByEmail(String email) {
-		return ((UserRepository)getRepository()).findByEmail(email);
+		Optional<User> result = ((UserRepository)getRepository()).findByEmail(email);
+		return getResultfromOptional(result);
 	}
 
 	/*
