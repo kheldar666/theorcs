@@ -17,7 +17,7 @@ public class ExceptionHandlerControllerAdvice {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("error/404");
         modelAndView.setStatus(HttpStatus.NOT_FOUND);
-        modelAndView.addObject("customException",e);
+        modelAndView.addObject("exception",e);
         return modelAndView;
     }
 

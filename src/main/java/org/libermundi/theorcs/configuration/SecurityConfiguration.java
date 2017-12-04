@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.repositories.RememberMeTokenRepository;
 import org.libermundi.theorcs.repositories.impl.PersistentTokenRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -47,8 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         log.info("Configuring WebSecurity");
         web
-                .ignoring()
-                .antMatchers("/webjars/**","/js/**","/images/**","/css/**");
+            .ignoring()
+            .antMatchers("/webjars/**","/js/**","/images/**","/css/**");
     }
 
     @Override
@@ -95,8 +97,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        log.info("Configuring AuthenticationManagerBuilder");
+        auth
+            .userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder());
+    }
+
+    private PasswordEncoder passwordEncoder() {
         log.info("Creating PasswordEncoder Bean");
         return new BCryptPasswordEncoder(12);
     }

@@ -65,7 +65,7 @@ public class User extends UidAuditableEntity implements UserDetails, Account {
     @Column(length=36)
     private String activationKey;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Users2Authorities")
     private Set<Authority> authorities = Sets.newHashSet();
 
