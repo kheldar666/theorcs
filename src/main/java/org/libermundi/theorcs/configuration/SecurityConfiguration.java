@@ -83,7 +83,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/index");
+                        .logoutSuccessUrl("/index")
+                        .deleteCookies("remember-me")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true);
 
         if (!Strings.isNullOrEmpty(env) && env.equals("dev")) {
             log.warn("****************************************************");
