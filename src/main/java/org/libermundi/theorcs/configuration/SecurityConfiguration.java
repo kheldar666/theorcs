@@ -63,10 +63,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                     .expressionHandler(securityExpressionHandler())
-                    .antMatchers("/*","/h2-console/**")
-                        .permitAll()
-                .anyRequest()
-                    .hasRole("USER")
+                        .antMatchers("/*","/h2-console/**")
+                            .permitAll()
+                        .antMatchers("/admin/**")
+                            .hasRole("ADMIN")
+                        .antMatchers("/secure/**")
+                            .hasRole("USER")
                 .and()
                     .formLogin()
                         .successHandler(savedRequestAwareAuthenticationSuccessHandler())
@@ -77,7 +79,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .rememberMe()
                         .key(rememberMeKey)
                         .rememberMeServices(rememberMeServices())
-                        .tokenValiditySeconds(86400);
+                        .tokenValiditySeconds(86400)
+                .and()
+                    .logout()
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/index");
 
         if (!Strings.isNullOrEmpty(env) && env.equals("dev")) {
             log.warn("****************************************************");

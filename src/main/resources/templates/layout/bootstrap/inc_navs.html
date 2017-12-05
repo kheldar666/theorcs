@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
     <block th:fragment="topnav">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/}">
                 <img th:src="@{/images/TheORCS-logo.png}"/>
                 TheORCS
             </a>
@@ -16,7 +17,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
@@ -41,7 +42,8 @@
                     <button class="btn btn-outline-danger my-2 my-sm-0 mr-sm-2" type="submit">Search</button>
                 </form>
                 <form class="form-inline my-2 my-lg-0">
-                    <a th:href="@{/login}" class="btn btn-outline-danger my-2 my-sm-0" th:text="#{includes.navs.topnav.signin}">Login/Sign In</a>
+                    <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-outline-danger my-2 my-sm-0" th:text="#{includes.navs.topnav.signin}">Login/Sign In</a>
+                    <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn btn-outline-danger my-2 my-sm-0" th:text="#{includes.navs.topnav.logout}">Logout</a>
                 </form>
             </div>
         </nav>

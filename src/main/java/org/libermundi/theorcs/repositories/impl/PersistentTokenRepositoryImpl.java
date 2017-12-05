@@ -54,7 +54,7 @@ public class PersistentTokenRepositoryImpl implements PersistentTokenRepository 
 	public PersistentRememberMeToken getTokenForSeries(String seriesId) {
 		Optional<RememberMeToken> result = rememberMeTokenRepository.findBySeries(seriesId);
 		if(!result.isPresent()){
-			throw new EntityNotFoundException("Token not found for Series : " + seriesId);
+			return null;
 		}
 		return transform(result.get());
 	}
