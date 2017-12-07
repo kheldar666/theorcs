@@ -15,7 +15,7 @@ import javax.persistence.MappedSuperclass;
  */
 @Getter
 @Setter
-@ToString(of = {"id","deleted"})
+@ToString(of = {"deleted"},callSuper = true)
 @MappedSuperclass
 public abstract class UnDeletableEntity extends Identity implements Undeletable {
     private boolean deleted=Boolean.FALSE;

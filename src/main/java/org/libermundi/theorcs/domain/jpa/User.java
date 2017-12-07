@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(of={"id","fullName","email"})
+@ToString(of={"firstName","lastName","email"},callSuper = true)
 @Entity
 @EntityListeners({PasswordListener.class})
 public class User extends UidAuditableEntity implements UserDetails, Account {

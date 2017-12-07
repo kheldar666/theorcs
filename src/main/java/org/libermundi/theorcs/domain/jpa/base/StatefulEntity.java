@@ -19,7 +19,7 @@ import java.util.Date;
 @Getter
 @Setter
 @MappedSuperclass
-@ToString(of = {"id","active","createdDate","updatedDate","deleted"})
+@ToString(of = {"createdDate","updatedDate","enabled"},callSuper = true)
 @EntityListeners(TimestampListener.class)
 public abstract class StatefulEntity extends UnDeletableEntity implements Enabled, Timestampable {
     private boolean enabled = Boolean.TRUE;
