@@ -19,6 +19,7 @@
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    <!--/* TODO: remove these when the Menu is final */-->
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li>
@@ -36,6 +37,12 @@
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#">Disabled</a>
                     </li>
+                    <!--/* Beginning of the actual Menu */-->
+                    <th:block sec:authorize="isAuthenticated()">
+                        <li class="nav-item">
+                            <a class="nav-link" th:text="#{includes.navs.topnav.createchronicle}" th:href="@{/secure/chronicle/create}">Create a Chronicle</a>
+                        </li>
+                    </th:block>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
