@@ -27,7 +27,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.util.Set;
-import java.util.SortedSet;
 
 @Entity
 @Getter
@@ -43,6 +42,6 @@ public final class Faction extends Identity {
 	private Chronicle chronicle;
 
 	@ManyToMany
-	private Set<Persona> members = Sets.newHashSet();
+	private Set<Character> members = Sets.newHashSet();
 
 }

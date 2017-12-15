@@ -1,5 +1,6 @@
 package org.libermundi.theorcs.services.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.repositories.UserRepository;
 import org.libermundi.theorcs.services.UserService;
@@ -18,13 +19,12 @@ import java.util.UUID;
  *
  */
 @Service
+@Slf4j
 @Transactional(rollbackFor = Exception.class, propagation=Propagation.REQUIRED)
 public class UserServiceImpl extends AbstractServiceImpl<User> implements UserService {
-	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-	
+
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository) {
-		super();
 		setRepository(userRepository);
 	}
 	
@@ -143,8 +143,8 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 
 	@Override
 	public void initData() {
-		if(logger.isDebugEnabled()){
-			logger.debug("Initializing User DB");
+		if(log.isDebugEnabled()){
+			log.debug("Initializing User Data");
 		}
 		User rootUser = createNew();
 			rootUser.setUsername("root");

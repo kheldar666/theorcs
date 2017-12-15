@@ -30,7 +30,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 	 * @see org.libermundi.theorcs.services.base.BaseService#getRepository()
 	 */
 	@Override
-	public CrudRepository<T,Long> getRepository() {
+	public JpaRepository<T,Long> getRepository() {
 		return this.repository;
 	}
 

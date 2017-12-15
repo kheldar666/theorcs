@@ -7,6 +7,7 @@ import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.domain.jpa.listeners.CreatedOrUpdatedByListener;
 import org.libermundi.theorcs.services.AuthorityService;
 import org.libermundi.theorcs.services.UserService;
+import org.libermundi.theorcs.utils.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,8 +36,8 @@ public class ApplicationLoaderIT {
 
         assertNotNull(root.getCreatedDate());
         assertNotNull(root.getUpdatedDate());
-        assertEquals(CreatedOrUpdatedByListener.SYSTEM, root.getCreatedBy());
-        assertEquals(CreatedOrUpdatedByListener.SYSTEM, root.getUpdatedBy());
+        assertEquals(SecurityConstants.USERNAME_SYSTEM, root.getCreatedBy());
+        assertEquals(SecurityConstants.USERNAME_SYSTEM, root.getUpdatedBy());
     }
 
 }

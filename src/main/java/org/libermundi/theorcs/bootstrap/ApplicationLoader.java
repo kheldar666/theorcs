@@ -1,8 +1,7 @@
 package org.libermundi.theorcs.bootstrap;
 
 import lombok.extern.slf4j.Slf4j;
-import org.libermundi.theorcs.services.AuthorityService;
-import org.libermundi.theorcs.services.UserService;
+import org.libermundi.theorcs.services.*;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -11,13 +10,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-	private AuthorityService authorityService;
+	private final AuthorityService authorityService;
 	
-	private UserService userService;
+	private final UserService userService;
+
+	private final GameService gameService;
+
+	private final ChronicleService chronicleService;
+
+	private final GameSystemService gameSystemService;
 	
-	public ApplicationLoader(AuthorityService authorityService, UserService userService) {
+	public ApplicationLoader(AuthorityService authorityService, UserService userService, GameService gameService,
+							 ChronicleService chronicleService, GameSystemService gameSystemService) {
 		this.authorityService = authorityService;
 		this.userService = userService;
+		this.gameService = gameService;
+		this.chronicleService = chronicleService;
+		this.gameSystemService = gameSystemService;
 	}
 
 	@Override
@@ -34,6 +43,8 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 	private void initData() {
 		userService.initData();
 		authorityService.initData();
+		gameSystemService.initData();
+		gameService.initData();
+		chronicleService.initData();
 	}
-
 }

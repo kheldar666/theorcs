@@ -32,7 +32,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @ToString(of={"name","chronicle"},callSuper = true)
-public final class Persona extends UidAuditableEntity {
+public final class Character extends UidAuditableEntity {
 
 	@Column(length=50, nullable=false)
 	private String name;
@@ -64,7 +64,7 @@ public final class Persona extends UidAuditableEntity {
 	@Column(length=7,nullable=true)
 	private Gender gender = Gender.DONTSAY;
 
-	private boolean defaultPersonna = Boolean.FALSE;
+	private boolean defaultCharacter = Boolean.FALSE;
 
 	@ManyToMany
 	private Set<Faction> factions = Sets.newHashSet();

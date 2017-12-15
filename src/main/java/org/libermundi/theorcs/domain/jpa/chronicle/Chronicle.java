@@ -60,7 +60,7 @@ public final class Chronicle extends StatefulEntity {
 
 	private boolean openForInscription;
 
-	@OneToMany
+	@OneToMany(mappedBy = "chronicle")
 	private Set<Faction> factions = Sets.newHashSet();
 
 }

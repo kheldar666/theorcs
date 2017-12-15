@@ -40,7 +40,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private RememberMeTokenRepository rememberMeTokenRepository;
 
-    public SecurityConfiguration(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, RememberMeTokenRepository rememberMeTokenRepository) {
+    public SecurityConfiguration(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService,
+                                 RememberMeTokenRepository rememberMeTokenRepository) {
         this.userDetailsService = userDetailsService;
         this.rememberMeTokenRepository = rememberMeTokenRepository;
     }
@@ -114,12 +115,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .passwordEncoder(passwordEncoder());
     }
 
-    private PasswordEncoder passwordEncoder() {
-        log.info("Creating PasswordEncoder Bean");
-        return new BCryptPasswordEncoder(12);
-    }
-
-    private RememberMeServices rememberMeServices() {
+    @Bean
+    public RememberMeServices rememberMeServices() {
         log.info("Creating RememberMeServices Bean with Key : " + rememberMeKey);
         return new PersistentTokenBasedRememberMeServices(
                 rememberMeKey,
@@ -128,21 +125,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         );
     }
 
-    private RoleHierarchy roleHierarchy() {
+    @Bean
+    public RoleHierarchy roleHierarchy() {
         log.info("Creating RoleHierarchy Bean");
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        roleHierarchy.setHierarchy("ROLE_ROOT > ROLE_ADMIN ROLE_ADMIN > ROLE_USER ROLE_USER > ROLE_ANONYMOUS");
+        roleHierarchy.setHierarchy("ROLE_SYSTEM > ROLE_ROOT ROLE_ROOT > ROLE_ADMIN ROLE_ADMIN > ROLE_USER ROLE_USER > ROLE_ANONYMOUS");
         return roleHierarchy;
     }
 
-    private CsrfTokenRepository csrfTokenRepository() {
-        log.info("Creating CsrfTokenRepository Bean");
-        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-        repository.setHeaderName("X-XSRF-TOKEN");
-        return repository;
-    }
-
-    private SecurityExpressionHandler<FilterInvocation> securityExpressionHandler() {
+    @Bean
+    public SecurityExpressionHandler<FilterInvocation> securityExpressionHandler() {
         log.info("Creating SecurityExpressionHandler Bean");
         DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
         defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
@@ -155,5 +147,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.setTargetUrlParameter("targetUrl");
         auth.setDefaultTargetUrl("/secure/index");
         return auth;
+    }
+
+    private PasswordEncoder passwordEncoder() {
+        log.info("Creating PasswordEncoder Bean");
+        return new BCryptPasswordEncoder(12);
+    }
+
+    private CsrfTokenRepository csrfTokenRepository() {
+        log.info("Creating CsrfTokenRepository Bean");
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
+        return repository;
     }
 }
