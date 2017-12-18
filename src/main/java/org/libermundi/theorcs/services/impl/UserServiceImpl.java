@@ -25,7 +25,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository) {
-		setRepository(userRepository);
+		setRepository(userRepository, User.class);
 	}
 	
 	/* (non-Javadoc)

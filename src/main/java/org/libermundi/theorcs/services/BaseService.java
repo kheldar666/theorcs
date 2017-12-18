@@ -63,13 +63,15 @@ public interface BaseService<T extends Identity> {
 	 * Getter of the DAO of the BaseService Manager
 	 * @return the instance of the Dao used by the Manager
 	 */
-	CrudRepository<T,Long> getRepository();
+	JpaRepository<T,Long> getRepository();
+
+	Class<T> getClassType();
 
 	/**
 	 * Setter of the DAO of the BaseService Manager
 	 * @param repository
 	 */
-	void setRepository(JpaRepository<T, Long> repository);
+	void setRepository(JpaRepository<T, Long> repository, Class<T> classType);
 	
 	/**
 	 * return a newly created T Object
@@ -98,4 +100,10 @@ public interface BaseService<T extends Identity> {
 	 * Initialize Data when the Application starts for the first time.
 	 */
 	void initData();
+
+	/**
+	 * Method designed to return the last Entity saved in the DB
+	 * @return the last Entity saved
+	 */
+	T getLast();
 }

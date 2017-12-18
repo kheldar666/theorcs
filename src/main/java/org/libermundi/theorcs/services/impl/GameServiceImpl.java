@@ -16,13 +16,13 @@ public class GameServiceImpl extends AbstractServiceImpl<Game> implements GameSe
     private final GameSystemService gameSystemService;
 
     public GameServiceImpl(GameRepository gameRepository, GameSystemService gameSystemService) {
-        setRepository(gameRepository);
+        setRepository(gameRepository, Game.class);
         this.gameSystemService = gameSystemService;
     }
 
     @Override
     public Game findByName(String name) {
-        Optional<Game> optional = ((GameRepository)this.repository).findByName(name);
+        Optional<Game> optional = ((GameRepository)getRepository()).findByName(name);
         if(optional.isPresent()) {
             return optional.get();
         } else {
@@ -47,12 +47,12 @@ public class GameServiceImpl extends AbstractServiceImpl<Game> implements GameSe
         vampire.setName("Vampire");
         vampire.setGameSystem(gameSystemService.findByName("White Wolf (D10)"));
 
-        repository.save(vampire);
+        getRepository().save(vampire);
 
         Game adc = createNew();
         adc.setName("Call of Cthulhu");
         adc.setGameSystem(gameSystemService.findByName("Chaosium"));
 
-        repository.save(adc);
+        getRepository().save(adc);
     }
 }

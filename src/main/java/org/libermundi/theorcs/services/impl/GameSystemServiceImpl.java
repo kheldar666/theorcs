@@ -17,12 +17,12 @@ import java.util.Optional;
 public class GameSystemServiceImpl extends AbstractServiceImpl<GameSystem> implements GameSystemService {
 
     public GameSystemServiceImpl(GameSystemRepository gameSystemRepository) {
-        setRepository(gameSystemRepository);
+        setRepository(gameSystemRepository, GameSystem.class);
     }
 
     @Override
     public GameSystem findByName(String name) {
-        Optional<GameSystem> optional = ((GameSystemRepository)this.repository).findByName(name);
+        Optional<GameSystem> optional = ((GameSystemRepository)getRepository()).findByName(name);
         if(optional.isPresent()) {
             return optional.get();
         } else {
@@ -46,12 +46,12 @@ public class GameSystemServiceImpl extends AbstractServiceImpl<GameSystem> imple
 
         d10.setName("White Wolf (D10)");
 
-        this.repository.save(d10);
+        getRepository().save(d10);
 
         GameSystem d100 = createNew();
 
         d100.setName("Chaosium");
 
-        this.repository.save(d100);
+        getRepository().save(d100);
     }
 }

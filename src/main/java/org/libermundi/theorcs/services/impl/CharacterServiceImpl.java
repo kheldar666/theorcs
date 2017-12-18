@@ -28,7 +28,7 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
     public CharacterServiceImpl(CharacterRepository characterRepository, UserService userService,
                                 SecurityService securityService, ChronicleService chronicleService) {
-        setRepository(characterRepository);
+        setRepository(characterRepository,Character.class);
         this.userService = userService;
         this.securityService = securityService;
         this.chronicleService = chronicleService;
@@ -36,7 +36,7 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
     @Override
     public List<Chronicle> findChronicleByPlayer(User player) {
-        return ((CharacterRepository)repository).findChronicleByPlayer(player);
+        return ((CharacterRepository)getRepository()).findChronicleByPlayer(player);
     }
 
     @Override

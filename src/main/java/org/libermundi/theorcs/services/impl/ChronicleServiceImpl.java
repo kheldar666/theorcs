@@ -19,7 +19,7 @@ public class ChronicleServiceImpl extends AbstractServiceImpl<Chronicle> impleme
 
     @Autowired
     public ChronicleServiceImpl(ChronicleRepository chronicleRepository, UserService userService, GameService gameService) {
-        setRepository(chronicleRepository);
+        setRepository(chronicleRepository,Chronicle.class);
         this.userService = userService;
         this.gameService = gameService;
     }
@@ -51,7 +51,7 @@ public class ChronicleServiceImpl extends AbstractServiceImpl<Chronicle> impleme
         chronicle1.setStyle(ChronicleStyle.AMBIANCE);
         chronicle1.setType(ChronicleType.STANDARD);
 
-        repository.save(chronicle1);
+        getRepository().save(chronicle1);
 
         Chronicle chronicle2 = createNew();
         chronicle2.setTitle("A Second Chronicle");
@@ -64,7 +64,7 @@ public class ChronicleServiceImpl extends AbstractServiceImpl<Chronicle> impleme
         chronicle2.setStyle(ChronicleStyle.AMBIANCE);
         chronicle2.setType(ChronicleType.STANDARD);
 
-        repository.save(chronicle2);
+        getRepository().save(chronicle2);
 
     }
 }

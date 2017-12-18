@@ -23,7 +23,9 @@ import java.util.Optional;
 @Transactional(rollbackFor=Exception.class,propagation=Propagation.REQUIRED)
 public abstract class AbstractServiceImpl<T extends Identity> implements BaseService<T> {
 
-	protected JpaRepository<T,Long> repository;
+	private JpaRepository<T,Long> repository;
+
+	private Class<T> classType;
 	
 	/*
 	 * (non-Javadoc)
@@ -39,13 +41,18 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 	 * @see org.libermundi.theorcs.services.base.BaseService#setDao(org.libermundi.theorcs.repositories.base.BaseRepository)
 	 */
 	@Override
-	public void setRepository(JpaRepository<T,Long> repository) {
+	public void setRepository(JpaRepository<T,Long> repository, Class<T> classType) {
 		if(log.isDebugEnabled()) {
 			log.debug("Set Repository : " + repository);
 		}
 		this.repository = repository;
+		this.classType = classType;
 	}
-	
+
+	public Class<T> getClassType() {
+		return this.classType;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.libermundi.theorcs.services.base.BaseService#delete(java.io.Serializable)
@@ -143,5 +150,10 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 			throw new EntityNotFoundException("The object was not found");
 		}
 		return optional.get();
+	}
+
+	@Override
+	public T getLast() {
+		return null;
 	}
 }

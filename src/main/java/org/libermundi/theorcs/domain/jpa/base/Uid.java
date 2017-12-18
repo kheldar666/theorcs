@@ -2,8 +2,6 @@ package org.libermundi.theorcs.domain.jpa.base;
 
 
 public interface Uid {
-    String PROP_UID = "uid";
-    
     /**
      * @return a Unique Identifier for this Object.
      */

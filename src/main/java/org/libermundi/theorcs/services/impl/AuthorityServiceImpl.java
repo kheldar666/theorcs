@@ -37,14 +37,14 @@ public class AuthorityServiceImpl extends AbstractServiceImpl<Authority> impleme
 	@Autowired
 	public AuthorityServiceImpl(AuthorityRepository authorityRepository, UserService userService,
 								RoleHierarchy roleHierarchy) {
-		setRepository(authorityRepository);
+		setRepository(authorityRepository,Authority.class);
 		this.userService = userService;
 		this.roleHierarchy = roleHierarchy;
 	}
 
 	@Override
 	public Authority findByAuthority(String authority) {
-		Optional<Authority> result = ((AuthorityRepository)this.repository).findByAuthority(authority);
+		Optional<Authority> result = ((AuthorityRepository)getRepository()).findByAuthority(authority);
 		if(result.isPresent()) {
 			return result.get();
 		} else {
