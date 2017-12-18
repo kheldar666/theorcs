@@ -50,7 +50,7 @@ public class GameSystemServiceImpl extends AbstractServiceImpl<GameSystem> imple
 
         GameSystem d100 = createNew();
 
-        d10.setName("Chaosium");
+        d100.setName("Chaosium");
 
         this.repository.save(d100);
     }
