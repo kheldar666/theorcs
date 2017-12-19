@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.repositories.UserRepository;
 import org.libermundi.theorcs.services.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -202,5 +200,6 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 			stdUser2.setCredentialsNonExpired(Boolean.TRUE);
 			save(stdUser2);	
 	}
-	
+
+
 }

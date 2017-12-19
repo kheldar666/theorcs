@@ -1,11 +1,9 @@
 package org.libermundi.theorcs.services.impl;
 
-import com.querydsl.core.types.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
-import org.libermundi.theorcs.domain.jpa.chronicle.QChronicle;
 import org.libermundi.theorcs.repositories.CharacterRepository;
 import org.libermundi.theorcs.services.CharacterService;
 import org.libermundi.theorcs.services.ChronicleService;

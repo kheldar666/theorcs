@@ -51,5 +51,8 @@ public interface UserService extends BaseService<User> {
 	 * @return User
 	 */
 	User findByEmail(String email);
+
+
+
 	
 }

@@ -1,9 +1,8 @@
 package org.libermundi.theorcs.services;
 
 import org.libermundi.theorcs.domain.jpa.base.Identity;
+import org.libermundi.theorcs.repositories.BaseRepository;
 import org.springframework.data.domain.Example;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
@@ -63,7 +62,7 @@ public interface BaseService<T extends Identity> {
 	 * Getter of the DAO of the BaseService Manager
 	 * @return the instance of the Dao used by the Manager
 	 */
-	JpaRepository<T,Long> getRepository();
+	BaseRepository<T,Long> getRepository();
 
 	Class<T> getClassType();
 
@@ -71,7 +70,7 @@ public interface BaseService<T extends Identity> {
 	 * Setter of the DAO of the BaseService Manager
 	 * @param repository
 	 */
-	void setRepository(JpaRepository<T, Long> repository, Class<T> classType);
+	void setRepository(BaseRepository<T, Long> repository, Class<T> classType);
 	
 	/**
 	 * return a newly created T Object
@@ -101,9 +100,5 @@ public interface BaseService<T extends Identity> {
 	 */
 	void initData();
 
-	/**
-	 * Method designed to return the last Entity saved in the DB
-	 * @return the last Entity saved
-	 */
 	T getLast();
 }
