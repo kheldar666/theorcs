@@ -146,12 +146,18 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 	
 	protected T getResultfromOptional(Optional<T> optional) {
 		if(!optional.isPresent()){
-			throw new EntityNotFoundException("The object was not found");
+			throw new EntityNotFoundException("The object of type "+ getClassType() + " was not found");
 		}
 		return optional.get();
 	}
 
+	@Override
 	public T getLast() {
 		return getRepository().findFirstByOrderByIdDesc();
+	}
+
+	@Override
+	public T getFirst() {
+		return getRepository().findFirstByOrderByIdAsc();
 	}
 }

@@ -100,5 +100,15 @@ public interface BaseService<T extends Identity> {
 	 */
 	void initData();
 
+	/**
+	 * Get the last Entity saved in the DB
+	 * @return T (or null is the table is empty)
+	 */
 	T getLast();
+
+	/**
+	 * Get the first Entity saved in the DB
+	 * @return T (or null is the table is empty)
+	 */
+	T getFirst();
 }
