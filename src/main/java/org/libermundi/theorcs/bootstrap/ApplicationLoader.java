@@ -46,7 +46,5 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 		gameSystemService.initData();
 		gameService.initData();
 		chronicleService.initData();
-
-		System.out.println(userService.getLast());
 	}
 }
