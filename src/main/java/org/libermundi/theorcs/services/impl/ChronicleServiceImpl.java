@@ -1,12 +1,17 @@
 package org.libermundi.theorcs.services.impl;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.extern.slf4j.Slf4j;
+import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.domain.jpa.chronicle.*;
+import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.repositories.ChronicleRepository;
 import org.libermundi.theorcs.services.ChronicleService;
 import org.libermundi.theorcs.services.GameService;
+import org.libermundi.theorcs.services.SecurityService;
 import org.libermundi.theorcs.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,11 +22,14 @@ public class ChronicleServiceImpl extends AbstractServiceImpl<Chronicle> impleme
 
     private final GameService gameService;
 
+    private final SecurityService securityService;
+
     @Autowired
-    public ChronicleServiceImpl(ChronicleRepository chronicleRepository, UserService userService, GameService gameService) {
+    public ChronicleServiceImpl(ChronicleRepository chronicleRepository, UserService userService, GameService gameService, SecurityService securityService) {
         setRepository(chronicleRepository,Chronicle.class);
         this.userService = userService;
         this.gameService = gameService;
+        this.securityService = securityService;
     }
 
     @Override
@@ -40,10 +48,14 @@ public class ChronicleServiceImpl extends AbstractServiceImpl<Chronicle> impleme
             log.debug("Initializing Chronicle Data");
         }
 
+        User admin = userService.findByUsername("admin");
+        User user1 = userService.findByUsername("user1");
+        User user2 = userService.findByUsername("user2");
+
         Chronicle chronicle1 = createNew();
-        chronicle1.setTitle("Default Chronicle");
-        chronicle1.setSubTitle("A demo chronicle2 for TheORCS");
-        chronicle1.setAdmin(userService.findByUsername("admin"));
+        chronicle1.setTitle("Terror on the Orient Express");
+        chronicle1.setSubTitle("A demo Chronicle for TheORCS");
+        chronicle1.setAdmin(admin);
         chronicle1.setGame(gameService.findByName("Vampire"));
         chronicle1.setGenre(ChronicleGenre.CONTEMPORARY);
         chronicle1.setOpenForInscription(Boolean.TRUE);
@@ -53,18 +65,8 @@ public class ChronicleServiceImpl extends AbstractServiceImpl<Chronicle> impleme
 
         getRepository().save(chronicle1);
 
-        Chronicle chronicle2 = createNew();
-        chronicle2.setTitle("A Second Chronicle");
-        chronicle2.setSubTitle("A second demo chronicle for TheORCS");
-        chronicle2.setAdmin(userService.findByUsername("admin"));
-        chronicle2.setGame(gameService.findByName("Call of Cthulhu"));
-        chronicle2.setGenre(ChronicleGenre.CONTEMPORARY);
-        chronicle2.setOpenForInscription(Boolean.TRUE);
-        chronicle2.setPace(ChroniclePace.AVERAGE);
-        chronicle2.setStyle(ChronicleStyle.AMBIANCE);
-        chronicle2.setType(ChronicleType.STANDARD);
-
-        getRepository().save(chronicle2);
+        securityService.grantAdminAcl(admin, chronicle1);
+        securityService.setAcl(admin, chronicle1, BasePermission.ADMINISTRATION, Boolean.TRUE);
 
     }
 }

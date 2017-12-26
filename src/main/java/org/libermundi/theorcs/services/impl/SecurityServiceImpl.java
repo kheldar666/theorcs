@@ -82,7 +82,12 @@ public class SecurityServiceImpl implements SecurityService {
 	public User getCurrentUser() {
 		UserDetails ud = getCurrentUserDetails();
 		if(ud instanceof User) {
-			return (User)ud;
+			User user = (User)ud;
+			if(user.getId() != null) {
+				return user;
+			} else {
+				return userService.findByUsername(user.getUsername())
+;			}
 		}
 		return null;
 	}		
@@ -120,10 +125,12 @@ public class SecurityServiceImpl implements SecurityService {
 	 */
 	@Override
 	public boolean isLoggedIn() {
-		if(getCurrentAuthentication() == null) {
+		Authentication auth = getCurrentAuthentication();
+
+		if(auth == null) {
 			return false;
-		} else if(getCurrentAuthentication().isAuthenticated() 
-				&& getCurrentAuthentication().getPrincipal() instanceof UserDetails) {
+		} else if(auth.isAuthenticated()
+				&& (auth.getPrincipal() instanceof UserDetails)) {
 			return true; 
 		} else {
 			return false;

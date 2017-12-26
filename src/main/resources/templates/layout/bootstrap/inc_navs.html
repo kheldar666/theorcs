@@ -42,15 +42,12 @@
                         <li class="nav-item">
                             <a class="nav-link" th:text="#{includes.navs.topnav.createchronicle}" th:href="@{/secure/chronicle/create}">Create a Chronicle</a>
                         </li>
-                        <li class="nav-item dropdown" th:if>
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{includes.navs.topnav.chronicles}">
+                        <li class="nav-item dropdown" th:if="${!_topnav.chronicles.isEmpty()}">
+                            <a class="nav-link dropdown-toggle" hre="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{includes.navs.topnav.chronicles}">
                                 Chronicles
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${chro.id}}" th:each="chro : ${_topnav.chronicles}" th:text="${chro.title}">Chronicle's title</a>
                             </div>
                         </li>
                     </th:block>

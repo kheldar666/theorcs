@@ -37,12 +37,14 @@ public class MenuAdvice {
         if (log.isDebugEnabled()) {
             log.debug("Loading Navigations");
         }
-
-        List<Chronicle> chronicles = characterService.findChronicleByPlayer(securityService.getCurrentUser());
-
         HashMap<String,Object> topNav = Maps.newHashMap();
 
-        topNav.put("chronicles", chronicles);
+        if(securityService.isLoggedIn()){
+            List<Chronicle> chronicles = characterService.findChronicleByPlayer(securityService.getCurrentUser());
+
+            topNav.put("chronicles", chronicles);
+        }
+
 
         model.addAttribute("_topnav", topNav);
 

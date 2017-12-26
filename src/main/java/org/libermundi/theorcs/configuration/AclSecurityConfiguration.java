@@ -1,33 +1,44 @@
 package org.libermundi.theorcs.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.acls.AclPermissionEvaluator;
 import org.springframework.security.acls.domain.*;
 import org.springframework.security.acls.jdbc.BasicLookupStrategy;
 import org.springframework.security.acls.jdbc.JdbcMutableAclService;
 import org.springframework.security.acls.jdbc.LookupStrategy;
-import org.springframework.security.acls.model.AclCache;
 import org.springframework.security.acls.model.AclService;
 import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.acls.model.PermissionGrantingStrategy;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class AclSecurityConfiguration {
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+
     @Bean
-    public MutableAclService aclService(DataSource dataSource, LookupStrategy lookupStrategy, AclCache aclCache) {
-        MutableAclService aclService = new JdbcMutableAclService(dataSource, lookupStrategy, aclCache);
+    public MutableAclService aclService() {
+        MutableAclService aclService = new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
         return aclService;
     }
 
     @Bean
-    public AclCache aclCache(CacheManager cacheManager, PermissionGrantingStrategy permissionGrantingStrategy) {
-        return new SpringCacheBasedAclCache(cacheManager.getCache("default"),permissionGrantingStrategy, aclAuthorizationStrategy());
+    public SpringCacheBasedAclCache aclCache() {
+        return new SpringCacheBasedAclCache(cacheManager.getCache("aclCache"),permissionGrantingStrategy(),aclAuthorizationStrategy());
     }
 
     @Bean
@@ -37,17 +48,21 @@ public class AclSecurityConfiguration {
 
     @Bean
     public AclAuthorizationStrategy aclAuthorizationStrategy() {
-        return new AclAuthorizationStrategyImpl(new SimpleGrantedAuthority("ROLE_ROOT"));
+        return new AclAuthorizationStrategyImpl(
+                new SimpleGrantedAuthority("ROLE_ADMIN"),
+                new SimpleGrantedAuthority("ROLE_ADMIN"),
+                new SimpleGrantedAuthority("ROLE_ADMIN")
+        );
     }
 
     @Bean
-    public LookupStrategy lookupStrategy(DataSource dataSource, AclCache aclCache, AclAuthorizationStrategy aclAuthorizationStrategy, AuditLogger auditLogger) {
-        return new BasicLookupStrategy(dataSource, aclCache, aclAuthorizationStrategy, auditLogger);
+    public LookupStrategy lookupStrategy() {
+        return new BasicLookupStrategy(dataSource, aclCache(), aclAuthorizationStrategy(), auditLogger());
     }
 
     @Bean
-    public PermissionGrantingStrategy permissionGrantingStrategy(AuditLogger auditLogger) {
-        return new DefaultPermissionGrantingStrategy(auditLogger);
+    public PermissionGrantingStrategy permissionGrantingStrategy() {
+        return new DefaultPermissionGrantingStrategy(auditLogger());
     }
 
     @Bean
@@ -55,4 +70,10 @@ public class AclSecurityConfiguration {
         return new AclPermissionEvaluator(aclService);
     }
 
+    @Bean
+    public MethodSecurityExpressionHandler createExpressionHandler(){
+        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(new AclPermissionEvaluator(aclService()));
+        return expressionHandler;
+    }
 }

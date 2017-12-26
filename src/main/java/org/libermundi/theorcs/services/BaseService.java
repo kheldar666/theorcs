@@ -111,4 +111,6 @@ public interface BaseService<T extends Identity> {
 	 * @return T (or null is the table is empty)
 	 */
 	T getFirst();
+
+	T findById(Long id);
 }

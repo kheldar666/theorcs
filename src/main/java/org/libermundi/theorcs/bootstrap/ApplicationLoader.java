@@ -19,14 +19,21 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 	private final ChronicleService chronicleService;
 
 	private final GameSystemService gameSystemService;
-	
+
+	private final SecurityService securityService;
+
+	private final CharacterService characterService;
+
 	public ApplicationLoader(AuthorityService authorityService, UserService userService, GameService gameService,
-							 ChronicleService chronicleService, GameSystemService gameSystemService) {
+							 ChronicleService chronicleService, GameSystemService gameSystemService, SecurityService securityService,
+							CharacterService characterService ) {
 		this.authorityService = authorityService;
 		this.userService = userService;
 		this.gameService = gameService;
 		this.chronicleService = chronicleService;
 		this.gameSystemService = gameSystemService;
+		this.securityService = securityService;
+		this.characterService = characterService;
 	}
 
 	@Override
@@ -41,10 +48,15 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 	}
 
 	private void initData() {
+		securityService.switchUser(securityService.getSystemUserDetails());
+
 		userService.initData();
 		authorityService.initData();
 		gameSystemService.initData();
 		gameService.initData();
 		chronicleService.initData();
+		characterService.initData();
+
+		securityService.restoreUser();
 	}
 }

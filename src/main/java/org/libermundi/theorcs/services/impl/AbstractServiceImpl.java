@@ -160,4 +160,9 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 	public T getFirst() {
 		return getRepository().findFirstByOrderByIdAsc();
 	}
+
+	@Override
+	public T findById(Long id) {
+		return getResultfromOptional(getRepository().findById(id));
+	}
 }

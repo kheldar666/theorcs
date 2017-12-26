@@ -34,7 +34,8 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
     @Override
     public List<Chronicle> findChronicleByPlayer(User player) {
-        return ((CharacterRepository)getRepository()).findChronicleByPlayer(player);
+        User p = userService.findById(player.getId());
+        return ((CharacterRepository)getRepository()).findChronicleByPlayer(p);
     }
 
     @Override
@@ -60,18 +61,31 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
         //Predicate query = QChronicle.chronicle
 
-        //Chronicle chronicle = chronicleService.
-
-        Character c0 = createNew();
-        Character c1 = createNew();
-        Character c2 = createNew();
-        Character c3 = createNew();
-
+        Chronicle chronicle = chronicleService.getLast();
 
         User admin = userService.findByUsername("admin");
         User user1 = userService.findByUsername("user1");
         User user2 = userService.findByUsername("user2");
 
+
+        Character c0 = createBasicCharacter(admin,chronicle,"*MJ");
+
+        save(c0);
+
+        Character c1 = createBasicCharacter(user1,chronicle,"Harvey Walters");
+
+        save(c1);
+
+        Character c2 = createBasicCharacter(user1,chronicle,"John Rambo");
+
+        save(c2);
+
+        Character c3 = createBasicCharacter(user2,chronicle,"Bob le Ponce");
+
+        save(c3);
+
+        securityService.grantReadAcl(user1,chronicle);
+        securityService.grantReadAcl(user2,chronicle);
 
     }
 }
