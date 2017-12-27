@@ -10,4 +10,6 @@ public interface RSSService {
 
     List<SyndEntry> reedFeed(String url);
 
+    String getEntryTitle(SyndEntry entry);
+
 }

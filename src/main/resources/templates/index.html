@@ -15,8 +15,8 @@
                     <div class="card-header">Les derniers messages du Forum</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:each="entry : ${feedEntries}">
-                            <p th:text="${@feedFormatServiceImpl.getEntryTitle(entry)} ">Entry Title</p>
-                            <p th:text="${entry.getContents().get(0).value}">Entry Body</p>
+                            <p th:utext="${@RSSServiceImpl.getEntryTitle(entry)} ">Entry Title</p>
+                            <p th:utext="${entry.getContents().get(0).value}">Entry Body</p>
                         </li>
                     </ul>
                 </div>
