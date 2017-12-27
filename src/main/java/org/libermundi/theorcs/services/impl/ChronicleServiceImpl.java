@@ -49,8 +49,6 @@ public class ChronicleServiceImpl extends AbstractServiceImpl<Chronicle> impleme
         }
 
         User admin = userService.findByUsername("admin");
-        User user1 = userService.findByUsername("user1");
-        User user2 = userService.findByUsername("user2");
 
         Chronicle chronicle1 = createNew();
         chronicle1.setTitle("Terror on the Orient Express");

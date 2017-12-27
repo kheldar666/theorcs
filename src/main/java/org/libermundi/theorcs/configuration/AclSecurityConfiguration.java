@@ -1,7 +1,7 @@
 package org.libermundi.theorcs.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
@@ -27,8 +27,7 @@ public class AclSecurityConfiguration {
     private DataSource dataSource;
 
     @Autowired
-    private CacheManager cacheManager;
-
+    private EhCacheCacheManager cacheManager;
 
     @Bean
     public MutableAclService aclService() {
@@ -37,8 +36,8 @@ public class AclSecurityConfiguration {
     }
 
     @Bean
-    public SpringCacheBasedAclCache aclCache() {
-        return new SpringCacheBasedAclCache(cacheManager.getCache("aclCache"),permissionGrantingStrategy(),aclAuthorizationStrategy());
+    public EhCacheBasedAclCache aclCache() {
+        return new EhCacheBasedAclCache(cacheManager.getCacheManager().getEhcache("aclCache"),permissionGrantingStrategy(),aclAuthorizationStrategy());
     }
 
     @Bean

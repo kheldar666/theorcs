@@ -6,7 +6,27 @@
 </head>
 <body>
     <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: topnav"></th:block> /*/-->
-    <h1>HOME PAGE</h1>
+
+    <div class="container-fluid">
+        <div class="row my-3">
+            <div class="col"></div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">Les derniers messages du Forum</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:each="entry : ${feedEntries}">
+                            <p th:text="${@feedFormatServiceImpl.getEntryTitle(entry)} ">Entry Title</p>
+                            <p th:text="${entry.getContents().get(0).value}">Entry Body</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: footer"></th:block> /*/-->
+
     <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: footer"></th:block> /*/-->
 </body>
 </html>

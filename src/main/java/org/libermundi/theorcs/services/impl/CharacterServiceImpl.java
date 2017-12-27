@@ -59,8 +59,6 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
             log.debug("Initializing Character Data");
         }
 
-        //Predicate query = QChronicle.chronicle
-
         Chronicle chronicle = chronicleService.getLast();
 
         User admin = userService.findByUsername("admin");
