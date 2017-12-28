@@ -46,10 +46,10 @@ public class RSSServiceImpl implements RSSService {
                 SyndFeed feed = input.build(new XmlReader(stream));
                 entries.addAll(feed.getEntries());
             } catch (FeedException e) {
-                log.error("Error while Loading Feeds", e.getMessage());
+                log.error("Error while Loading Feeds: " + e.getMessage());
             }
         } catch (IOException e) {
-            log.error("Error while Loading Feeds", e.getMessage());
+            log.error("Error while Loading Feeds: " + e.getMessage());
         }
         return entries;
     }
