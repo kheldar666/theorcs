@@ -14,7 +14,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.libermundi.theorcs.services.RSSService;
-import org.libermundi.theorcs.services.StringFormatService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +25,15 @@ import java.util.List;
 @Service
 @Slf4j
 public class RSSServiceImpl implements RSSService {
-    private static final String FORUM_FEED = "http://www.liber-mundi.org/forum/feed.php";
+    private final String feedSource;
 
-    private final StringFormatService stringFormatService;
-
-    public RSSServiceImpl(StringFormatService stringFormatService) {
-        this.stringFormatService = stringFormatService;
+    public RSSServiceImpl(@Value("${theorcs.general.feedsource}") String feedSource) {
+        this.feedSource = feedSource;
     }
 
     @Cacheable("spring")
     public List<SyndEntry> reedFeed() {
-        return reedFeed(FORUM_FEED);
+        return reedFeed(feedSource);
     }
 
     @Cacheable("spring")
@@ -48,10 +46,10 @@ public class RSSServiceImpl implements RSSService {
                 SyndFeed feed = input.build(new XmlReader(stream));
                 entries.addAll(feed.getEntries());
             } catch (FeedException e) {
-                log.error("ERROR : ", e.getMessage());
+                log.error("Error while Loading Feeds", e.getMessage());
             }
         } catch (IOException e) {
-            log.error("ERROR : ", e.getMessage());
+            log.error("Error while Loading Feeds", e.getMessage());
         }
         return entries;
     }
