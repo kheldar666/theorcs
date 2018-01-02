@@ -17,11 +17,6 @@ public class ChronicleController {
         this.chronicleService = chronicleService;
     }
 
-    @GetMapping("/secure/chronicle/create")
-    public String create() {
-        return "/secure/chronicle/create";
-    }
-
     @GetMapping("/secure/chronicle/{chronicle}")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
     public String home(Model model, @PathVariable Chronicle chronicle) {

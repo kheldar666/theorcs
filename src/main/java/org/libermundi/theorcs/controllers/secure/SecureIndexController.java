@@ -9,4 +9,11 @@ public class SecureIndexController {
     public String getIndexPage() {
         return "/secure/index";
     }
+
+
+    @GetMapping("/secure/createchro")
+    public String create() {
+        return "/secure/createchro";
+    }
+
 }

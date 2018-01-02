@@ -12,11 +12,14 @@ import org.libermundi.theorcs.services.SecurityService;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.DefaultCsrfToken;
 import org.springframework.ui.Model;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @ControllerAdvice
@@ -26,27 +29,48 @@ public class MenuAdvice {
 
     private final SecurityService securityService;
 
-    public MenuAdvice(CharacterService characterService, SecurityService securityService) {
+    private final ChronicleService chronicleService;
+
+    public MenuAdvice(CharacterService characterService, SecurityService securityService, ChronicleService chronicleService) {
         this.characterService = characterService;
         this.securityService = securityService;
+        this.chronicleService = chronicleService;
     }
 
     @ModelAttribute
-    public void addMenus(Model model) {
+    public void addMenus(Model model, HttpServletRequest request) {
 
         if (log.isDebugEnabled()) {
             log.debug("Loading Navigations");
         }
         HashMap<String,Object> topNav = Maps.newHashMap();
 
-        if(securityService.isLoggedIn()){
-            List<Chronicle> chronicles = characterService.findChronicleByPlayer(securityService.getCurrentUser());
+        if(securityService.isLoggedIn()) {
+            String currentURI = request.getRequestURI();
+            if (request.getRequestURI().contains("/secure/chronicle")) {
+                // When the user is within a Chronicle
+                String format = "/secure/chronicle/{id}/**";
 
-            topNav.put("chronicles", chronicles);
+                String actualUrl = "/secure/chronicle/1/coteries";
+                AntPathMatcher pathMatcher = new AntPathMatcher();
+                Map<String, String> variables = pathMatcher.extractUriTemplateVariables(format, actualUrl);
+
+                model.addAttribute("_chronicle",chronicleService.findById(Long.valueOf(variables.get("id"))));
+
+            } else {
+                //When User is LoggedIn but using the rest of the site
+                List<Chronicle> chronicles = characterService.findChronicleByPlayer(securityService.getCurrentUser());
+
+                topNav.put("chronicles", chronicles);
+            }
+
         }
+
 
 
         model.addAttribute("_topnav", topNav);
 
     }
+
+
 }
