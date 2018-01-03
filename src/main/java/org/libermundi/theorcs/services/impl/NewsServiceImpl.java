@@ -6,10 +6,12 @@ import org.libermundi.theorcs.domain.jpa.chronicle.News;
 import org.libermundi.theorcs.repositories.NewsRepository;
 import org.libermundi.theorcs.services.ChronicleService;
 import org.libermundi.theorcs.services.NewsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -21,12 +23,15 @@ import java.util.List;
 @Slf4j
 @Transactional(rollbackFor = Exception.class, propagation=Propagation.REQUIRED)
 public class NewsServiceImpl extends AbstractServiceImpl<News> implements NewsService {
+	private final String dateFormat;
 
 	private final ChronicleService chronicleService;
 
-	public NewsServiceImpl(NewsRepository newsRepository, ChronicleService chronicleService) {
+	public NewsServiceImpl(NewsRepository newsRepository, ChronicleService chronicleService,
+			@Value("${theorcs.general.dateformat}") String dateFormat) {
 		setRepository(newsRepository,News.class);
 		this.chronicleService = chronicleService;
+		this.dateFormat = dateFormat;
 	}
 
 	@Override
@@ -37,8 +42,9 @@ public class NewsServiceImpl extends AbstractServiceImpl<News> implements NewsSe
 
 	@Override
 	public News createNew() {
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 		News news = new News();
-		 news.setDate(new Date());
+		 news.setDate(sdf.format(new Date()));
 		return news;
 	}
 

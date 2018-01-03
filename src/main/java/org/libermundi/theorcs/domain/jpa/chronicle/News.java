@@ -21,8 +21,8 @@ public class News extends Identity {
     @Column(length = 125, nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private Date date;
+    @Column(nullable = false, length = 15)
+    private String date;
 
     @Lob
     @Column(nullable = false)

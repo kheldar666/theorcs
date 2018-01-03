@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title th:text="#{pages.secure.chronicle.home.title}">Page Title</title>
+    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: header"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: ckeditor"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: chronav"></th:block> /*/-->
+<div class="container-fluid">
+    <h1>ADMIN NEWS - EDIT FORM</h1>
+
+    <form th:object="${news}" th:action="@{'/secure/chronicle/' + ${chronicle.id} + '/admin/news/save'}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" th:field="*{id}" />
+        <div class="form-group row">
+            <label th:for="title" th:text="#{pages.secure.chronicle.admin.news.edit.title}" class="col-2 col-form-label">Titre</label>
+            <div class="col-10">
+                <input type="text" th:field="*{title}" class="form-control" th:placeholder="#{pages.secure.chronicle.admin.news.edit.title_placeholder}"
+                       th:classappend="${(#fields.hasErrors('title'))? 'is-invalid':''}" required aria-describedby="helpTitle"/>
+                <small id="helpTitle" class="text-muted" th:unless="${#fields.hasErrors('title')}" th:text="#{pages.secure.chronicle.admin.news.edit.title_help}">Indicate the title of the news</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('title')}" th:text="${error}"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="date" th:text="#{pages.secure.chronicle.admin.news.edit.date}" class="col-2 col-form-label">Date</label>
+            <div class="col-10">
+                <input type="text" th:field="*{date}" class="form-control" th:placeholder="#{pages.secure.chronicle.admin.news.edit.date_placeholder}"
+                       th:classappend="${(#fields.hasErrors('date'))? 'is-invalid':''}" required aria-describedby="helpDate"/>
+                <small id="helpDate" class="text-muted" th:unless="${#fields.hasErrors('date')}" th:text="#{pages.secure.chronicle.admin.news.edit.date_help}">Indicate the date of the news</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('date')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('date')}" th:text="${error}"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="content" th:text="#{pages.secure.chronicle.admin.news.edit.content}" class="col-2 col-form-label">Content</label>
+            <div class="col-10">
+                <textarea th:field="*{content}" class="form-control" th:classappend="${(#fields.hasErrors('content'))? 'is-invalid':''}" required aria-describedby="helpContent"></textarea>
+                <small id="helpContent" class="text-muted" th:unless="${#fields.hasErrors('content')}" th:text="#{pages.secure.chronicle.admin.news.edit.content_help}">The content of your news</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('content')}" th:text="${error}"/>
+                    </ul>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('content');
+            </script>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-10">
+                <button type="submit" class="btn btn-primary" th:text="#{actions.save}">Save</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: footer"></th:block> /*/-->
+
+
+
+<!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: footer"></th:block> /*/-->
+</body>
+</html>

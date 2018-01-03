@@ -21,13 +21,18 @@
                 <th scope="row" th:text="${news.id}">1</th>
                 <td th:text="${news.title}">Un accident sur les quais de Seine</td>
                 <td>
-                    Editer
+                    <a th:href="@{'/secure/chronicle/' + ${chronicle.id} + '/admin/news/' + ${news.id} + '/edit'}" th:text="#{actions.edit}">Editer</a>
                     -
-                    Supprimer
+                    <a th:href="@{'/secure/chronicle/' + ${chronicle.id} + '/admin/news/' + ${news.id} + '/delete'}" th:text="#{actions.delete}">Supprimer</a>
                 </td>
             </tr>
         </tbody>
     </table>
+    <div class="row">
+        <div class="col text-right">
+            <a th:href="@{'/secure/chronicle/' + ${chronicle.id} + '/admin/news/create'}" class="btn btn-primary">Create a News</a>
+        </div>
+    </div>
 </div>
 
 <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: footer"></th:block> /*/-->
