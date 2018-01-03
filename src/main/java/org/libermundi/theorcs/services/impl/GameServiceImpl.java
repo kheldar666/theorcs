@@ -6,12 +6,15 @@ import org.libermundi.theorcs.repositories.GameRepository;
 import org.libermundi.theorcs.services.GameService;
 import org.libermundi.theorcs.services.GameSystemService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
-@Service
 @Slf4j
+@Service("GameService")
+@Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
 public class GameServiceImpl extends AbstractServiceImpl<Game> implements GameService {
     private final GameSystemService gameSystemService;
 

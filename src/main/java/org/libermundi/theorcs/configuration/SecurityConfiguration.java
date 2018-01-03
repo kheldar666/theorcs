@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private RememberMeTokenRepository rememberMeTokenRepository;
 
-    public SecurityConfiguration(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService,
+    public SecurityConfiguration(@Qualifier("UserDetailsService") UserDetailsService userDetailsService,
                                  RememberMeTokenRepository rememberMeTokenRepository) {
         this.userDetailsService = userDetailsService;
         this.rememberMeTokenRepository = rememberMeTokenRepository;

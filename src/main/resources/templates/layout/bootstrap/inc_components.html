@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="newslist">
+    <div class="card">
+        <div class="card-header">
+            <span class="fa fa-list" aria-hidden="true"></span><span th:text="#{pages.secure.chronicle.home.latest_news}">Latest news</span>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" th:each="news : ${@NewsService.getAllNews(_chronicle)}" th:text="${news.title}">News 1</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

@@ -16,8 +16,8 @@ import java.util.UUID;
  * Implementation of UserManager
  *
  */
-@Service
 @Slf4j
+@Service("UserService")
 @Transactional(rollbackFor = Exception.class, propagation=Propagation.REQUIRED)
 public class UserServiceImpl extends AbstractServiceImpl<User> implements UserService {
 

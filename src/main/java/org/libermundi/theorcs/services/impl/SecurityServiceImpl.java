@@ -26,6 +26,7 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.authentication.switchuser.SwitchUserGrantedAuthority;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +38,9 @@ import java.util.*;
  *
  */
 
-@Service
-@Transactional
 @Slf4j
+@Service("SecurityService")
+@Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
 public class SecurityServiceImpl implements SecurityService {
 
 	private final UserService userService;

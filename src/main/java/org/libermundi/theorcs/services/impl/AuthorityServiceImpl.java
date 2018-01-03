@@ -25,8 +25,8 @@ import java.util.Set;
  * Implementation of AuthorityService
  *
  */
-@Service
 @Slf4j
+@Service("AuthorityService")
 @Transactional(rollbackFor = Exception.class, propagation=Propagation.REQUIRED)
 public class AuthorityServiceImpl extends AbstractServiceImpl<Authority> implements AuthorityService {
 

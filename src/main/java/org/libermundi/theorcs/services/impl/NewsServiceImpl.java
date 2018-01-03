@@ -19,8 +19,8 @@ import java.util.List;
  * Implementation of NewsService
  *
  */
-@Service
 @Slf4j
+@Service("NewsService")
 @Transactional(rollbackFor = Exception.class, propagation=Propagation.REQUIRED)
 public class NewsServiceImpl extends AbstractServiceImpl<News> implements NewsService {
 	private final String dateFormat;
@@ -53,7 +53,7 @@ public class NewsServiceImpl extends AbstractServiceImpl<News> implements NewsSe
 		Chronicle chronicle = chronicleService.findByTitle("Terror on the Orient Express");
 		News n1 = createNew();
 		 n1.setChronicle(chronicle);
-		 n1.setTitle("Le Prince Villon organise une grande soirée pour la 200 ans de son Règne");
+		 n1.setTitle("Le Prince Villon organise une grande soirée pour les 200 ans de son Règne");
 		 n1.setContent("\n" +
 				 "\n" +
 				 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc cursus dolor id posuere laoreet. Integer gravida lectus nunc, aliquam ornare felis lobortis non. Fusce pretium quis ipsum condimentum luctus. Nam nec eros a massa feugiat molestie. Aliquam nec tincidunt lorem. Nam in elit sit amet erat commodo pulvinar quis at purus. Aenean id pharetra nunc, at suscipit mauris. Suspendisse vel rhoncus lacus, non fringilla nisl.\n" +

@@ -1,5 +1,6 @@
 package org.libermundi.theorcs.services.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.services.UserService;
 import org.slf4j.Logger;
@@ -12,7 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Slf4j
+@Service("UserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 	private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 

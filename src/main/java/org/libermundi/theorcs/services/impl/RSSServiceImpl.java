@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-@Service
 @Slf4j
+@Service("RSSService")
 public class RSSServiceImpl implements RSSService {
     private final String feedSource;
 

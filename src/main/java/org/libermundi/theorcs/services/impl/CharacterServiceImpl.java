@@ -10,11 +10,14 @@ import org.libermundi.theorcs.services.ChronicleService;
 import org.libermundi.theorcs.services.SecurityService;
 import org.libermundi.theorcs.services.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Slf4j
-@Service
+@Service("CharacterService")
+@Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
 public class CharacterServiceImpl extends AbstractServiceImpl<Character> implements CharacterService {
 
     private final UserService userService;

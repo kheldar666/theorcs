@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Service
+@Service("StringFormatService")
 public class StringFormatServiceImpl implements StringFormatService {
     private final SimpleDateFormat dateFormat;
 

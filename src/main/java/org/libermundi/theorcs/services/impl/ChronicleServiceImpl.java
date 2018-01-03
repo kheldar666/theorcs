@@ -13,9 +13,12 @@ import org.libermundi.theorcs.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @Slf4j
+@Service("ChronicleService")
+@Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
 public class ChronicleServiceImpl extends AbstractServiceImpl<Chronicle> implements ChronicleService {
 
     private final UserService userService;
