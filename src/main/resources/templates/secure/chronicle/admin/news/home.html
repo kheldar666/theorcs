@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title th:text="#{pages.secure.chronicle.home.title}">Page Title</title>
+    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: header"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: chronav"></th:block> /*/-->
+<div class="container-fluid">
+    <h1>ADMIN NEWS HOME</h1>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="news : ${newsList}">
+                <th scope="row" th:text="${news.id}">1</th>
+                <td th:text="${news.title}">Un accident sur les quais de Seine</td>
+                <td>
+                    Editer
+                    -
+                    Supprimer
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: footer"></th:block> /*/-->
+
+<!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: footer"></th:block> /*/-->
+</body>
+</html>

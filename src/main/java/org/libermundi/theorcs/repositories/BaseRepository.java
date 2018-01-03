@@ -8,7 +8,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.io.Serializable;
 
 @NoRepositoryBean
-public interface BaseRepository<T extends Identity, ID extends Serializable> extends JpaRepository<T,ID>, QuerydslPredicateExecutor<T> {
+public interface BaseRepository<T extends Identity, ID extends Serializable> extends JpaRepository<T,ID> {
     /**
      * Allows to return the last record in the DB
      * @return T (or null if the Table is empty)

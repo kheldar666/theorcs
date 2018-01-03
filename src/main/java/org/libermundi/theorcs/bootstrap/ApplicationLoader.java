@@ -24,9 +24,12 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 
 	private final CharacterService characterService;
 
+	private final NewsService newsService;
+
 	public ApplicationLoader(AuthorityService authorityService, UserService userService, GameService gameService,
-							 ChronicleService chronicleService, GameSystemService gameSystemService, SecurityService securityService,
-							CharacterService characterService ) {
+							 ChronicleService chronicleService, GameSystemService gameSystemService,
+							 SecurityService securityService, CharacterService characterService,
+							 NewsService newsService) {
 		this.authorityService = authorityService;
 		this.userService = userService;
 		this.gameService = gameService;
@@ -34,6 +37,7 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 		this.gameSystemService = gameSystemService;
 		this.securityService = securityService;
 		this.characterService = characterService;
+		this.newsService = newsService;
 	}
 
 	@Override
@@ -56,6 +60,7 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 		gameService.initData();
 		chronicleService.initData();
 		characterService.initData();
+		newsService.initData();
 
 		securityService.restoreUser();
 	}

@@ -11,6 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface ChronicleRepository extends BaseRepository<Chronicle, Long> {
-
+    Optional<Chronicle> findByTitle(String title);
 
 }

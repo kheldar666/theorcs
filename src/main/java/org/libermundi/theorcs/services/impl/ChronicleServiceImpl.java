@@ -24,17 +24,16 @@ public class ChronicleServiceImpl extends AbstractServiceImpl<Chronicle> impleme
 
     private final SecurityService securityService;
 
-    @Autowired
-    public ChronicleServiceImpl(ChronicleRepository chronicleRepository, UserService userService, GameService gameService, SecurityService securityService) {
-        setRepository(chronicleRepository,Chronicle.class);
+    public ChronicleServiceImpl(UserService userService, GameService gameService, SecurityService securityService, ChronicleRepository chronicleRepository) {
         this.userService = userService;
         this.gameService = gameService;
         this.securityService = securityService;
+        setRepository(chronicleRepository,Chronicle.class);
     }
 
     @Override
-    public Chronicle findByName() {
-        return null;
+    public Chronicle findByTitle(String title)    {
+        return getResultfromOptional(((ChronicleRepository)getRepository()).findByTitle(title));
     }
 
     @Override
