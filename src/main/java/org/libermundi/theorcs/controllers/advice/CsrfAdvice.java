@@ -29,9 +29,10 @@ public class CsrfAdvice {
 			informed = Boolean.TRUE;
 		}
 
-		CsrfToken token = new DefaultCsrfToken("X-XSRF-TOKEN", "CSRF-Disabled", "CSRF-Disabled");
-		model.addAttribute("_csrf", token);
-
+		if (!Strings.isNullOrEmpty(env) && env.equals("dev")) {
+			CsrfToken token = new DefaultCsrfToken("X-XSRF-TOKEN", "CSRF-Disabled", "CSRF-Disabled");
+			model.addAttribute("_csrf", token);
+		}
     }
 
 }

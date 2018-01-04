@@ -4,12 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.libermundi.theorcs.domain.jpa.Picture;
 import org.libermundi.theorcs.domain.jpa.base.Identity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -28,8 +26,8 @@ public class News extends Identity {
     @Column(nullable = false)
     private String content;
 
-    @Lob
-    private Byte[] picture;
+    @OneToOne
+    private Picture picture;
 
     @ManyToOne
     private Chronicle chronicle;

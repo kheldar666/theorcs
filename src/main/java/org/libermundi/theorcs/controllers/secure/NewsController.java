@@ -1,19 +1,20 @@
 package org.libermundi.theorcs.controllers.secure;
 
 import lombok.extern.slf4j.Slf4j;
+import org.libermundi.theorcs.domain.jpa.Picture;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.domain.jpa.chronicle.News;
 import org.libermundi.theorcs.services.ChronicleService;
 import org.libermundi.theorcs.services.NewsService;
+import org.libermundi.theorcs.services.PictureService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -22,8 +23,11 @@ public class NewsController {
 
     private final NewsService newsService;
 
-    public NewsController(NewsService newsService) {
+    private final PictureService pictureService;
+
+    public NewsController(NewsService newsService, PictureService pictureService) {
         this.newsService = newsService;
+        this.pictureService = pictureService;
     }
 
     @GetMapping("/secure/chronicle/{chronicle}/news/{news}")
@@ -63,7 +67,13 @@ public class NewsController {
 
     @PostMapping("/secure/chronicle/{chronicle}/admin/news/save")
     @PreAuthorize("hasPermission(#chronicle, 'administration')")
-    public String saveOrUpdate(Model model, @PathVariable Chronicle chronicle, @Valid @ModelAttribute("news") News news, BindingResult bindingResult) {
+    public String saveOrUpdate(Model model, @PathVariable Chronicle chronicle, @Valid @ModelAttribute("news") News news,
+                               BindingResult bindingResult, @RequestParam("pictureFile") MultipartFile pictureFile) {
+        if(!pictureFile.isEmpty()){
+            Picture picture = pictureService.savePicture(pictureFile);
+            news.setPicture(picture);
+        }
+
         if(bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.error(objectError.toString());
