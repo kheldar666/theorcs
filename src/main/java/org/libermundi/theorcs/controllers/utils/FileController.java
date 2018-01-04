@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Controller
-public class ImageController {
+public class FileController {
 
-    @GetMapping(value = {"/secure/chronicle/{chronicle}/image/{picture}"},produces = {MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @GetMapping(value = {"/secure/chronicle/{chronicle}/picture/{picture}"},produces = {MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public void renderImage(HttpServletResponse response,
+    public void renderPicture(HttpServletResponse response,
                   @PathVariable Chronicle chronicle, @PathVariable Picture picture) throws IOException {
         byte[] byteArray = new byte[picture.getData().length];
         int i = 0;

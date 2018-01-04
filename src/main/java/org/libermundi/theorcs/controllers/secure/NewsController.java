@@ -66,7 +66,7 @@ public class NewsController {
         return "/secure/chronicle/admin/news/edit";
     }
 
-    @PostMapping(value = "/secure/chronicle/{chronicle}/admin/news/save",consumes = {MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @PostMapping(value = "/secure/chronicle/{chronicle}/admin/news/save")
     @PreAuthorize("hasPermission(#chronicle, 'administration')")
     public String saveOrUpdate(Model model, @PathVariable Chronicle chronicle, @Valid @ModelAttribute("news") News news,
                                BindingResult bindingResult, @RequestParam("pictureFile") MultipartFile pictureFile) {

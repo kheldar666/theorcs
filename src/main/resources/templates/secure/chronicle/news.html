@@ -14,7 +14,7 @@
         </div>
         <div class="col-6">
             <div class="card">
-                <img class="card-img-top" th:src="@{'/secure/chronicle/' + ${_chronicle.id} + '/image/' + ${news.picture.id}}" th:if="${news.picture != null}">
+                <img class="card-img-top" th:src="@{'/secure/chronicle/' + ${_chronicle.id} + '/picture/' + ${news.picture.id}}" th:if="${news.picture != null}">
                 <div class="card-header" th:text="${news.title}">New Title</div>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${news.date}">11/12/13</h5>
