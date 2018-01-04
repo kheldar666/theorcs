@@ -11,15 +11,7 @@
         <div class="row my-3">
             <div class="col"></div>
             <div class="col-6">
-                <div class="card" th:if="${feedEntries.size() > 0}">
-                    <div class="card-header" th:text="#{pages.index.feedtitle}">Last messages from the board</div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:each="entry : ${feedEntries}">
-                            <p th:utext="${@RSSServiceImpl.getEntryTitle(entry)} ">Entry Title</p>
-                            <p th:utext="${entry.getContents().get(0).value}">Entry Body</p>
-                        </li>
-                    </ul>
-                </div>
+                <!--/*/ <th:block th:include="/layout/bootstrap/inc_components :: rssfeed"></th:block> /*/-->
             </div>
             <div class="col"></div>
         </div>

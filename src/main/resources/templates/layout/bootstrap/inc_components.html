@@ -11,5 +11,19 @@
         </ul>
     </div>
 </div>
+<div th:fragment="rssfeed">
+    <div th:with="feedEntries=${@RSSService.reedFeed()}">
+        <!--/*@thymesVar id="feedEntries" type="java.util.List<com.rometools.rome.feed.synd.SyndEntry>"*/-->
+        <div class="card" th:if="${feedEntries.size() > 0}">
+            <div class="card-header" th:text="#{components.rssfeed.feedtitle}">Last messages from the board</div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:each="entry : ${feedEntries}">
+                    <p th:utext="${@RSSService.getEntryTitle(entry)} ">Entry Title</p>
+                    <p th:utext="${entry.getContents().get(0).value}">Entry Body</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 </body>
 </html>

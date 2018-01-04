@@ -1,16 +1,11 @@
 package org.libermundi.theorcs.controllers.advice;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
-import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.services.CharacterService;
 import org.libermundi.theorcs.services.ChronicleService;
 import org.libermundi.theorcs.services.SecurityService;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.security.web.csrf.DefaultCsrfToken;
 import org.springframework.ui.Model;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,15 +18,15 @@ import java.util.Map;
 
 @Slf4j
 @ControllerAdvice
-public class MenuAdvice {
-
-    private final CharacterService characterService;
+public class ChronicleAdvice {
 
     private final SecurityService securityService;
 
-    public MenuAdvice(CharacterService characterService, SecurityService securityService) {
-        this.characterService = characterService;
+    private final ChronicleService chronicleService;
+
+    public ChronicleAdvice(SecurityService securityService, ChronicleService chronicleService) {
         this.securityService = securityService;
+        this.chronicleService = chronicleService;
     }
 
     @ModelAttribute
@@ -44,15 +39,15 @@ public class MenuAdvice {
 
         if(securityService.isLoggedIn()) {
             String currentURI = request.getRequestURI();
-            if (request.getRequestURI().contains("/secure/chronicle")) {
+            if (currentURI.contains("/secure/chronicle")) {
                 // When the user is within a Chronicle
+                String format = "/secure/chronicle/{id}/**";
 
+                AntPathMatcher pathMatcher = new AntPathMatcher();
+                Map<String, String> variables = pathMatcher.extractUriTemplateVariables(format, currentURI);
 
-            } else {
-                //When User is LoggedIn but using the rest of the site
-                List<Chronicle> chronicles = characterService.findChronicleByPlayer(securityService.getCurrentUser());
+                model.addAttribute("_chronicle",chronicleService.findById(Long.valueOf(variables.get("id"))));
 
-                topNav.put("chronicles", chronicles);
             }
 
         }
@@ -60,4 +55,5 @@ public class MenuAdvice {
         model.addAttribute("_topnav", topNav);
 
     }
+
 }

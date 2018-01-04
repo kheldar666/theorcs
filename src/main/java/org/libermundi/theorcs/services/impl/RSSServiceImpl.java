@@ -45,6 +45,9 @@ public class RSSServiceImpl implements RSSService {
                 SyndFeedInput input = new SyndFeedInput();
                 SyndFeed feed = input.build(new XmlReader(stream));
                 entries.addAll(feed.getEntries());
+                if(log.isDebugEnabled()){
+                    log.debug("Successfully loaded {} entries from feed at : {}", entries.size(), url);
+                }
             } catch (FeedException e) {
                 log.error("Error while Loading Feeds: " + e.getMessage());
             }
