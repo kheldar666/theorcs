@@ -7,7 +7,9 @@
             <span class="fa fa-list" aria-hidden="true"></span><span th:text="#{pages.secure.chronicle.home.latest_news}">Latest news</span>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item" th:each="news : ${@NewsService.getAllNews(_chronicle)}" th:text="${news.title}">News 1</li>
+            <li class="list-group-item" th:each="news : ${@NewsService.getAllNews(_chronicle)}"≈>
+                <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/news/' + ${news.id}}" th:text="${news.title}">News Title</a>
+            </li>
         </ul>
     </div>
 </div>

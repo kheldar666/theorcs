@@ -13,11 +13,16 @@
 
         </div>
         <div class="col-6">
-
+            <div class="card">
+                <div class="card-header" th:text="${news.title}">New Title</div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${news.date}">11/12/13</h5>
+                    <p class="card-text" th:utext="${news.content}">News Content</p>
+                </div>
+            </div>
         </div>
         <div class="col-3">
             <!--/*/ <th:block th:include="/layout/bootstrap/inc_components :: newslist"></th:block> /*/-->
-
         </div>
     </div>
 </div>

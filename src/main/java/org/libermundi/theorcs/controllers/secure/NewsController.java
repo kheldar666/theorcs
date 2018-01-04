@@ -27,9 +27,9 @@ public class NewsController {
     }
 
     @GetMapping("/secure/chronicle/{chronicle}/news/{news}")
-    @PreAuthorize("hasPermission(#chronicle, 'read') and hasPermission(#news, 'read')")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
     public String readNews(Model model, @PathVariable Chronicle chronicle, @PathVariable News news) {
-        model.addAttribute("newsList", newsService.getAllNews(chronicle));
+        model.addAttribute("news", news);
         return "/secure/chronicle/news";
     }
 
