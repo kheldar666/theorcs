@@ -7,6 +7,7 @@ import org.libermundi.theorcs.domain.jpa.chronicle.News;
 import org.libermundi.theorcs.services.ChronicleService;
 import org.libermundi.theorcs.services.NewsService;
 import org.libermundi.theorcs.services.PictureService;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,7 +66,7 @@ public class NewsController {
         return "/secure/chronicle/admin/news/edit";
     }
 
-    @PostMapping("/secure/chronicle/{chronicle}/admin/news/save")
+    @PostMapping(value = "/secure/chronicle/{chronicle}/admin/news/save",consumes = {MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     @PreAuthorize("hasPermission(#chronicle, 'administration')")
     public String saveOrUpdate(Model model, @PathVariable Chronicle chronicle, @Valid @ModelAttribute("news") News news,
                                BindingResult bindingResult, @RequestParam("pictureFile") MultipartFile pictureFile) {

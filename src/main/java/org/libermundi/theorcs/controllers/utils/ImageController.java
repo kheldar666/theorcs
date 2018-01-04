@@ -3,6 +3,7 @@ package org.libermundi.theorcs.controllers.utils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.libermundi.theorcs.domain.jpa.Picture;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import java.io.InputStream;
 @Controller
 public class ImageController {
 
-    @GetMapping({"/secure/chronicle/{chronicle}/image/{picture}"})
+    @GetMapping(value = {"/secure/chronicle/{chronicle}/image/{picture}"},produces = {MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     @PreAuthorize("hasPermission(#chronicle, 'read')")
     public void renderImage(HttpServletResponse response,
                   @PathVariable Chronicle chronicle, @PathVariable Picture picture) throws IOException {
