@@ -19,4 +19,6 @@ public interface CharacterRepository extends BaseRepository<Character, Long> {
     @Query("select distinct c.chronicle from Character c where c.player = ?1 order by c.chronicle.title")
     List<Chronicle> findChronicleByPlayer(User player);
 
+    @Query("select c from Character c where c.player = ?1 and c.chronicle = ?2 and c.defaultCharacter = true")
+    Character getDefaultCharacter(User player, Chronicle chronicle);
 }

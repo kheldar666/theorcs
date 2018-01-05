@@ -11,4 +11,6 @@ public interface CharacterService extends BaseService<Character> {
     Character createBasicCharacter(User player, Chronicle chronicle, String characterName);
 
     List<Chronicle> findChronicleByPlayer(User player);
+
+    Character getDefaultCharacter(User player, Chronicle chronicle);
 }

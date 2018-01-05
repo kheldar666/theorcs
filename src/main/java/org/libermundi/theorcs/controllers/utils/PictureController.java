@@ -28,11 +28,20 @@ public class PictureController {
 
     @GetMapping(value = {"/secure/chronicle/{chronicle}/picture/{picture}/thumbnail/{width}/{height}"})
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public void renderPicture(HttpServletResponse response,
+    public void renderThumbnailWxH(HttpServletResponse response,
                               @PathVariable Chronicle chronicle, @PathVariable Picture picture,
                               @PathVariable int width, @PathVariable int height) throws ImageManipulationException, IOException {
 
         sendResponse(PictureUtils.thumbnail(picture,width,height),picture.getContentType(),response);
+    }
+
+    @GetMapping(value = {"/secure/chronicle/{chronicle}/picture/{picture}/thumbnail/{width}"})
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public void renderThumbnailW(HttpServletResponse response,
+                              @PathVariable Chronicle chronicle, @PathVariable Picture picture,
+                              @PathVariable int width) throws ImageManipulationException, IOException {
+
+        sendResponse(PictureUtils.resizeImageByWidth(picture,width),picture.getContentType(),response);
     }
 
     private void sendResponse(BufferedImage image, String contentType, HttpServletResponse response) throws IOException {

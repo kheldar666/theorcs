@@ -2,6 +2,8 @@ package org.libermundi.theorcs.controllers.advice;
 
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.libermundi.theorcs.domain.jpa.User;
+import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.services.CharacterService;
 import org.libermundi.theorcs.services.ChronicleService;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,18 +27,22 @@ public class ChronicleAdvice {
 
     private final ChronicleService chronicleService;
 
-    public ChronicleAdvice(SecurityService securityService, ChronicleService chronicleService) {
+    private final CharacterService characterService;
+
+    public ChronicleAdvice(SecurityService securityService, ChronicleService chronicleService,
+                           CharacterService characterService) {
         this.securityService = securityService;
         this.chronicleService = chronicleService;
+        this.characterService = characterService;
     }
 
     @ModelAttribute
-    public void addMenus(Model model, HttpServletRequest request) {
+    public void addMenus(Model model, HttpServletRequest request, HttpSession session) {
 
         if (log.isDebugEnabled()) {
-            log.debug("Loading Navigations");
+            log.debug("Loading Chronicle Parameters");
         }
-        HashMap<String,Object> topNav = Maps.newHashMap();
+
 
         if(securityService.isLoggedIn()) {
             String currentURI = request.getRequestURI();
@@ -46,13 +53,25 @@ public class ChronicleAdvice {
                 AntPathMatcher pathMatcher = new AntPathMatcher();
                 Map<String, String> variables = pathMatcher.extractUriTemplateVariables(format, currentURI);
 
-                model.addAttribute("_chronicle",chronicleService.findById(Long.valueOf(variables.get("id"))));
+                Chronicle currentChronicle = chronicleService.findById(Long.valueOf(variables.get("id")));
+
+                model.addAttribute("_chronicle",currentChronicle);
+
+                if(session.getAttribute("_currentCharacter") != null) {
+                    Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+                    if (!currentCharacter.getChronicle().equals(currentChronicle)){
+                        session.removeAttribute("_currentCharacter");
+                    }
+                }
+
+                if(session.getAttribute("_currentCharacter") == null) {
+                    User player = securityService.getCurrentUser();
+                    session.setAttribute("_currentCharacter",characterService.getDefaultCharacter(player,currentChronicle));
+                }
 
             }
 
         }
-
-        model.addAttribute("_topnav", topNav);
 
     }
 

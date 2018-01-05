@@ -54,6 +54,11 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
     }
 
     @Override
+    public Character getDefaultCharacter(User player, Chronicle chronicle) {
+        return ((CharacterRepository)getRepository()).getDefaultCharacter(player,chronicle);
+    }
+
+    @Override
     public Character createNew() {
         return new Character();
     }
@@ -75,6 +80,7 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
         Picture p0 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso0.jpg"));
         c0.setAvatar(p0);
+        c0.setDefaultCharacter(Boolean.TRUE);
 
         save(c0);
 
@@ -82,6 +88,7 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
         Picture p1 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso1.jpg"));
         c1.setAvatar(p1);
+        c1.setDefaultCharacter(Boolean.TRUE);
 
         save(c1);
 
@@ -89,6 +96,7 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
         Picture p2 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso2.jpg"));
 
         c2.setAvatar(p2);
+        c2.setDefaultCharacter(Boolean.FALSE);
 
         save(c2);
 
@@ -96,6 +104,7 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
         Picture p3 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso3.jpg"));
         c3.setAvatar(p3);
+        c3.setDefaultCharacter(Boolean.TRUE);
 
         save(c3);
 
