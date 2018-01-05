@@ -54,9 +54,9 @@ public class PictureUtils {
 		}
 	}
 
-	public static InputStream toInputStream(BufferedImage image) throws IOException {
+	public static InputStream toInputStream(BufferedImage image, String contentType) throws IOException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		ImageIO.write(image, "gif", os);
+		ImageIO.write(image, toFormat(contentType), os);
 		return new ByteArrayInputStream(os.toByteArray());
 	}
 
@@ -126,6 +126,19 @@ public class PictureUtils {
 
 	private static BufferedImage resizeImage(BufferedImage originalImage, int width, int height){
 		return Scalr.resize(originalImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_WIDTH, width, height, Scalr.OP_ANTIALIAS);
+	}
+
+	private static String toFormat(String contentType){
+		switch (contentType) {
+			case "image/jpeg":
+				return "jpg";
+			case "image/png":
+				return "png";
+			case "image/gif":
+				return "gif";
+			default:
+				return "jpg";
+		}
 	}
 
 }

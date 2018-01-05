@@ -23,9 +23,7 @@ public class PictureController {
     public void renderFullPicture(HttpServletResponse response,
                   @PathVariable Chronicle chronicle, @PathVariable Picture picture) throws ImageManipulationException, IOException {
 
-        BufferedImage image = PictureUtils.loadOriginalImage(picture);
-
-        sendResponse(image,response);
+        sendResponse(PictureUtils.loadOriginalImage(picture), picture.getContentType(),response);
     }
 
     @GetMapping(value = {"/secure/chronicle/{chronicle}/picture/{picture}/thumbnail/{width}/{height}"})
@@ -34,13 +32,11 @@ public class PictureController {
                               @PathVariable Chronicle chronicle, @PathVariable Picture picture,
                               @PathVariable int width, @PathVariable int height) throws ImageManipulationException, IOException {
 
-        BufferedImage image = PictureUtils.thumbnail(picture,width,height);
-
-        sendResponse(image,response);
+        sendResponse(PictureUtils.thumbnail(picture,width,height),picture.getContentType(),response);
     }
 
-    private void sendResponse(BufferedImage image, HttpServletResponse response) throws IOException {
-        IOUtils.copy(PictureUtils.toInputStream(image), response.getOutputStream());
+    private void sendResponse(BufferedImage image, String contentType, HttpServletResponse response) throws IOException {
+        IOUtils.copy(PictureUtils.toInputStream(image, contentType), response.getOutputStream());
     }
 
 }
