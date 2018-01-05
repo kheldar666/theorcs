@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.libermundi.theorcs.domain.Gender;
+import org.libermundi.theorcs.domain.jpa.Picture;
 import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.domain.jpa.base.UidAuditableEntity;
 
@@ -71,5 +72,9 @@ public final class Character extends UidAuditableEntity {
 
 	@ManyToOne
 	private Faction defaultFaction;
+
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	private Picture avatar;
+
 
 }

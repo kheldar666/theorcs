@@ -1,14 +1,13 @@
 package org.libermundi.theorcs.services.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.libermundi.theorcs.domain.jpa.Picture;
 import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.repositories.CharacterRepository;
-import org.libermundi.theorcs.services.CharacterService;
-import org.libermundi.theorcs.services.ChronicleService;
-import org.libermundi.theorcs.services.SecurityService;
-import org.libermundi.theorcs.services.UserService;
+import org.libermundi.theorcs.services.*;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +25,16 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
     private final ChronicleService chronicleService;
 
+    private final PictureService pictureService;
 
     public CharacterServiceImpl(CharacterRepository characterRepository, UserService userService,
-                                SecurityService securityService, ChronicleService chronicleService) {
+                                SecurityService securityService, ChronicleService chronicleService,
+                                PictureService pictureService) {
         setRepository(characterRepository,Character.class);
         this.userService = userService;
         this.securityService = securityService;
         this.chronicleService = chronicleService;
+        this.pictureService = pictureService;
     }
 
     @Override
@@ -71,17 +73,29 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
         Character c0 = createBasicCharacter(admin,chronicle,"*MJ");
 
+        Picture p0 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso0.jpg"));
+        c0.setAvatar(p0);
+
         save(c0);
 
         Character c1 = createBasicCharacter(user1,chronicle,"Harvey Walters");
 
+        Picture p1 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso1.jpg"));
+        c1.setAvatar(p1);
+
         save(c1);
 
         Character c2 = createBasicCharacter(user1,chronicle,"John Rambo");
+        Picture p2 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso2.jpg"));
+
+        c2.setAvatar(p2);
 
         save(c2);
 
         Character c3 = createBasicCharacter(user2,chronicle,"Bob le Ponce");
+
+        Picture p3 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso3.jpg"));
+        c3.setAvatar(p3);
 
         save(c3);
 

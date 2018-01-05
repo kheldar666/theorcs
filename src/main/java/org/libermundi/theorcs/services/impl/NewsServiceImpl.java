@@ -64,7 +64,7 @@ public class NewsServiceImpl extends AbstractServiceImpl<News> implements NewsSe
 		 n1.setTitle("Le Prince Villon organise une grande soirée pour les 200 ans de son Règne");
 		 n1.setContent(StringFormatService.LOREM_IPSUM);
 
-		 Picture p1 = pictureService.getPicture(new ClassPathResource("static/images/paris-bastille.jpg"));
+		 Picture p1 = pictureService.getPicture(new ClassPathResource("static/images/demo/paris-bastille.jpg"));
 
 		 n1.setPicture(p1);
 
@@ -75,7 +75,7 @@ public class NewsServiceImpl extends AbstractServiceImpl<News> implements NewsSe
 		 n2.setTitle("Gros accident de la route sur la A1");
 		 n2.setContent(StringFormatService.LOREM_IPSUM);
 
-		Picture p2 = pictureService.getPicture(new ClassPathResource("static/images/paris-champs-elysees.jpg"));
+		Picture p2 = pictureService.getPicture(new ClassPathResource("static/images/demo/paris-champs-elysees.jpg"));
 
 		n2.setPicture(p2);
 
