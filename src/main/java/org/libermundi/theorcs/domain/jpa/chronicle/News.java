@@ -26,7 +26,7 @@ public class News extends Identity {
     @Column(nullable = false)
     private String content;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Picture picture;
 
     @ManyToOne

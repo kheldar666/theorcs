@@ -23,14 +23,17 @@ import lombok.ToString;
 import org.libermundi.theorcs.domain.jpa.base.Identity;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import javax.persistence.*;
+import java.io.File;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+
 @ToString(callSuper = true)
 public final class Picture extends Identity {
 
@@ -38,5 +41,7 @@ public final class Picture extends Identity {
 
 	@Lob
 	private Byte[] data;
+
+	public Picture() {}
 
 }

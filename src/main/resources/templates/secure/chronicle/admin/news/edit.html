@@ -70,6 +70,13 @@
                 </div>
             </div>
         </div>
+        <div class="form-group row" th:if="${news.picture != null}">
+            <div class="col-2 col-form-label" th:text="#{pages.secure.chronicle.admin.news.edit.thumbnail}">Thumbnail</div>
+            <div class="col-10">
+                <img th:src="@{'/secure/chronicle/' + ${_chronicle.id} + '/picture/' + ${news.picture.id} + '/thumbnail/150/200'}" width="150" height="200">
+            </div>
+        </div>
+
         <div class="form-group row">
             <div class="col-2"></div>
             <div class="col-10">
