@@ -1,5 +1,6 @@
 package org.libermundi.theorcs.controllers.secure;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,9 +12,6 @@ public class SecureIndexController {
     }
 
 
-    @GetMapping("/secure/createchro")
-    public String create() {
-        return "/secure/createchro";
-    }
+
 
 }

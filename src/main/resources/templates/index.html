@@ -9,8 +9,18 @@
 
     <div class="container-fluid">
         <div class="row my-3">
-            <div class="col"></div>
-            <div class="col-6">
+            <div class="col" th:with="
+                rssUrl = ${@environment.getProperty('theorcs.general.feedsource.list.url')},
+                rssTitle=${@environment.getProperty('theorcs.general.feedsource.list.title')},
+                rssDisplay = 'list',
+                rssLimit = 4">
+                <!--/*/ <th:block th:include="/layout/bootstrap/inc_components :: rssfeed"></th:block> /*/-->
+            </div>
+            <div class="col-6" th:with="
+                rssUrl = ${@environment.getProperty('theorcs.general.feedsource.large.url')},
+                rssTitle=${@environment.getProperty('theorcs.general.feedsource.large.title')},
+                rssDisplay = 'large',
+                rssLimit = 9">
                 <!--/*/ <th:block th:include="/layout/bootstrap/inc_components :: rssfeed"></th:block> /*/-->
             </div>
             <div class="col"></div>

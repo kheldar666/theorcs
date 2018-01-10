@@ -44,7 +44,7 @@ public class MenuAdvice {
 
         if(securityService.isLoggedIn()) {
             String currentURI = request.getRequestURI();
-            if (request.getRequestURI().contains("/secure/chronicle")) {
+            if (currentURI.contains("/secure/chronicle") && !currentURI.equals("/secure/chronicle/create")) {
                 // When the user is within a Chronicle
 
 

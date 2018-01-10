@@ -2,6 +2,7 @@ package org.libermundi.theorcs.controllers.advice;
 
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
@@ -53,21 +54,27 @@ public class ChronicleAdvice {
                 AntPathMatcher pathMatcher = new AntPathMatcher();
                 Map<String, String> variables = pathMatcher.extractUriTemplateVariables(format, currentURI);
 
-                Chronicle currentChronicle = chronicleService.findById(Long.valueOf(variables.get("id")));
+                String id = variables.get("id");
 
-                model.addAttribute("_chronicle",currentChronicle);
+                if(StringUtils.isNumeric(id)) {
+                    Chronicle currentChronicle = chronicleService.findById(Long.valueOf(id));
 
-                if(session.getAttribute("_currentCharacter") != null) {
-                    Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
-                    if (!currentCharacter.getChronicle().equals(currentChronicle)){
-                        session.removeAttribute("_currentCharacter");
+                    model.addAttribute("_chronicle",currentChronicle);
+
+                    if(session.getAttribute("_currentCharacter") != null) {
+                        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+                        if (!currentCharacter.getChronicle().equals(currentChronicle)){
+                            session.removeAttribute("_currentCharacter");
+                        }
                     }
+
+                    if(session.getAttribute("_currentCharacter") == null) {
+                        User player = securityService.getCurrentUser();
+                        session.setAttribute("_currentCharacter",characterService.getDefaultCharacter(player,currentChronicle));
+                    }
+
                 }
 
-                if(session.getAttribute("_currentCharacter") == null) {
-                    User player = securityService.getCurrentUser();
-                    session.setAttribute("_currentCharacter",characterService.getDefaultCharacter(player,currentChronicle));
-                }
 
             }
 

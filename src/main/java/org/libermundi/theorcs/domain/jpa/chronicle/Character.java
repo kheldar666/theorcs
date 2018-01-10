@@ -68,10 +68,10 @@ public final class Character extends UidAuditableEntity {
 	private boolean defaultCharacter = Boolean.FALSE;
 
 	@ManyToMany
-	private Set<Faction> factions = Sets.newHashSet();
+	private Set<Group> groups = Sets.newHashSet();
 
 	@ManyToOne
-	private Faction defaultFaction;
+	private Group defaultGroup;
 
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Picture avatar;

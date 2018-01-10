@@ -7,6 +7,7 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -24,17 +25,8 @@ import java.util.List;
 
 @Slf4j
 @Service("RSSService")
+@NoArgsConstructor
 public class RSSServiceImpl implements RSSService {
-    private final String feedSource;
-
-    public RSSServiceImpl(@Value("${theorcs.general.feedsource}") String feedSource) {
-        this.feedSource = feedSource;
-    }
-
-    @Cacheable("spring")
-    public List<SyndEntry> reedFeed() {
-        return reedFeed(feedSource);
-    }
 
     @Cacheable("spring")
     public List<SyndEntry> reedFeed(String url) {
@@ -58,15 +50,13 @@ public class RSSServiceImpl implements RSSService {
     }
 
     public String getEntryTitle(SyndEntry entry) {
-        // We get the first Content of the Entry.
-        SyndContent content = entry.getContents().get(0);
 
         StringBuilder title = new StringBuilder();
-        title.append("<a href=\"");
-        title.append(entry.getLink());
-        title.append("\" target=\"_blank\">");
-        title.append(entry.getTitle());
-        title.append("</a>");
+            title.append("<a href=\"");
+            title.append(entry.getLink());
+            title.append("\" target=\"_blank\">");
+            title.append(entry.getTitle());
+            title.append("</a>");
 
         return title.toString();
     }

@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-    <title th:text="#{pages.secure.chronicle.admin.news.home}">Page Title</title>
+    <title th:text="#{pages.secure.chronicle.create.title}">Page Title</title>
     <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: header"></th:block> /*/-->
-    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: ckeditor"></th:block> /*/-->
 </head>
 <body>
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: chronav"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: topnav"></th:block> /*/-->
 <div class="container-fluid">
-    <h1>ADMIN NEWS - EDIT FORM</h1>
-
-    <!--/*@thymesVar id="news" type="org.libermundi.theorcs.domain.jpa.chronicle.News"*/-->
-    <form th:object="${news}" th:action="@{'/secure/chronicle/' + ${chronicle.id} + '/admin/news/save'}" method="post" enctype="multipart/form-data">
+    <h1>CREATE CHRONICLE</h1>
+    <!--/*@thymesVar id="chronicle" type="org.libermundi.theorcs.domain.jpa.chronicle.Chronicle"*/-->
+    <form th:object="${news}" th:action="@{'/secure/createchro'}" method="post" enctype="multipart/form-data">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <input type="hidden" th:field="*{id}" />
         <div class="form-group row">

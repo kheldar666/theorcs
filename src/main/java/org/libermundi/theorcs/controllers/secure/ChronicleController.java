@@ -24,11 +24,15 @@ public class ChronicleController {
         this.newsService = newsService;
     }
 
+    @GetMapping("/secure/chronicle/create")
+    public String create() {
+        return "/secure/chronicle/create";
+    }
+
     @GetMapping("/secure/chronicle/{chronicle}")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
     public String home(Model model, @PathVariable Chronicle chronicle) {
-//        List<News> latestNews = newsService.getAllNews(chronicle);
-//        model.addAttribute("latestNews",latestNews);
+
         return "/secure/chronicle/home";
     }
 
@@ -37,4 +41,5 @@ public class ChronicleController {
     public String admin(Model model, @PathVariable Chronicle chronicle) {
         return "/secure/chronicle/admin/home";
     }
+
 }
