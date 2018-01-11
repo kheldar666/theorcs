@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-    <title th:text="#{pages.secure.chronicle.create.title}">Page Title</title>
+    <title th:text="#{pages.secure.index.title}">Page Title</title>
     <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: header"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: ckeditor"></th:block> /*/-->
 </head>
 <body>
 <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: topnav"></th:block> /*/-->
 <div class="container-fluid">
-    <h1>CREATE CHRONICLE</h1>
-    <!--/*@thymesVar id="chronicle" type="org.libermundi.theorcs.domain.jpa.chronicle.Chronicle"*/-->
-    <form th:object="${news}" th:action="@{'/secure/createchro'}" method="post" enctype="multipart/form-data">
+    <h1 th:text="#{pages.secure.chronicle.create.title}">CREATE CHRONICLE</h1>
+    <!--/*@thymesVar id="newChronicle" type="org.libermundi.theorcs.domain.jpa.chronicle.Chronicle"*/-->
+    <form th:object="${newChronicle}" th:action="@{'/secure/chronicle/create'}" method="post" enctype="multipart/form-data">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <input type="hidden" th:field="*{id}" />
         <div class="form-group row">
-            <label th:for="title" th:text="#{pages.secure.chronicle.admin.news.edit.title}" class="col-2 col-form-label">Titre</label>
+            <label th:for="title" th:text="#{pages.secure.chronicle.create.form.title}" class="col-2 col-form-label">Chronicle Title</label>
             <div class="col-10">
-                <input type="text" th:field="*{title}" class="form-control" th:placeholder="#{pages.secure.chronicle.admin.news.edit.title_placeholder}"
+                <input type="text" th:field="*{title}" class="form-control" th:placeholder="#{pages.secure.chronicle.create.form.title_placeholder}"
                        th:classappend="${(#fields.hasErrors('title'))? 'is-invalid':''}" required aria-describedby="helpTitle"/>
-                <small id="helpTitle" class="text-muted" th:unless="${#fields.hasErrors('title')}" th:text="#{pages.secure.chronicle.admin.news.edit.title_help}">Indicate the title of the news</small>
+                <small id="helpTitle" class="text-muted" th:unless="${#fields.hasErrors('title')}" th:text="#{pages.secure.chronicle.create.form.title_help}">Indicate the title of the chronicle</small>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}">
                     <ul>
                         <li th:each="error : ${#fields.errors('title')}" th:text="${error}"/>
@@ -26,11 +27,24 @@
             </div>
         </div>
         <div class="form-group row">
-            <label th:for="date" th:text="#{pages.secure.chronicle.admin.news.edit.date}" class="col-2 col-form-label">Date</label>
+            <label th:for="title" th:text="#{pages.secure.chronicle.create.form.subtitle}" class="col-2 col-form-label">Chronicle Subtitle</label>
             <div class="col-10">
-                <input type="text" th:field="*{date}" class="form-control" th:placeholder="#{pages.secure.chronicle.admin.news.edit.date_placeholder}"
-                       th:classappend="${(#fields.hasErrors('date'))? 'is-invalid':''}" required aria-describedby="helpDate"/>
-                <small id="helpDate" class="text-muted" th:unless="${#fields.hasErrors('date')}" th:text="#{pages.secure.chronicle.admin.news.edit.date_help}">Indicate the date of the news</small>
+                <input type="text" th:field="*{subTitle}" class="form-control" th:placeholder="#{pages.secure.chronicle.create.form.subtitle_placeholder}"
+                       th:classappend="${(#fields.hasErrors('subTitle'))? 'is-invalid':''}" aria-describedby="helpSubTitle"/>
+                <small id="helpSubTitle" class="text-muted" th:unless="${#fields.hasErrors('subTitle')}" th:text="#{pages.secure.chronicle.create.form.subtitle_help}">Indicate the subtitle of the chronicle</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('subTitle')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('subTitle')}" th:text="${error}"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="date" th:text="#{pages.secure.chronicle.create.form.date}" class="col-2 col-form-label">Date</label>
+            <div class="col-10">
+                <input type="text" th:field="*{date}" class="form-control" th:placeholder="#{pages.secure.chronicle.create.form.date_placeholder}"
+                       th:classappend="${(#fields.hasErrors('date'))? 'is-invalid':''}" required aria-describedby="helpDate" maxlength="50"/>
+                <small id="helpDate" class="text-muted" th:unless="${#fields.hasErrors('date')}" th:text="#{pages.secure.chronicle.create.form.date_help}">Indicate the date of the chronicle</small>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('date')}">
                     <ul>
                         <li th:each="error : ${#fields.errors('date')}" th:text="${error}"/>
@@ -39,40 +53,97 @@
             </div>
         </div>
         <div class="form-group row">
-            <label th:for="content" th:text="#{pages.secure.chronicle.admin.news.edit.content}" class="col-2 col-form-label">Content</label>
+            <label th:for="date" th:text="#{pages.secure.chronicle.create.form.password}" class="col-2 col-form-label">Password</label>
             <div class="col-10">
-                <textarea th:field="*{content}" class="form-control" th:classappend="${(#fields.hasErrors('content'))? 'is-invalid':''}" required aria-describedby="helpContent"></textarea>
-                <small id="helpContent" class="text-muted" th:unless="${#fields.hasErrors('content')}" th:text="#{pages.secure.chronicle.admin.news.edit.content_help}">The content of your news</small>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}">
+                <input type="text" th:field="*{password}" class="form-control" th:placeholder="#{pages.secure.chronicle.create.form.password_placeholder}"
+                       th:classappend="${(#fields.hasErrors('password'))? 'is-invalid':''}" required aria-describedby="helpPassword" maxlength="50"/>
+                <small id="helpPassword" class="text-muted" th:unless="${#fields.hasErrors('password')}" th:text="#{pages.secure.chronicle.create.form.password_help}">Indicate the password of the chronicle</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}">
                     <ul>
-                        <li th:each="error : ${#fields.errors('content')}" th:text="${error}"/>
+                        <li th:each="error : ${#fields.errors('password')}" th:text="${error}"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="game"class="col-2 col-form-label">Game</label>
+            <div class="col-10">
+                <select class="form-control" th:field="*{game}">
+                    <option th:each="aGame : ${gameList}"
+                            th:value="${aGame.id}"
+                            th:text="${aGame.name}">Type</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="type" class="col-2 col-form-label">Type</label>
+            <div class="col-10">
+                <select class="form-control" th:field="*{type}">
+                    <option th:each="typeValue : ${T(org.libermundi.theorcs.domain.jpa.chronicle.ChronicleType).values()}"
+                            th:value="${typeValue.name()}"
+                            th:text="${typeValue.name()}">Type</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="genre" class="col-2 col-form-label">Genre</label>
+            <div class="col-10">
+                <select class="form-control" th:field="*{genre}">
+                    <option th:each="genreValue : ${T(org.libermundi.theorcs.domain.jpa.chronicle.ChronicleGenre).values()}"
+                            th:value="${genreValue.name()}"
+                            th:text="${genreValue.name()}">Type</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="style" class="col-2 col-form-label">Style</label>
+            <div class="col-10">
+                <select class="form-control" th:field="*{style}">
+                    <option th:each="styleValue : ${T(org.libermundi.theorcs.domain.jpa.chronicle.ChronicleStyle).values()}"
+                            th:value="${styleValue.name()}"
+                            th:text="${styleValue.name()}">Type</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="pace" class="col-2 col-form-label">Pace</label>
+            <div class="col-10">
+                <select class="form-control" th:field="*{pace}">
+                    <option th:each="paceValue : ${T(org.libermundi.theorcs.domain.jpa.chronicle.ChroniclePace).values()}"
+                            th:value="${paceValue.name()}"
+                            th:text="${paceValue.name()}">Type</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="description" th:text="#{pages.secure.chronicle.create.form.description}" class="col-2 col-form-label">Description</label>
+            <div class="col-10">
+                <textarea th:field="*{description}" class="form-control" th:classappend="${(#fields.hasErrors('description'))? 'is-invalid':''}" required aria-describedby="helpContent"></textarea>
+                <small id="helpContent" class="text-muted" th:unless="${#fields.hasErrors('description')}" th:text="#{pages.secure.chronicle.create.form.description_help}">The content of your news</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('description')}" th:text="${error}"/>
                     </ul>
                 </div>
             </div>
             <script>
-                CKEDITOR.replace('content');
+                CKEDITOR.replace('description');
             </script>
         </div>
         <div class="form-group row">
-            <div th:text="#{pages.secure.chronicle.admin.news.edit.picture}" class="col-2 col-form-label">Image</div>
+            <label th:for="background" th:text="#{pages.secure.chronicle.create.form.background}" class="col-2 col-form-label">Background</label>
             <div class="col-10">
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="pictureFile" name="pictureFile" aria-describedby="helpPicture">
-                    <label class="custom-file-label" for="pictureFile">Choose file</label>
-                </div>
-                <small id="helpPicture" class="text-muted" th:unless="${#fields.hasErrors('picture')}" th:text="#{pages.secure.chronicle.admin.news.edit.picture_help}">Image upload help</small>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('picture')}">
+                <textarea th:field="*{background}" class="form-control" th:classappend="${(#fields.hasErrors('background'))? 'is-invalid':''}" required aria-describedby="helpBackground"></textarea>
+                <small id="helpBackground" class="text-muted" th:unless="${#fields.hasErrors('description')}" th:text="#{pages.secure.chronicle.create.form.background_help}">The background of your Chronicle</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('background')}">
                     <ul>
-                        <li th:each="error : ${#fields.errors('picture')}" th:text="${error}"/>
+                        <li th:each="error : ${#fields.errors('background')}" th:text="${error}"/>
                     </ul>
                 </div>
             </div>
-        </div>
-        <div class="form-group row" th:if="${news.picture != null}">
-            <div class="col-2 col-form-label" th:text="#{pages.secure.chronicle.admin.news.edit.thumbnail}">Thumbnail</div>
-            <div class="col-10">
-                <img th:src="@{'/secure/chronicle/' + ${_chronicle.id} + '/picture/' + ${news.picture.id} + '/thumbnail/150/200'}" width="150" height="200">
-            </div>
+            <script>
+                CKEDITOR.replace('background');
+            </script>
         </div>
 
         <div class="form-group row">
@@ -80,7 +151,7 @@
             <div class="col-10">
                 <button type="submit" class="btn btn-primary" th:text="#{actions.save}">Save</button>
                 <button type="reset" class="btn btn-warning ml-2" th:text="#{actions.reset}">Reset</button>
-                <a class="btn btn-danger ml-2" th:text="#{actions.cancel}" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/admin/news/'}">Cancel</a>
+                <a class="btn btn-danger ml-2" th:text="#{actions.cancel}" th:href="@{'/secure/index'}">Cancel</a>
 
             </div>
         </div>
