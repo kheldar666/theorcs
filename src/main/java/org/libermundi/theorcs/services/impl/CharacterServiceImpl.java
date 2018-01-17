@@ -8,6 +8,7 @@ import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.repositories.CharacterRepository;
 import org.libermundi.theorcs.services.*;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +56,18 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
     @Override
     public Character getDefaultCharacter(User player, Chronicle chronicle) {
-        return ((CharacterRepository)getRepository()).getDefaultCharacter(player,chronicle);
+        return ((CharacterRepository)getRepository()).findDefaultCharacter(player,chronicle);
+    }
+
+    @Override
+    public List<Character> getAllCharacters(User player, Chronicle chronicle) {
+        return ((CharacterRepository)getRepository()).findAllCharactersByAndSort(player,chronicle, Sort.by("name"));
+    }
+
+    @Override
+    //TODO : Remove and Replace by a proper ContactService
+    public List<Character> getAllContacts(User player, Chronicle chronicle) {
+        return ((CharacterRepository)getRepository()).findAllContactsByAndSort(player,chronicle, Sort.by("name"));
     }
 
     @Override

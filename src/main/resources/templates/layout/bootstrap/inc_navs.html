@@ -36,10 +36,6 @@
                     </th:block>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-danger my-2 my-sm-0 mr-sm-2" type="submit">Search</button>
-                </form>
-                <form class="form-inline my-2 my-lg-0">
                     <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn btn-outline-danger my-2 my-sm-0" th:text="#{includes.navs.topnav.signin}">Login/Sign In</a>
                     <a sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn btn-outline-danger my-2 my-sm-0" th:text="#{includes.navs.topnav.logout}">Logout</a>
                 </form>
@@ -63,14 +59,26 @@
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{'/secure/chronicle/' + ${_chronicle.id}}">Home <span class="sr-only">(current)</span></a>
                     </li>
-
-                    <li class="nav-item" sec:authorize-acl="${_chronicle} :: '16'">
-                        <a class="nav-link" th:text="#{includes.navs.chronav.admin}" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/admin/'}">Admin</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" hre="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{includes.navs.topnav.messaging}">
+                            Messaging
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/write'}" th:text="#{includes.navs.topnav.messaging.write}">Write a Message</a>
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders'}" th:text="#{includes.navs.topnav.messaging.folders}">Folders</a>
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/lists'}" th:text="#{includes.navs.topnav.messaging.contact_list}">Contact Lists</a>
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/contacts'}" th:text="#{includes.navs.topnav.messaging.contacts}">Contacts</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/options'}" th:text="#{includes.navs.topnav.messaging.options}">Options</a>
+                        </div>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-danger my-2 my-sm-0 mr-sm-2" type="submit">Search</button>
+                </form>
+                <form class="form-inline my-2 my-lg-0" sec:authorize-acl="${_chronicle} :: '16'">
+                    <a class="btn btn-outline-danger my-2 my-sm-0 mr-sm-2" th:text="#{includes.navs.chronav.admin}" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/admin/'}">Admin</a>
                 </form>
                 <form class="form-inline my-2 my-lg-0">
                     <a th:href="@{/}" class="btn btn-outline-danger my-2 my-sm-0" th:text="#{includes.navs.chronav.exit}">Exit</a>

@@ -13,4 +13,8 @@ public interface CharacterService extends BaseService<Character> {
     List<Chronicle> findChronicleByPlayer(User player);
 
     Character getDefaultCharacter(User player, Chronicle chronicle);
+
+    List<Character> getAllCharacters(User player, Chronicle chronicle);
+
+    List<Character> getAllContacts(User player, Chronicle chronicle);
 }

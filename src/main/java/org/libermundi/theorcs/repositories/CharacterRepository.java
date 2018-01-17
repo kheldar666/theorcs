@@ -20,5 +20,11 @@ public interface CharacterRepository extends BaseRepository<Character, Long> {
     List<Chronicle> findChronicleByPlayer(User player);
 
     @Query("select c from Character c where c.player = ?1 and c.chronicle = ?2 and c.defaultCharacter = true")
-    Character getDefaultCharacter(User player, Chronicle chronicle);
+    Character findDefaultCharacter(User player, Chronicle chronicle);
+
+    @Query("select c from Character c where c.player = ?1 and c.chronicle = ?2")
+    List<Character> findAllCharactersByAndSort(User player, Chronicle chronicle, Sort sort);
+
+    @Query("select c from Character c where not c.player = ?1 and c.chronicle = ?2")
+    List<Character> findAllContactsByAndSort(User player, Chronicle chronicle, Sort sort);
 }

@@ -9,10 +9,9 @@
 <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: topnav"></th:block> /*/-->
 <div class="container-fluid">
     <h1 th:text="#{pages.secure.chronicle.create.title}">CREATE CHRONICLE</h1>
-    <!--/*@thymesVar id="newChronicle" type="org.libermundi.theorcs.domain.jpa.chronicle.Chronicle"*/-->
-    <form th:object="${newChronicle}" th:action="@{'/secure/chronicle/create'}" method="post" enctype="multipart/form-data">
+    <!--/*@thymesVar id="chronicleForm" type="org.libermundi.theorcs.forms.ChronicleForm"*/-->
+    <form th:object="${chronicleForm}" th:action="@{'/secure/chronicle/create'}" method="post" enctype="multipart/form-data">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <input type="hidden" th:field="*{id}" />
         <div class="form-group row">
             <label th:for="title" th:text="#{pages.secure.chronicle.create.form.title}" class="col-2 col-form-label">Chronicle Title</label>
             <div class="col-10">
@@ -66,7 +65,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label th:for="game"class="col-2 col-form-label">Game</label>
+            <label th:for="game" class="col-2 col-form-label" th:text="#{pages.secure.chronicle.create.form.game}">Game</label>
             <div class="col-10">
                 <select class="form-control" th:field="*{game}">
                     <option th:each="aGame : ${gameList}"
@@ -76,7 +75,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label th:for="type" class="col-2 col-form-label">Type</label>
+            <label th:for="type" class="col-2 col-form-label" th:text="#{pages.secure.chronicle.create.form.type}">Type</label>
             <div class="col-10">
                 <select class="form-control" th:field="*{type}">
                     <option th:each="typeValue : ${T(org.libermundi.theorcs.domain.jpa.chronicle.ChronicleType).values()}"
@@ -86,7 +85,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label th:for="genre" class="col-2 col-form-label">Genre</label>
+            <label th:for="genre" class="col-2 col-form-label" th:text="#{pages.secure.chronicle.create.form.genre}">Genre</label>
             <div class="col-10">
                 <select class="form-control" th:field="*{genre}">
                     <option th:each="genreValue : ${T(org.libermundi.theorcs.domain.jpa.chronicle.ChronicleGenre).values()}"
@@ -96,7 +95,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label th:for="style" class="col-2 col-form-label">Style</label>
+            <label th:for="style" class="col-2 col-form-label" th:text="#{pages.secure.chronicle.create.form.style}">Style</label>
             <div class="col-10">
                 <select class="form-control" th:field="*{style}">
                     <option th:each="styleValue : ${T(org.libermundi.theorcs.domain.jpa.chronicle.ChronicleStyle).values()}"
@@ -106,7 +105,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label th:for="pace" class="col-2 col-form-label">Pace</label>
+            <label th:for="pace" class="col-2 col-form-label" th:text="#{pages.secure.chronicle.create.form.pace}">Pace</label>
             <div class="col-10">
                 <select class="form-control" th:field="*{pace}">
                     <option th:each="paceValue : ${T(org.libermundi.theorcs.domain.jpa.chronicle.ChroniclePace).values()}"

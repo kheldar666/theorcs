@@ -61,6 +61,6 @@ public final class Chronicle extends StatefulEntity {
 	private boolean openForInscription;
 
 	@OneToMany(mappedBy = "chronicle")
-	private Set<Group> groups = Sets.newHashSet();
+	private Set<CharacterGroup> groups = Sets.newHashSet();
 
 }

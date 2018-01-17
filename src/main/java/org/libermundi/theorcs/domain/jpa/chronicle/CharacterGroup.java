@@ -33,7 +33,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @ToString(of = {"name","chronicle"},callSuper = true)
-public final class Group extends Identity {
+public final class CharacterGroup extends Identity {
 
 	@Column(length=50, nullable=false)
 	private String name;

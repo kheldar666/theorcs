@@ -1,22 +1,21 @@
 package org.libermundi.theorcs.controllers.secure;
 
 import lombok.extern.slf4j.Slf4j;
-import org.libermundi.theorcs.domain.jpa.Picture;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
-import org.libermundi.theorcs.domain.jpa.chronicle.News;
+import org.libermundi.theorcs.forms.ChronicleForm;
 import org.libermundi.theorcs.services.ChronicleService;
 import org.libermundi.theorcs.services.GameService;
-import org.libermundi.theorcs.services.NewsService;
 import org.libermundi.theorcs.services.SecurityService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -26,23 +25,12 @@ public class ChronicleController {
 
     private final GameService gameService;
 
-    private final NewsService newsService;
-
     private final SecurityService securityService;
 
-    public ChronicleController(ChronicleService chronicleService, GameService gameService,
-                               NewsService newsService, SecurityService securityService) {
+    public ChronicleController(ChronicleService chronicleService, GameService gameService, SecurityService securityService) {
         this.chronicleService = chronicleService;
         this.gameService = gameService;
-        this.newsService = newsService;
         this.securityService = securityService;
-    }
-
-    @GetMapping("/secure/chronicle/create")
-    public String create(Model model) {
-        model.addAttribute("newChronicle", chronicleService.createNew());
-        model.addAttribute("gameList", gameService.findAll());
-        return "/secure/chronicle/create";
     }
 
     @GetMapping("/secure/chronicle/{chronicle}")
@@ -58,20 +46,41 @@ public class ChronicleController {
         return "/secure/chronicle/admin/home";
     }
 
+    @GetMapping("/secure/chronicle/create")
+    public String create(Model model) {
+        model.addAttribute("chronicleForm", new ChronicleForm());
+        model.addAttribute("gameList", gameService.findAll());
+        return "/secure/chronicle/create";
+    }
+
     @PostMapping(value = "/secure/chronicle/create")
-    public String saveOrUpdate(Model model, @Valid @ModelAttribute("newChronicle") Chronicle chronicle,
+    public String saveOrUpdate(Model model, @Valid @ModelAttribute("chronicleForm") ChronicleForm chronicleForm,
                                BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.error(objectError.toString());
             });
-            return "/secure/chronicle/admin/news/edit";
+            return "/secure/chronicle/create";
         }
 
-        chronicle.setAdmin(securityService.getCurrentUser());
-        chronicle.setOpenForInscription(Boolean.FALSE);
+        Chronicle newChronicle = chronicleService.createNew();
 
-        chronicleService.save(chronicle);
+        newChronicle.setTitle(chronicleForm.getTitle());
+        newChronicle.setSubTitle(chronicleForm.getSubTitle());
+        newChronicle.setDescription(chronicleForm.getDescription());
+        newChronicle.setType(chronicleForm.getType());
+        newChronicle.setGenre(chronicleForm.getGenre());
+        newChronicle.setStyle(chronicleForm.getStyle());
+        newChronicle.setPace(chronicleForm.getPace());
+        newChronicle.setPassword(chronicleForm.getPassword());
+        newChronicle.setDate(chronicleForm.getDate());
+        newChronicle.setBackground(chronicleForm.getBackground());
+        newChronicle.setGame(chronicleForm.getGame());
+
+        newChronicle.setAdmin(securityService.getCurrentUser());
+        newChronicle.setOpenForInscription(Boolean.FALSE);
+
+        chronicleService.save(newChronicle);
         return "redirect:/secure/index";
     }
 
