@@ -133,7 +133,7 @@
             <label th:for="background" th:text="#{pages.secure.chronicle.create.form.background}" class="col-2 col-form-label">Background</label>
             <div class="col-10">
                 <textarea th:field="*{background}" class="form-control" th:classappend="${(#fields.hasErrors('background'))? 'is-invalid':''}" required aria-describedby="helpBackground"></textarea>
-                <small id="helpBackground" class="text-muted" th:unless="${#fields.hasErrors('description')}" th:text="#{pages.secure.chronicle.create.form.background_help}">The background of your Chronicle</small>
+                <small id="helpBackground" class="text-muted" th:unless="${#fields.hasErrors('background')}" th:text="#{pages.secure.chronicle.create.form.background_help}">The background of your Chronicle</small>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('background')}">
                     <ul>
                         <li th:each="error : ${#fields.errors('background')}" th:text="${error}"/>
