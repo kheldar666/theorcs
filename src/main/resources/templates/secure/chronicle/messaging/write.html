@@ -149,13 +149,11 @@
     $j(function () {
         $j('#anonymous1,#anonymous2').change(function () {
             if ($j('#anonymous1').is(':checked')) {
-                alert('cas1');
                 $j('#signature2').prop('checked',true);
             }
         });
         $j('#signature1,#signature2').change(function () {
             if ($j('#signature1').is(':checked')) {
-                alert('cas2');
                 $j('#anonymous2').prop('checked',true);
             }
         });
