@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="newslist">
+    <div class="card">
+        <div class="card-header">
+            <span class="fa fa-list" aria-hidden="true"></span><span th:text="#{pages.secure.chronicle.home.latest_news}">Latest news</span>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" th:each="news,newsStat : ${@NewsService.getAllNews(_chronicle)}" th:unless="${newsStat.index > 9}">
+                <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/news/' + ${news.id}}" th:text="${news.title}">News Title</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div th:fragment="rssfeed">
+    <div th:if="${!T(com.google.common.base.Strings).isNullOrEmpty(rssUrl)}" th:with="feedEntries=${@RSSService.reedFeed(rssUrl)}">
+        <!--/*@thymesVar id="feedEntries" type="java.util.List<com.rometools.rome.feed.synd.SyndEntry>"*/-->
+        <div class="card" th:if="${feedEntries.size() > 0}">
+            <div class="card-header" th:text="${rssTitle}">Last messages from the board</div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:each="entry,entryStat : ${feedEntries}" th:unless="${entryStat.index > rssLimit}">
+                    <p th:utext="${@RSSService.getEntryTitle(entry)} ">Entry Title</p>
+                    <p th:utext="${entry.getContents().get(0).value}" th:if="${rssDisplay == 'large'}">Entry Body</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

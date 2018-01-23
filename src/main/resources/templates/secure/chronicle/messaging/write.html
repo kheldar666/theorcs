@@ -27,7 +27,7 @@
         <div class="col-sm-6">
             <!--/* CENTER SECTION */-->
             <!--/*@thymesVar id="newMessage" type="org.libermundi.theorcs.forms.MessageForm"*/-->
-            <form th:object="${newMessage}" th:action="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/write'}" method="post" enctype="application/x-www-form-urlencoded">
+            <form th:object="${newMessage}" th:action="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/send'}" method="post" enctype="application/x-www-form-urlencoded">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <div class="form-group row">
                     <label th:for="from" th:text="#{pages.secure.chronicle.messaging.write.form.from}" class="col-2 col-form-label">From</label>
@@ -42,7 +42,7 @@
                 <div class="form-group row">
                     <label th:for="to" th:text="#{pages.secure.chronicle.messaging.write.form.to}" class="col-2 col-form-label">To</label>
                     <div class="col-10">
-                        <select class="form-control" th:field="*{from}">
+                        <select class="form-control" th:field="*{to}">
                             <option th:each="aContact : ${contactList}"
                                     th:value="${aContact.id}"
                                     th:text="${aContact.name}">Contact's Name</option>

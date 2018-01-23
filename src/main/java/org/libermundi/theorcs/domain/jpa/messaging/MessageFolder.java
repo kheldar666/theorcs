@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @ToString(of = {"name"},callSuper = true)
 public class MessageFolder extends Identity{
+    public final static String INBOX = "Inbox";
+    public final static String SENT = "Sent";
+    public final static String TRASH = "Trash";
 
     private String name;
 

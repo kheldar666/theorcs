@@ -7,9 +7,9 @@
 <body>
 <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: chronav"></th:block> /*/-->
 <div class="container-fluid">
-    <h1>CHRONICLE HOME</h1>
+    <h1>WRITE MESSAGE</h1>
     <div class="row">
-        <div class="col-3">
+        <div class="col-sm-3">
             <!--/* LEFT SECTION */-->
             <div class="row">
                 <div class="col">
@@ -17,19 +17,21 @@
                 </div>
             </div>
             <div class="row mt-2">
-                <div class="col">
-                    <!--/* PLACEHOLDER */-->
+                <div class="col" th:with="folders = ${folderList}">
+                    <!--/*/ <th:block th:include="/layout/components/messaging :: folderList"></th:block> /*/-->
                 </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-sm-6">
             <!--/* CENTER SECTION */-->
+            <!--/*/ <th:block th:include="/layout/components/messaging :: folderContent"></th:block> /*/-->
+
         </div>
-        <div class="col-3">
-            <!--/* TIGHT SECTION */-->
+        <div class="col-sm-3">
+            <!--/* RIGHT SECTION */-->
             <div class="row">
                 <div class="col">
-                    <!--/*/ <th:block th:include="/layout/components/news :: newslist"></th:block> /*/-->
+                    <!--/*/ <th:block th:include="/layout/bootstrap/inc_components :: newslist"></th:block> /*/-->
                 </div>
             </div>
             <div class="row mt-2">
@@ -44,5 +46,6 @@
 <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: footer"></th:block> /*/-->
 
 <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: footer"></th:block> /*/-->
+
 </body>
 </html>

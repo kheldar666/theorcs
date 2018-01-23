@@ -1,5 +1,6 @@
 package org.libermundi.theorcs.forms;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -17,11 +19,11 @@ public class MessageForm {
     @NotNull
     private Character from;
 
-    private Set<Character> to;
+    private Set<Character> to = new HashSet<>();
 
-    private Set<Character> cc;
+    private Set<Character> cc = new HashSet<>();
 
-    private Set<Character> bcc;
+    private Set<Character> bcc = new HashSet<>();
 
     @NotNull
     @Size(max = 255)
@@ -30,8 +32,8 @@ public class MessageForm {
     @NotNull
     private String content;
 
-    private boolean anonymous;
+    private boolean anonymous = Boolean.FALSE;
 
-    private boolean signature;
+    private boolean signature = Boolean.FALSE;
 
 }

@@ -17,7 +17,11 @@ import javax.persistence.*;
 public class Message extends StatefulEntity {
 
     @ManyToOne(optional = true) //If from == null => Sent by System
-    private Character from;
+    private Character sender;
+
+    @ManyToOne(optional = false)
+    private Character recipient;
+
 
     @ManyToOne
     private MessageFolder folder;
@@ -26,7 +30,7 @@ public class Message extends StatefulEntity {
     @Column(length=3,nullable=false)
     private MessageType messageType;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private MessageContent content;
 
     private boolean markAsRead;

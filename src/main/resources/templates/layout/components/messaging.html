@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="folderList">
+    <div class="card">
+        <div class="card-header">
+            <span class="fa fa-list" aria-hidden="true"></span><span th:text="#{pages.secure.chronicle.home.latest_news}">Folders</span>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" th:each="folder,folderStat : ${folders}" >
+                <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folder/' + ${folder.id}}" th:text="${folder.name}">Folder Name</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div th:fragment="folderContent">
+
+</div>
+</body>
+</html>
