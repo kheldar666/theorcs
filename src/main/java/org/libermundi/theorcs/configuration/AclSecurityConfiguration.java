@@ -1,6 +1,7 @@
 package org.libermundi.theorcs.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +30,16 @@ public class AclSecurityConfiguration {
     @Autowired
     private EhCacheCacheManager cacheManager;
 
+    @Value("${spring.datasource.platform}")
+    private String platform;
+
     @Bean
     public MutableAclService aclService() {
-        MutableAclService aclService = new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
+        JdbcMutableAclService aclService = new JdbcMutableAclService(dataSource, lookupStrategy(), aclCache());
+        if(platform.equals("mysql")) {
+            aclService.setClassIdentityQuery("select @@IDENTITY");
+            aclService.setSidIdentityQuery("select @@IDENTITY");
+        }
         return aclService;
     }
 

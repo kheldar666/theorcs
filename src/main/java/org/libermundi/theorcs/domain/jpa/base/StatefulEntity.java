@@ -5,8 +5,10 @@ package org.libermundi.theorcs.domain.jpa.base;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 import org.libermundi.theorcs.domain.jpa.listeners.TimestampListener;
 
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
@@ -23,7 +25,8 @@ import java.util.Date;
 @EntityListeners(TimestampListener.class)
 public abstract class StatefulEntity extends UnDeletableEntity implements Enabled, Timestampable {
     private boolean enabled = Boolean.TRUE;
-    private Date createdDate;
-    private Date updatedDate;
 
+    private Date createdDate;
+
+    private Date updatedDate;
 }

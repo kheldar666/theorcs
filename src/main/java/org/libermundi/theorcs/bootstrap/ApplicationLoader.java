@@ -69,4 +69,5 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 
 		securityService.restoreUser();
 	}
+
 }

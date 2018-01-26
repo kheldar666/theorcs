@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 import org.libermundi.theorcs.domain.Gender;
 import org.libermundi.theorcs.domain.jpa.Picture;
 import org.libermundi.theorcs.domain.jpa.User;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name="Characters") // character is a reserved keyword on MySQL
 @Getter
 @Setter
 @NoArgsConstructor
