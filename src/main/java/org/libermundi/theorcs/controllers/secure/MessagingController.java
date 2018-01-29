@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
+import org.libermundi.theorcs.domain.jpa.messaging.Message;
 import org.libermundi.theorcs.domain.jpa.messaging.MessageFolder;
 import org.libermundi.theorcs.forms.MessageForm;
 import org.libermundi.theorcs.services.CharacterService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -38,16 +40,24 @@ public class MessagingController {
         this.messagingService = messagingService;
     }
 
-    @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}")
+    @GetMapping("/secure/chronicle/{chronicle}/messaging/folders")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String folders(Model model, @PathVariable Chronicle chronicle, @PathVariable String folder, HttpSession session) {
+    public String defaultFolder(@PathVariable Chronicle chronicle, HttpSession session) {
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
 
-        if(StringUtils.isNumeric(folder)){
-            MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, Long.valueOf(folder));
+        MessageFolder messageFolder = messagingService.findInbox(currentCharacter);
 
-        }
+        return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders/" + messageFolder.getId();
+    }
 
+    @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public String folders(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder, HttpSession session) {
+        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+
+        MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
+
+        model.addAttribute("messageList", messagingService.findMessagesByFolder(currentCharacter, messageFolder));
         model.addAttribute("folderList", messagingService.getFolderList(currentCharacter));
 
         return "/secure/chronicle/messaging/folders";
@@ -84,7 +94,7 @@ public class MessagingController {
 
         messagingService.sendMessage(messageForm);
 
-        return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders/inbox";
+        return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders";
     }
 
 }

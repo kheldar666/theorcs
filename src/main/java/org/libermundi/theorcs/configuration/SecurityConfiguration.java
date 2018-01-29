@@ -91,9 +91,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .invalidateHttpSession(true);
 
         if (!Strings.isNullOrEmpty(env) && env.equals("dev")) {
-            log.warn("****************************************************");
-            log.warn("Application in Development Mode. Enabling H2Console.");
-            log.warn("****************************************************");
+            // We do that to allow the usage of H2 Console
+            log.warn("*******************************************************");
+            log.warn("Application in Development Mode. Disabling CSRF Checks.");
+            log.warn("*******************************************************");
             httpSecurity
                     .csrf()
                     .disable();

@@ -28,14 +28,17 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
     private final PictureService pictureService;
 
-    public CharacterServiceImpl(CharacterRepository characterRepository, UserService userService,
-                                SecurityService securityService, ChronicleService chronicleService,
-                                PictureService pictureService) {
-        setRepository(characterRepository,Character.class);
+    private final MessagingService messagingService;
+
+    public CharacterServiceImpl(UserService userService, SecurityService securityService,
+                                ChronicleService chronicleService, PictureService pictureService,
+                                MessagingService messagingService, CharacterRepository characterRepository) {
         this.userService = userService;
         this.securityService = securityService;
         this.chronicleService = chronicleService;
         this.pictureService = pictureService;
+        this.messagingService = messagingService;
+        setRepository(characterRepository, Character.class);
     }
 
     @Override
@@ -96,6 +99,8 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
 
         save(c0);
 
+        messagingService.initFolders(c0);
+
         Character c1 = createBasicCharacter(user1,chronicle,"Harvey Walters");
 
         Picture p1 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso1.jpg"));
@@ -103,6 +108,7 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
         c1.setDefaultCharacter(Boolean.TRUE);
 
         save(c1);
+        messagingService.initFolders(c1);
 
         Character c2 = createBasicCharacter(user1,chronicle,"John Rambo");
         Picture p2 = pictureService.getPicture(new ClassPathResource("static/images/demo/perso2.jpg"));
@@ -111,6 +117,7 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
         c2.setDefaultCharacter(Boolean.FALSE);
 
         save(c2);
+        messagingService.initFolders(c2);
 
         Character c3 = createBasicCharacter(user2,chronicle,"Bob le Ponce");
 
@@ -119,6 +126,7 @@ public class CharacterServiceImpl extends AbstractServiceImpl<Character> impleme
         c3.setDefaultCharacter(Boolean.TRUE);
 
         save(c3);
+        messagingService.initFolders(c3);
 
         securityService.grantReadAcl(user1,chronicle);
         securityService.grantReadAcl(user2,chronicle);

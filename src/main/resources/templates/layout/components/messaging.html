@@ -14,7 +14,22 @@
     </div>
 </div>
 <div th:fragment="folderContent">
-
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">From</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="message : ${messageList}">
+                <td th:text="${message.from.name}">From</td>
+                <td th:text="${message.subject}">From</td>
+                <td th:text="${message.date}">From</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

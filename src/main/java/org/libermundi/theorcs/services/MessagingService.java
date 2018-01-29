@@ -13,5 +13,13 @@ public interface MessagingService extends BaseService<Message> {
     List<MessageFolder> getFolderList(Character character);
 
     MessageFolder findMessageFolderById(Character character, Long folderId);
+
+    MessageFolder findMessageFolderByName(Character character, String folder);
+
+    List<Message> findMessagesByFolder(Character character, MessageFolder messageFolder);
+
+    void initFolders(Character character);
+
+    MessageFolder findInbox(Character character);
 }
 

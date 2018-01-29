@@ -3,10 +3,7 @@ package org.libermundi.theorcs.services.impl;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
-import org.libermundi.theorcs.domain.jpa.messaging.Message;
-import org.libermundi.theorcs.domain.jpa.messaging.MessageContent;
-import org.libermundi.theorcs.domain.jpa.messaging.MessageFolder;
-import org.libermundi.theorcs.domain.jpa.messaging.MessageType;
+import org.libermundi.theorcs.domain.jpa.messaging.*;
 import org.libermundi.theorcs.forms.MessageForm;
 import org.libermundi.theorcs.repositories.MessageFolderRepository;
 import org.libermundi.theorcs.repositories.MessageRepository;
@@ -36,7 +33,6 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
     @Override
     public void sendMessage(MessageForm messageForm) {
-        MessageFolder inbox = messageFolderRepository.findInbox();
         MessageContent content = new MessageContent();
             content.setAnonymous(messageForm.isAnonymous());
             content.setAppendSignature(messageForm.isSignature());
@@ -46,18 +42,21 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
 
         messageForm.getTo().forEach(to -> {
+            MessageFolder inbox = messageFolderRepository.findInbox(to);
             messageRepository.save(
                     createNew(messageForm.getFrom(),to,content,MessageType.TO, inbox)
             );
         });
 
         messageForm.getCc().forEach(cc -> {
+            MessageFolder inbox = messageFolderRepository.findInbox(cc);
             messageRepository.save(
                     createNew(messageForm.getFrom(),cc,content,MessageType.CC, inbox)
             );
         });
 
         messageForm.getBcc().forEach(bcc -> {
+            MessageFolder inbox = messageFolderRepository.findInbox(bcc);
             messageRepository.save(
                     createNew(messageForm.getFrom(),bcc,content,MessageType.BCC, inbox)
             );
@@ -68,13 +67,14 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
     public List<MessageFolder> getFolderList(Character character) {
         List<MessageFolder> folderList = Lists.newArrayList();
 
-        folderList.add(messageFolderRepository.findInbox());
-        folderList.add(messageFolderRepository.findSent());
-        folderList.add(messageFolderRepository.findTrash());
-
-        folderList.addAll(messageFolderRepository.findAllByOwner(character, Sort.by("name")));
+        folderList.addAll(messageFolderRepository.findAllByOwner(character, Sort.by("indexOrder")));
 
         return folderList;
+    }
+
+    @Override
+    public MessageFolder findInbox(Character character) {
+        return messageFolderRepository.findInbox(character);
     }
 
     @Override
@@ -84,6 +84,46 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
             throw new EntityNotFoundException("Could not find MessageFolder ID : " + messageFolderId);
         }
         return optional.get();
+    }
+
+    @Override
+    public MessageFolder findMessageFolderByName(Character character, String folder) {
+        MessageFolder messageFolder = messageFolderRepository.findByNameAndCharacter(folder,character);
+        return messageFolder;
+    }
+
+    @Override
+    public List<Message> findMessagesByFolder(Character character, MessageFolder messageFolder) {
+        return null;
+    }
+
+    @Override
+    public void initFolders(Character character) {
+        if(messageFolderRepository.findAllByOwner(character, Sort.by("indexOrder")).isEmpty()){
+            MessageFolder inbox = new MessageFolder();
+            inbox.setName(MessageFolder.INBOX);
+            inbox.setMessageFolderType(MessageFolderType.INBOX);
+            inbox.setOwner(character);
+            inbox.setIndexOrder(1);
+
+            messageFolderRepository.save(inbox);
+
+            MessageFolder sent = new MessageFolder();
+            sent.setName(MessageFolder.SENT);
+            sent.setMessageFolderType(MessageFolderType.SENT);
+            sent.setOwner(character);
+            sent.setIndexOrder(2);
+
+            messageFolderRepository.save(sent);
+
+            MessageFolder trash = new MessageFolder();
+            trash.setName(MessageFolder.TRASH);
+            trash.setMessageFolderType(MessageFolderType.TRASH);
+            trash.setOwner(character);
+            trash.setIndexOrder(3);
+
+            messageFolderRepository.save(trash);
+        }
     }
 
     private Message createNew(Character sender, Character recipient, MessageContent messageContent, MessageType messageType, MessageFolder messageFolder) {
@@ -105,31 +145,6 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
     @Override
     public void initData() {
-        if(messageFolderRepository.count() == 0) {
-            // First we need to create the 3 basic folders that everyone will use
-            // Inbox, Sent and Trash
-            MessageFolder inbox = new MessageFolder();
-                inbox.setName(MessageFolder.INBOX);
-                inbox.setForSentMessage(Boolean.FALSE);
-                inbox.setOwner(null);
-
-                messageFolderRepository.save(inbox);
-
-            MessageFolder sent = new MessageFolder();
-                sent.setName(MessageFolder.SENT);
-                sent.setForSentMessage(Boolean.TRUE);
-                sent.setOwner(null);
-
-                messageFolderRepository.save(sent);
-
-            MessageFolder trash = new MessageFolder();
-                trash.setName(MessageFolder.TRASH);
-                trash.setForSentMessage(Boolean.FALSE);
-                trash.setOwner(null);
-
-                messageFolderRepository.save(trash);
-        }
-
-
+        //Nothing to do.
     }
 }
