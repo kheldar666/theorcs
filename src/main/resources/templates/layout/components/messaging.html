@@ -14,19 +14,22 @@
     </div>
 </div>
 <div th:fragment="folderContent">
-    <table class="table table-sm">
+    <table class="table table-hover table-sm">
         <thead>
             <tr>
+                <th scope="col"></th>
                 <th scope="col">From</th>
                 <th scope="col">Subject</th>
                 <th scope="col">Date</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="message : ${messageList}">
-                <td th:text="${message.from.name}">From</td>
-                <td th:text="${message.subject}">From</td>
-                <td th:text="${message.date}">From</td>
+            <tr th:each="message : ${messageList}" th:classappend="${(message.markAsRead) ? 'table-light':'table-primary'}">
+                <td><a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/read/' + ${message.id}}" class="fa fa-arrow-right" aria-hidden="true"></a></td>
+                <td th:text="${message.sender.name}">From</td>
+                <td th:text="${message.content.subject}">Subject</td>
+                <td th:text="${message.content.date}">Date</td>
             </tr>
         </tbody>
     </table>

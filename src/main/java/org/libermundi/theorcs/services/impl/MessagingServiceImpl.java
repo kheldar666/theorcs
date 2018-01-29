@@ -94,7 +94,12 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
     @Override
     public List<Message> findMessagesByFolder(Character character, MessageFolder messageFolder) {
-        return null;
+        if(messageFolder.getOwner().equals(character)){
+            return messageRepository.findAllByFolder(messageFolder);
+        } else {
+            return null;
+        }
+
     }
 
     @Override
