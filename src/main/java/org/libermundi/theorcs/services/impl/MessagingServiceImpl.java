@@ -103,8 +103,13 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
     }
 
     @Override
-    public Long getUnreadMessage(MessageFolder messageFolder) {
+    public Long getUnreadMessageCount(MessageFolder messageFolder) {
         return messageRepository.countUnread(messageFolder);
+    }
+
+    @Override
+    public Long getUnreadMessageCount(Character character) {
+        return messageRepository.countUnread(character);
     }
 
     @Override
@@ -155,6 +160,8 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
     @Override
     public void initData() {
+        MessageForm messageForm = new MessageForm();
+
 
     }
 }

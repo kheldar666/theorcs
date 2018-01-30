@@ -4,10 +4,10 @@
 <div th:fragment="folderList">
     <div class="card">
         <div class="card-header">
-            <span class="fa fa-list" aria-hidden="true"></span><span th:text="#{pages.secure.chronicle.home.latest_news}">Folders</span>
+            <span class="fa fa-folder" aria-hidden="true"></span> <span th:text="#{components.messaging.your_folders}">Your Folders</span>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item" th:each="folder,folderStat : ${folders}" th:with="unreadMsg = ${@MessagingService.getUnreadMessage(folder)}">
+            <li class="list-group-item" th:each="folder,folderStat : ${folders}" th:with="unreadMsg = ${@MessagingService.getUnreadMessageCount(folder)}">
                 <a th:if="${unreadMsg > 0}" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folder/' + ${folder.id}}" th:utext="${folder.name + ' <i>(' + unreadMsg + ')</i>'}">Folder Name</a>
                 <a th:if="${unreadMsg == 0}" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folder/' + ${folder.id}}" th:text="${folder.name}">Folder Name</a>
             </li>
@@ -28,10 +28,10 @@
         <tbody>
             <tr th:each="message : ${messageList}" th:classappend="${(message.markAsRead) ? 'table-light':'table-primary'}">
                 <td><a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/read/' + ${message.id}}" class="fa fa-arrow-right" aria-hidden="true"></a></td>
-                <td th:text="${message.sender.name}">From</td>
+                <td th:text="${message.sender != null} ? ${message.sender.name} : #{messaging.from_system}">From</td>
                 <td th:text="${message.content.subject}">Subject</td>
                 <td th:text="${message.content.date}">Date</td>
-                <td></td>
+                <td><input type="checkbox" value="${message.id}"/></td>
             </tr>
         </tbody>
     </table>

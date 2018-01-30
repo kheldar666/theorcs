@@ -59,13 +59,13 @@
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{'/secure/chronicle/' + ${_chronicle.id}}">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" hre="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{includes.navs.topnav.messaging}">
+                    <li class="nav-item dropdown" th:with="unreadMsgs = ${@MessagingService.getUnreadMessageCount(session._currentCharacter)}">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="${unreadMsgs == 0} ? #{includes.navs.topnav.messaging} : #{includes.navs.topnav.messaging_unread}">
                             Messaging
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/write'}" th:text="#{includes.navs.topnav.messaging.write}">Write a Message</a>
-                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders'}" th:text="#{includes.navs.topnav.messaging.folders}">Folders</a>
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders'}" th:utext="${unreadMsgs == 0} ? #{includes.navs.topnav.messaging.folders} : #{includes.navs.topnav.messaging.folders_unread(${unreadMsgs})}">Folders</a>
                             <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/lists'}" th:text="#{includes.navs.topnav.messaging.contact_list}">Contact Lists</a>
                             <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/contacts'}" th:text="#{includes.navs.topnav.messaging.contacts}">Contacts</a>
                             <div class="dropdown-divider"></div>
