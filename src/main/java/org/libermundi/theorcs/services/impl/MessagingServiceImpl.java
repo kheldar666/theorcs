@@ -95,11 +95,16 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
     @Override
     public List<Message> findMessagesByFolder(Character character, MessageFolder messageFolder) {
         if(messageFolder.getOwner().equals(character)){
-            return messageRepository.findAllByFolder(messageFolder);
+            return messageRepository.findAllByFolder(messageFolder, Sort.by("content.date").descending());
         } else {
             return null;
         }
 
+    }
+
+    @Override
+    public Long getUnreadMessage(MessageFolder messageFolder) {
+        return messageRepository.countUnread(messageFolder);
     }
 
     @Override
@@ -150,6 +155,6 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
     @Override
     public void initData() {
-        //Nothing to do.
+
     }
 }

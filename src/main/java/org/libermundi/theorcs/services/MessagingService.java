@@ -21,5 +21,7 @@ public interface MessagingService extends BaseService<Message> {
     void initFolders(Character character);
 
     MessageFolder findInbox(Character character);
+
+    Long getUnreadMessage(MessageFolder messageFolder);
 }
 
