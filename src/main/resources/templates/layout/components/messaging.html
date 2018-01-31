@@ -4,14 +4,13 @@
 <div th:fragment="folderList">
     <div class="card">
         <div class="card-header">
-            <span class="fa fa-folder" aria-hidden="true"></span> <span th:text="#{components.messaging.your_folders}">Your Folders</span>
+            <span class="fas fa-folder-open" aria-hidden="true"></span> <span th:text="#{components.messaging.your_folders}">Your Folders</span>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item" th:each="folder,folderStat : ${folders}" th:with="unreadMsg = ${@MessagingService.getUnreadMessageCount(folder)}">
-                <a th:if="${unreadMsg > 0}" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folder/' + ${folder.id}}" th:utext="${folder.name + ' <i>(' + unreadMsg + ')</i>'}">Folder Name</a>
-                <a th:if="${unreadMsg == 0}" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folder/' + ${folder.id}}" th:text="${folder.name}">Folder Name</a>
-            </li>
-        </ul>
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action list-group-item-light" th:each="folder,folderStat : ${folders}" th:with="unreadMsg = ${@MessagingService.getUnreadMessageCount(folder)}" th:classappend="${(messageFolder.equals(folder))?'active':''}"
+                    th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/' + ${folder.id}}"
+                    th:utext="${unreadMsg > 0}? ${folder.name} + ' <span class=&quot;badge badge-light&quot;>' + ${unreadMsg} + '</span>': ${folder.name}">Folder Name</a>
+        </div>
     </div>
 </div>
 <div th:fragment="folderContent">
@@ -27,7 +26,7 @@
         </thead>
         <tbody>
             <tr th:each="message : ${messageList}" th:classappend="${(message.markAsRead) ? 'table-light':'table-primary'}">
-                <td><a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/read/' + ${message.id}}" class="fa fa-arrow-right" aria-hidden="true"></a></td>
+                <td><a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/read/' + ${message.id}}"  aria-hidden="true"><i class="fa fa-arrow-right"></i></a></td>
                 <td th:text="${message.sender != null} ? ${message.sender.name} : #{messaging.from_system}">From</td>
                 <td th:text="${message.content.subject}">Subject</td>
                 <td th:text="${message.content.date}">Date</td>
@@ -36,13 +35,24 @@
         </tbody>
     </table>
 </div>
+<div th:fragment="readMessage">
+    <div class="card">
+        <div class="card-header">
+            <span th:text="${message.content.subject}">Message Title</span>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title" th:text="${message.content.date}">11/12/13</h5>
+            <p class="card-text" th:utext="${message.content.content}">News Content</p>
+        </div>
+    </div>
+</div>
 <div th:fragment="folderJs">
     <script>
         $j = jQuery.noConflict();
         $j(document).ready(function() {
-                $j('#messageList > tbody > tr').on('click', function(){
-                    window.location.href=$j(this).find("a").attr('href');
-                });
+            $j('#messageList > tbody > tr').on('click', function(){
+                window.location.href=$j(this).find("a").attr('href');
+            });
         });
     </script>
 </div>

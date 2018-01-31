@@ -25,5 +25,7 @@ public interface MessagingService extends BaseService<Message> {
     Long getUnreadMessageCount(MessageFolder messageFolder);
 
     Long getUnreadMessageCount(Character character);
+
+    void markAsRead(Message ... messages);
 }
 

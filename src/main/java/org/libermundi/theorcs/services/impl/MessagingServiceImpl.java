@@ -113,6 +113,15 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
     }
 
     @Override
+    public void markAsRead(Message ... messages) {
+        for (int i = 0; i < messages.length; i++) {
+            Message message = messages[i];
+            message.setMarkAsRead(Boolean.TRUE);
+            messageRepository.save(message);
+        }
+    }
+
+    @Override
     public void initFolders(Character character) {
         if(messageFolderRepository.findAllByOwner(character, Sort.by("indexOrder")).isEmpty()){
             MessageFolder inbox = new MessageFolder();

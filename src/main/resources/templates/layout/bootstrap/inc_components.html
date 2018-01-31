@@ -4,7 +4,7 @@
 <div th:fragment="newslist">
     <div class="card">
         <div class="card-header">
-            <span class="fa fa-list" aria-hidden="true"></span><span th:text="#{pages.secure.chronicle.home.latest_news}">Latest news</span>
+            <span class="fas fa-list" aria-hidden="true"></span><span th:text="#{pages.secure.chronicle.home.latest_news}">Latest news</span>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item" th:each="news,newsStat : ${@NewsService.getAllNews(_chronicle)}" th:unless="${newsStat.index > 9}">
@@ -29,7 +29,7 @@
 </div>
 <div th:fragment="characterSmall">
     <div class="card">
-        <div class="card-header"><i class="fa fa-user-o" aria-hidden="true"></i> Your Character</div>
+        <div class="card-header"><i class="far fa-user" aria-hidden="true"></i> Your Character</div>
         <div class="card-body" th:with="perso = ${session._currentCharacter}">
             <h5 class="card-title" th:text="${perso.name}">Harvey Walters</h5>
             <h6 class="card-subtitle mb-2 text-muted" th:text="${perso.defaultGroup.name}" th:if="${perso.defaultGroup != null}">Ventrue</h6>

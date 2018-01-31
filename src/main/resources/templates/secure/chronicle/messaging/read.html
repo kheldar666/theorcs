@@ -7,7 +7,7 @@
 <body>
 <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: chronav"></th:block> /*/-->
 <div class="container-fluid">
-    <h1 th:text="#{components.messaging.your_mailbox(${messageFolder.name})}">YOUR MAILBOX</h1>
+    <h1>YOUR MAILBOX</h1>
     <div class="row">
         <div class="col-sm-3">
             <!--/* LEFT SECTION */-->
@@ -19,7 +19,7 @@
         </div>
         <div class="col-sm-9">
             <!--/* CENTER SECTION */-->
-            <!--/*/ <th:block th:include="/layout/components/messaging :: folderContent"></th:block> /*/-->
+            <!--/*/ <th:block th:include="/layout/components/messaging :: readMessage"></th:block> /*/-->
         </div>
     </div>
 </div>
