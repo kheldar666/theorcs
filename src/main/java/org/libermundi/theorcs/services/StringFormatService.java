@@ -15,4 +15,8 @@ public interface StringFormatService {
                     "Sed aliquam quam urna, ut venenatis ex aliquam ut. Curabitur tempus sodales faucibus. Nam condimentum neque nec sem sodales aliquet. Integer sit amet tellus a eros congue congue et et urna. Quisque suscipit interdum tellus bibendum posuere. Quisque pulvinar massa eu enim condimentum congue. Donec a hendrerit odio. Sed rutrum varius urna eget mattis. Etiam vestibulum risus sit amet odio vestibulum commodo. Ut vehicula, lacus ac malesuada condimentum, urna dui elementum eros, quis accumsan dui justo sed tortor. Vivamus convallis convallis augue, et fermentum mi luctus et. Ut in fringilla mi. Maecenas eleifend nisi ut erat sodales pretium. ";
 
     String formatDate(Date date);
+
+    String formatTime(Date date);
+
+    String formatDateForMessaging(Date date);
 }
