@@ -63,15 +63,19 @@ public class MessagingController {
         return "/secure/chronicle/messaging/folders";
     }
 
-    @GetMapping("/secure/chronicle/{chronicle}/messaging/read/{message}")
+    @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}/read/{message}")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String readMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable Message message, HttpSession session) {
+    public String readMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder, @PathVariable Message message, HttpSession session) {
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
 
         if(message.getRecipient().equals(currentCharacter)){
+            MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
+
             model.addAttribute("folderList", messagingService.getFolderList(currentCharacter));
 
             model.addAttribute("message", message);
+
+            model.addAttribute("messageFolder", messageFolder);
 
             messagingService.markAsRead(message);
 

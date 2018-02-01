@@ -26,7 +26,7 @@
         </thead>
         <tbody>
             <tr th:each="message : ${messageList}" th:classappend="${(message.markAsRead) ? 'table-light':'table-primary'}">
-                <td><a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/read/' + ${message.id}}"  aria-hidden="true"><i class="fa fa-arrow-right"></i></a></td>
+                <td><a class="text-dark" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/read/' + ${message.id}}"  aria-hidden="true"><i class="fa fa-arrow-right"></i></a></td>
                 <td th:text="${message.sender != null} ? ${message.sender.name} : #{components.messaging.from_system}" th:classappend="${(message.sender == null)?'text-danger':''}">From</td>
                 <td th:text="${message.content.subject}">Subject</td>
                 <td th:text="${@StringFormatService.formatDateForMessaging(message.content.date)}">Date</td>
@@ -34,17 +34,6 @@
             </tr>
         </tbody>
     </table>
-</div>
-<div th:fragment="readMessage">
-    <div class="card">
-        <div class="card-header">
-            <span th:text="${message.content.subject}">Message Title</span>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title" th:text="${message.content.date}">11/12/13</h5>
-            <p class="card-text" th:utext="${message.content.content}">News Content</p>
-        </div>
-    </div>
 </div>
 <div th:fragment="folderJs">
     <script>
@@ -55,6 +44,20 @@
             });
         });
     </script>
+</div>
+<div th:fragment="readMessage">
+    <div class="card">
+        <div class="card-header" th:with="cced = #{components.messaging.cc(${@MessagingService.getRecipientNamesAsStringList(message,T(org.libermundi.theorcs.domain.jpa.messaging.MessageType).CC)})}">
+            <h6 class="card-subtitle text-muted" th:text="${(message.content.anonymous == false)} ? #{components.messaging.from(${message.sender.name})} : #{components.messaging.from_anonymous}">From</h6>
+            <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.to(${@MessagingService.getRecipientNamesAsStringList(message,T(org.libermundi.theorcs.domain.jpa.messaging.MessageType).TO)})}">To</h6>
+            <h6 class="card-subtitle mt-2 text-muted" th:text="${cced}" th:if="${#strings.equals(cced,'-')}">Cc</h6>
+            <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.date(${@StringFormatService.formatDateForMessaging(message.content.date)})}">Date</h6>
+            <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.subject(${message.content.subject})}">Subject</h6>
+        </div>
+        <div class="card-body">
+            <p class="card-text" th:utext="${message.content.content}">News Content</p>
+        </div>
+    </div>
 </div>
 </body>
 </html>

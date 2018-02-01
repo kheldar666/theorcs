@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <title th:text="#{pages.index.title}">Page Title</title>
-    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: header"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
 </head>
 <body>
-    <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: topnav"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/layout/inc_navs :: topnav"></th:block> /*/-->
 
     <div class="container-fluid">
         <div class="row my-3">
@@ -14,21 +14,21 @@
                 rssTitle=${@environment.getProperty('theorcs.general.feedsource.list.title')},
                 rssDisplay = 'list',
                 rssLimit = 4">
-                <!--/*/ <th:block th:include="/layout/bootstrap/inc_components :: rssfeed"></th:block> /*/-->
+                <!--/*/ <th:block th:include="/layout/components/rss :: rssfeed"></th:block> /*/-->
             </div>
             <div class="col-6" th:with="
                 rssUrl = ${@environment.getProperty('theorcs.general.feedsource.large.url')},
                 rssTitle=${@environment.getProperty('theorcs.general.feedsource.large.title')},
                 rssDisplay = 'large',
                 rssLimit = 9">
-                <!--/*/ <th:block th:include="/layout/bootstrap/inc_components :: rssfeed"></th:block> /*/-->
+                <!--/*/ <th:block th:include="/layout/components/rss :: rssfeed"></th:block> /*/-->
             </div>
             <div class="col"></div>
         </div>
     </div>
 
-    <!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: footer"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
 
-    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: footer"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
 </body>
 </html>

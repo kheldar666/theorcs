@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <title th:text="#{pages.secure.chronicle.home.title}">Page Title</title>
-    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: header"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
 </head>
 <body>
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: chronav"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: chronav"></th:block> /*/-->
 <div class="container-fluid">
     <h1 th:text="#{components.messaging.your_mailbox(${messageFolder.name})}">YOUR MAILBOX</h1>
     <div class="row">
@@ -24,9 +24,9 @@
     </div>
 </div>
 
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: footer"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
 
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: footer"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
 
 <!--/*/ <th:block th:include="/layout/components/messaging :: folderJs"></th:block> /*/-->
 </body>

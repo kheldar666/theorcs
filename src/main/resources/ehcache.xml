@@ -261,7 +261,7 @@
 
     The RMIBootstrapCacheLoaderFactory recognises the following optional properties:
 
-    * bootstrapAsynchronously=true|false - whether the bootstrap happens in the background
+    * bootstrapAsynchronously=true|false - whether the layout happens in the background
       after the cache has started. If false, bootstrapping must complete before the cache is
       made available. The default value is true.
 

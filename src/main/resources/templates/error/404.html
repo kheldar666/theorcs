@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <title th:text="#{pages.error404.title}">Page Title</title>
-    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: header"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
 </head>
 <body>
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: topnav"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: topnav"></th:block> /*/-->
 <!--/*@thymesVar id="exception" type="java.lang.Exception"*/-->
 <div class="container-fluid">
     <div class="row">
@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: footer"></th:block> /*/-->
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: footer"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
 </body>
 </html>

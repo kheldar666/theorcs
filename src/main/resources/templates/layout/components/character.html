@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="characterSmall">
+    <div class="card">
+        <div class="card-header"><i class="far fa-user" aria-hidden="true"></i> Your Character</div>
+        <div class="card-body" th:with="perso = ${session._currentCharacter}">
+            <h5 class="card-title" th:text="${perso.name}">Harvey Walters</h5>
+            <h6 class="card-subtitle mb-2 text-muted" th:text="${perso.defaultGroup.name}" th:if="${perso.defaultGroup != null}">Ventrue</h6>
+            <p class="card-text text-center">
+                <img th:src="@{'/secure/chronicle/' + ${_chronicle.id} + '/picture/' + ${perso.avatar.id} + '/thumbnail/250'}" th:if="${perso.avatar != null}" class="img-fluid img-thumbnail">
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

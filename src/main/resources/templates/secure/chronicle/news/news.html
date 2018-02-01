@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <title th:text="#{pages.secure.chronicle.home.title}">Page Title</title>
-    <!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: header"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
 </head>
 <body>
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: chronav"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: chronav"></th:block> /*/-->
 <div class="container-fluid">
     <h1>NEWS DETAILS</h1>
     <div class="row">
@@ -14,7 +14,7 @@
         </div>
         <div class="col-6">
             <div class="card">
-                <img class="card-img-top" th:src="@{'/secure/chronicle/' + ${_chronicle.id} + '/picture/' + ${news.picture.id}}" th:if="${news.picture != null}" class="img-fluid">
+                <img class="card-img-top img-fluid" th:src="@{'/secure/chronicle/' + ${_chronicle.id} + '/picture/' + ${news.picture.id}}" th:if="${news.picture != null}">
                 <div class="card-header" th:text="${news.title}">New Title</div>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${news.date}">11/12/13</h5>
@@ -28,8 +28,8 @@
     </div>
 </div>
 
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_navs :: footer"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
 
-<!--/*/ <th:block th:include="/layout/bootstrap/inc_scripts :: footer"></th:block> /*/-->
+<!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
 </body>
 </html>

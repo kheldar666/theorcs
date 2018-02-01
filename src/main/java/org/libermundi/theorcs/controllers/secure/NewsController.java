@@ -35,7 +35,7 @@ public class NewsController {
     @PreAuthorize("hasPermission(#chronicle, 'read')")
     public String readNews(Model model, @PathVariable Chronicle chronicle, @PathVariable News news) {
         model.addAttribute("news", news);
-        return "/secure/chronicle/news";
+        return "/secure/chronicle/news/news";
     }
 
     @GetMapping("/secure/chronicle/{chronicle}/admin/news")

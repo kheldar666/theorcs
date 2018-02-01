@@ -17,6 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Service("MessagingService")
@@ -110,6 +111,27 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
     @Override
     public Long getUnreadMessageCount(Character character) {
         return messageRepository.countUnread(character);
+    }
+
+    @Override
+    public String getRecipientNamesAsStringList(Message message, MessageType messageType) {
+        List<Character> recipents = messageRepository.getAllRecipents(message,messageType);
+
+        if(recipents.isEmpty()) return "-";
+
+
+        final AtomicInteger l = new AtomicInteger(recipents.size());
+        final AtomicInteger i =  new AtomicInteger(0);;
+        StringBuilder stringBuilder = new StringBuilder();
+        recipents.forEach(recipent -> {
+            i.addAndGet(1);
+            stringBuilder.append(recipent.getName());
+            if(i.intValue() < l.intValue()){
+                stringBuilder.append(", ");
+            }
+        });
+
+        return stringBuilder.toString();
     }
 
     @Override

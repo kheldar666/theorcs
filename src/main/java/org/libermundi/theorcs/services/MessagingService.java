@@ -3,6 +3,7 @@ package org.libermundi.theorcs.services;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.messaging.Message;
 import org.libermundi.theorcs.domain.jpa.messaging.MessageFolder;
+import org.libermundi.theorcs.domain.jpa.messaging.MessageType;
 import org.libermundi.theorcs.forms.MessageForm;
 
 import java.util.List;
@@ -27,5 +28,7 @@ public interface MessagingService extends BaseService<Message> {
     Long getUnreadMessageCount(Character character);
 
     void markAsRead(Message ... messages);
+
+    String getRecipientNamesAsStringList(Message message, MessageType messageType);
 }
 

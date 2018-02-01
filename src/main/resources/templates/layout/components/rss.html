@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="rssfeed">
+    <div th:if="${!T(com.google.common.base.Strings).isNullOrEmpty(rssUrl)}" th:with="feedEntries=${@RSSService.reedFeed(rssUrl)}">
+        <!--/*@thymesVar id="feedEntries" type="java.util.List<com.rometools.rome.feed.synd.SyndEntry>"*/-->
+        <div class="card" th:if="${feedEntries.size() > 0}">
+            <div class="card-header" th:text="${rssTitle}">Last messages from the board</div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:each="entry,entryStat : ${feedEntries}" th:unless="${entryStat.index > rssLimit}">
+                    <p th:utext="${@RSSService.getEntryTitle(entry)} ">Entry Title</p>
+                    <p th:utext="${entry.getContents().get(0).value}" th:if="${rssDisplay == 'large'}">Entry Body</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
