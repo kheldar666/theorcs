@@ -52,7 +52,7 @@
        <div class="card-header" th:with="cced = #{components.messaging.cc(${@MessagingService.getRecipientNamesAsStringList(message,T(org.libermundi.theorcs.domain.jpa.messaging.MessageType).CC)})}">
            <h6 class="card-subtitle text-muted" th:text="${message.sender != null} ? (${message.content.anonymous == true } ? #{components.messaging.from_anonymous} : #{components.messaging.from(${message.sender.name})}) : #{components.messaging.from_system}">From</h6>
            <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.to(${@MessagingService.getRecipientNamesAsStringList(message,T(org.libermundi.theorcs.domain.jpa.messaging.MessageType).TO)})}">To</h6>
-           <h6 class="card-subtitle mt-2 text-muted" th:text="${cced}" th:if="${#strings.equals(cced,'-')}">Cc</h6>
+           <h6 class="card-subtitle mt-2 text-muted" th:text="${cced}" th:unless="${#strings.equals(cced,'-')}">Cc</h6>
            <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.date(${@StringFormatService.formatDateForMessaging(message.content.date)})}">Date</h6>
            <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.subject(${message.content.subject})}">Subject</h6>
        </div>

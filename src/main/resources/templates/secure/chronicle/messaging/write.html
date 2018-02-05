@@ -40,15 +40,37 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label th:for="to" th:text="#{pages.secure.chronicle.messaging.write.form.to}" class="col-2 col-form-label">To</label>
+                    <label th:for="to" class="col-2 col-form-label"><span th:text="#{pages.secure.chronicle.messaging.write.form.to}">To</span><span th:unless="${multiTo}">(<a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/write?multiTo=true&showCcBcc='+${showCcBcc}}">+</a>)</span></label>
                     <div class="col-10">
-                        <select class="form-control" th:field="*{to}">
+                        <select class="form-control" th:field="*{to}" th:multiple="${multiTo}">
+                            <option th:each="aContact : ${contactList}"
+                                    th:value="${aContact.id}"
+                                    th:text="${aContact.name}">Contact's Name</option>
+                        </select>
+                        <small id="showCcBcc" class="text-muted" th:unless="${showCcBcc}"><a th:text="#{pages.secure.chronicle.messaging.write.form.showccbcc}" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/write?multiTo='+${multiTo}+'&showCcBcc=true'}">Indicate the subject of the message</a></small>
+                    </div>
+                </div>
+                <div class="form-group row" th:if="${showCcBcc}">
+                    <label th:for="cc" th:text="#{pages.secure.chronicle.messaging.write.form.cc}" class="col-2 col-form-label">Cc</label>
+                    <div class="col-10">
+                        <select class="form-control" th:field="*{cc}" multiple>
                             <option th:each="aContact : ${contactList}"
                                     th:value="${aContact.id}"
                                     th:text="${aContact.name}">Contact's Name</option>
                         </select>
                     </div>
                 </div>
+                <div class="form-group row" th:if="${showCcBcc}">
+                    <label th:for="bcc" th:text="#{pages.secure.chronicle.messaging.write.form.bcc}" class="col-2 col-form-label">Bcc</label>
+                    <div class="col-10">
+                        <select class="form-control" th:field="*{bcc}" multiple>
+                            <option th:each="aContact : ${contactList}"
+                                    th:value="${aContact.id}"
+                                    th:text="${aContact.name}">Contact's Name</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group row">
                     <label th:for="subject" th:text="#{pages.secure.chronicle.messaging.write.form.subject}" class="col-2 col-form-label">Subject</label>
                     <div class="col-10">
