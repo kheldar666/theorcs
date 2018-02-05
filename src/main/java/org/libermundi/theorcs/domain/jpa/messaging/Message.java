@@ -8,6 +8,8 @@ import org.libermundi.theorcs.domain.jpa.base.StatefulEntity;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,16 +21,17 @@ public class Message extends StatefulEntity {
     @ManyToOne(optional = true) //If from == null => Sent by System
     private Character sender;
 
-    @ManyToOne(optional = false)
-    private Character recipient;
+    @ManyToMany
+    private Set<Character> toRecipient;
 
+    @ManyToMany
+    private Set<Character> ccRecipient;
+
+    @ManyToMany
+    private Set<Character> bccRecipient;
 
     @ManyToOne
     private MessageFolder folder;
-
-    @Enumerated(EnumType.STRING)
-    @Column(length=3,nullable=false)
-    private MessageType messageType;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private MessageContent content;

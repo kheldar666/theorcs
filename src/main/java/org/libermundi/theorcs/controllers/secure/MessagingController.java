@@ -68,7 +68,7 @@ public class MessagingController {
     public String readMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder, @PathVariable Message message, HttpSession session) {
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
 
-        if(message.getRecipient().equals(currentCharacter)){
+        if(messagingService.isRecipent(message, currentCharacter) || message.getSender().equals(currentCharacter)){
             MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
 
             model.addAttribute("folderList", messagingService.getFolderList(currentCharacter));

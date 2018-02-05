@@ -1,6 +1,7 @@
 package org.libermundi.theorcs.services.impl;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.messaging.*;
@@ -17,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
@@ -41,25 +43,34 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
             content.setSubject(messageForm.getSubject());
             content.setDate(new Date());
 
+        // We Save the Message in the Sent folder of the Sender
+        MessageFolder sent = messageFolderRepository.findSent(messageForm.getFrom());
+        Message messageSent = createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, sent);
+        messageSent.setMarkAsRead(Boolean.TRUE);
+        messageRepository.save(
+            messageSent
+        );
 
+
+        //Then one copy of the message per Recipient (To/Cc/Bcc)
         messageForm.getTo().forEach(to -> {
             MessageFolder inbox = messageFolderRepository.findInbox(to);
             messageRepository.save(
-                    createNew(messageForm.getFrom(),to,content,MessageType.TO, inbox)
+                    createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, inbox)
             );
         });
 
         messageForm.getCc().forEach(cc -> {
             MessageFolder inbox = messageFolderRepository.findInbox(cc);
             messageRepository.save(
-                    createNew(messageForm.getFrom(),cc,content,MessageType.CC, inbox)
+                    createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, inbox)
             );
         });
 
         messageForm.getBcc().forEach(bcc -> {
             MessageFolder inbox = messageFolderRepository.findInbox(bcc);
             messageRepository.save(
-                    createNew(messageForm.getFrom(),bcc,content,MessageType.BCC, inbox)
+                    createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, inbox)
             );
         });
     }
@@ -115,7 +126,18 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
     @Override
     public String getRecipientNamesAsStringList(Message message, MessageType messageType) {
-        List<Character> recipents = messageRepository.getAllRecipents(message,messageType);
+        Set<Character> recipents = Sets.newHashSet();
+        switch (messageType) {
+            case TO:
+                recipents = message.getToRecipient();
+                break;
+            case CC:
+                recipents = message.getCcRecipient();
+                break;
+            case BCC:
+                recipents = message.getBccRecipient();
+                break;
+        };
 
         if(recipents.isEmpty()) return "-";
 
@@ -141,6 +163,19 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
             message.setMarkAsRead(Boolean.TRUE);
             messageRepository.save(message);
         }
+    }
+
+
+    @Override
+    public boolean isRecipent(Message message, Character character) {
+
+        if(message.getToRecipient().contains(character)
+                || message.getCcRecipient().contains(character)
+                || message.getBccRecipient().contains(character)) {
+            return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
     }
 
     @Override
@@ -172,13 +207,14 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
         }
     }
 
-    private Message createNew(Character sender, Character recipient, MessageContent messageContent, MessageType messageType, MessageFolder messageFolder) {
+    private Message createNew(Character sender, Set<Character> toRecipients, Set<Character> ccRecipients, Set<Character> bccRecipients, MessageContent messageContent, MessageFolder messageFolder) {
         Message message = createNew();
             message.setSender(sender);
-            message.setRecipient(recipient);
+            message.setToRecipient(toRecipients);
+            message.setCcRecipient(ccRecipients);
+            message.setBccRecipient(bccRecipients);
             message.setContent(messageContent);
             message.setMarkAsRead(Boolean.FALSE);
-            message.setMessageType(messageType);
             message.setFolder(messageFolder);
 
         return message;

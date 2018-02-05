@@ -30,5 +30,8 @@ public interface MessagingService extends BaseService<Message> {
     void markAsRead(Message ... messages);
 
     String getRecipientNamesAsStringList(Message message, MessageType messageType);
+
+    boolean isRecipent(Message message, Character character);
+
 }
 
