@@ -43,13 +43,15 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
             content.setSubject(messageForm.getSubject());
             content.setDate(new Date());
 
-        // We Save the Message in the Sent folder of the Sender
-        MessageFolder sent = messageFolderRepository.findSent(messageForm.getFrom());
-        Message messageSent = createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, sent);
-        messageSent.setMarkAsRead(Boolean.TRUE);
-        messageRepository.save(
-            messageSent
-        );
+        // We Save the Message in the Sent folder of the Sender (if the Sender is not the System :) )
+        if(messageForm.getFrom() != null) {
+            MessageFolder sent = messageFolderRepository.findSent(messageForm.getFrom());
+            Message messageSent = createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, sent);
+            messageSent.setMarkAsRead(Boolean.TRUE);
+            messageRepository.save(
+                messageSent
+            );
+        }
 
 
         //Then one copy of the message per Recipient (To/Cc/Bcc)
@@ -227,8 +229,6 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
     @Override
     public void initData() {
-        MessageForm messageForm = new MessageForm();
-
-
+        // Nothing to do
     }
 }
