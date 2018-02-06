@@ -49,16 +49,31 @@
 <div th:fragment="readMessage">
    <div class="card">
        <!--/*@thymesVar id="message" type="org.libermundi.theorcs.domain.jpa.messaging.Message"*/-->
-       <div class="card-header" th:with="cced = #{components.messaging.cc(${@MessagingService.getRecipientNamesAsStringList(message,T(org.libermundi.theorcs.domain.jpa.messaging.MessageType).CC)})}">
+       <div class="card-header" th:with="cced = ${@MessagingService.getRecipientNamesAsStringList(message,T(org.libermundi.theorcs.domain.jpa.messaging.MessageType).CC)}">
            <h6 class="card-subtitle text-muted" th:text="${message.sender != null} ? (${message.content.anonymous == true } ? #{components.messaging.from_anonymous} : #{components.messaging.from(${message.sender.name})}) : #{components.messaging.from_system}">From</h6>
            <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.to(${@MessagingService.getRecipientNamesAsStringList(message,T(org.libermundi.theorcs.domain.jpa.messaging.MessageType).TO)})}">To</h6>
-           <h6 class="card-subtitle mt-2 text-muted" th:text="${cced}" th:unless="${#strings.equals(cced,'-')}">Cc</h6>
+           <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.cc(${cced})}" th:if="${not #strings.equals(cced,'-')}">Cc</h6>
            <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.date(${@StringFormatService.formatDateForMessaging(message.content.date)})}">Date</h6>
            <h6 class="card-subtitle mt-2 text-muted" th:text="#{components.messaging.subject(${message.content.subject})}">Subject</h6>
        </div>
        <div class="card-body">
-           <p class="card-text" th:utext="${message.content.content}">News Content</p>
+           <p class="card-text" th:utext="${message.content.content}">Message Content</p>
        </div>
+       <div class="card-footer">
+           <div class="row">
+               <div class="col">
+                   <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/reply/' + ${message.id}}" class="btn btn-primary">Reply</a>
+                   <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/reply/' + ${message.id} + '?mode=all'}" class="btn btn-primary">Reply All</a>
+                   <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/reply/' + ${message.id} + '?mode=transfer'}" class="btn btn-secondary">Transfer</a>
+               </div>
+                <div class="col text-right">
+                    <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/delete/' + ${message.id}}" class="btn btn-danger">Delete</a>
+                </div>
+           </div>
+       </div>
+   </div>
+   <div>
+
    </div>
 </div>
 </body>
