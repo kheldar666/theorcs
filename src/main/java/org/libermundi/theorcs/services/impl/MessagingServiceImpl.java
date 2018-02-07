@@ -9,6 +9,7 @@ import org.libermundi.theorcs.forms.MessageForm;
 import org.libermundi.theorcs.repositories.MessageFolderRepository;
 import org.libermundi.theorcs.repositories.MessageRepository;
 import org.libermundi.theorcs.services.MessagingService;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,7 +30,8 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
     private final MessageRepository messageRepository;
 
-    public MessagingServiceImpl(MessageFolderRepository messageFolderRepository, MessageRepository messageRepository) {
+    public MessagingServiceImpl(MessageFolderRepository messageFolderRepository, MessageRepository messageRepository,
+                                MessageSource messageSource) {
         this.messageFolderRepository = messageFolderRepository;
         this.messageRepository = messageRepository;
     }
@@ -209,7 +211,8 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
         }
     }
 
-    private Message createNew(Character sender, Set<Character> toRecipients, Set<Character> ccRecipients, Set<Character> bccRecipients, MessageContent messageContent, MessageFolder messageFolder) {
+    private Message createNew(Character sender, Set<Character> toRecipients, Set<Character> ccRecipients,
+                              Set<Character> bccRecipients, MessageContent messageContent, MessageFolder messageFolder) {
         Message message = createNew();
             message.setSender(sender);
             message.setToRecipient(toRecipients);

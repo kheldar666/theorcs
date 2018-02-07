@@ -10,16 +10,19 @@ import org.libermundi.theorcs.forms.MessageForm;
 import org.libermundi.theorcs.services.CharacterService;
 import org.libermundi.theorcs.services.MessagingService;
 import org.libermundi.theorcs.services.SecurityService;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Controller
@@ -31,10 +34,14 @@ public class MessagingController {
 
     private final MessagingService messagingService;
 
-    public MessagingController(CharacterService characterService, SecurityService securityService, MessagingService messagingService) {
+    private final MessageSource messageSource;
+
+    public MessagingController(CharacterService characterService, SecurityService securityService,
+                               MessagingService messagingService, MessageSource messageSource) {
         this.characterService = characterService;
         this.securityService = securityService;
         this.messagingService = messagingService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/folders")
@@ -82,6 +89,55 @@ public class MessagingController {
         }
     }
 
+    @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}/reply/{message}")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public String replyMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder,
+                               @PathVariable Message message,
+                               @RequestParam(defaultValue = "single") String mode,
+                               HttpSession session,
+                               RedirectAttributes redirectAttributes,
+                               Locale locale) {
+        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+
+        if(messagingService.isRecipent(message, currentCharacter) || message.getSender().equals(currentCharacter)){
+
+            MessageForm replyMessage = new MessageForm();
+
+            // Let's prepare the Data for the Form
+            String subject;
+            String content;
+            switch(mode.toLowerCase()){
+                case "single":
+                    subject=messageSource.getMessage("components.messaging.write.form.reply",new String[]{message.getContent().getSubject()},locale);
+                    content=messageSource.getMessage("components.messaging.write.form.reply_body",new String[]{message.getContent().getContent()},locale);
+                    replyMessage.getTo().add(message.getSender());
+                    break;
+
+                case "forward":
+                    subject=messageSource.getMessage("components.messaging.write.form.forward",new String[]{message.getContent().getSubject()},locale);
+                    content=messageSource.getMessage("components.messaging.write.form.forward_body",new String[]{message.getContent().getContent()},locale);
+                    break;
+
+                default: //Reply All
+                    subject=messageSource.getMessage("components.messaging.write.form.reply",new String[]{message.getContent().getSubject()},locale);
+                    content=messageSource.getMessage("components.messaging.write.form.reply_body",new String[]{message.getContent().getContent()},locale);
+                    replyMessage.getTo().add(message.getSender());
+                    replyMessage.getTo().addAll(message.getToRecipient());
+                    replyMessage.getTo().remove(currentCharacter);
+                    replyMessage.getCc().addAll(message.getCcRecipient());
+                    break;
+            }
+
+            replyMessage.setSubject(subject);
+            replyMessage.setContent(content);
+
+            redirectAttributes.addFlashAttribute("newMessage", replyMessage);
+            return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/write";
+        } else {
+            return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders";
+        }
+    }
+
     @GetMapping("/secure/chronicle/{chronicle}/messaging/write")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
     public String write(Model model, @PathVariable Chronicle chronicle,
@@ -90,7 +146,9 @@ public class MessagingController {
                 ) {
         model.addAttribute("multiTo", multiTo);
         model.addAttribute("showCcBcc", showCcBcc);
-        model.addAttribute("newMessage", new MessageForm());
+        if(!model.containsAttribute("newMessage")) { // Can happen when there is a Reply/Foward
+            model.addAttribute("newMessage", new MessageForm());
+        }
         model.addAttribute("characterList", characterService.getAllCharacters(securityService.getCurrentUser(),chronicle));
         model.addAttribute("contactList", characterService.getAllContacts(securityService.getCurrentUser(),chronicle));
         return "/secure/chronicle/messaging/write";

@@ -76,5 +76,147 @@
 
    </div>
 </div>
+<div th:fragment="writeMessage">
+    <!--/*@thymesVar id="newMessage" type="org.libermundi.theorcs.forms.MessageForm"*/-->
+    <form th:object="${newMessage}" th:action="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/send'}" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="form-group row">
+            <label th:for="from" th:text="#{components.messaging.write.form.from}" class="col-2 col-form-label">From</label>
+            <div class="col-10">
+                <select class="form-control" name="from">
+                    <option th:each="aCharacter : ${characterList}"
+                            th:value="${aCharacter.id}"
+                            th:text="${aCharacter.name}"
+                            th:selected="${aCharacter.equals(session._currentCharacter)}">Character's Name</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="to" class="col-2 col-form-label"><span th:text="#{components.messaging.write.form.to}">To</span><span th:unless="${multiTo or newMessage.to.size() > 1}">(<a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/write?multiTo=true&showCcBcc='+${showCcBcc}}">+</a>)</span></label>
+            <div class="col-10">
+                <select class="form-control" name="to" th:multiple="${multiTo or newMessage.to.size() > 1}">
+                    <option th:each="aContact : ${contactList}"
+                            th:value="${aContact.id}"
+                            th:text="${aContact.name}"
+                            th:selected="${newMessage.to.contains(aContact)}">Contact's Name</option>
+                </select>
+                <small id="showCcBcc" class="text-muted" th:unless="${showCcBcc or newMessage.cc.size() > 0}" th:classappend="${newMessage.cc.size()}"><a th:text="#{components.messaging.write.form.showccbcc}" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/write?multiTo='+${multiTo}+'&showCcBcc=true'}">CC/BCC</a></small>
+            </div>
+        </div>
+        <div class="form-group row" th:if="${showCcBcc or newMessage.cc.size() > 0}">
+            <label th:for="cc" th:text="#{components.messaging.write.form.cc}" class="col-2 col-form-label">Cc</label>
+            <div class="col-10">
+                <select class="form-control" name="cc" multiple>
+                    <option th:each="aContact : ${contactList}"
+                            th:value="${aContact.id}"
+                            th:text="${aContact.name}"
+                            th:selected="${newMessage.cc.contains(aContact)}">Contact's Name</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row" th:if="${showCcBcc}">
+            <label th:for="bcc" th:text="#{components.messaging.write.form.bcc}" class="col-2 col-form-label">Bcc</label>
+            <div class="col-10">
+                <select class="form-control" name="bcc" multiple>
+                    <option th:each="aContact : ${contactList}"
+                            th:value="${aContact.id}"
+                            th:text="${aContact.name}"
+                            th:selected="${newMessage.bcc.contains(aContact)}">Contact's Name</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label th:for="subject" th:text="#{components.messaging.write.form.subject}" class="col-2 col-form-label">Subject</label>
+            <div class="col-10">
+                <input type="text" th:field="*{subject}" class="form-control" th:placeholder="#{components.messaging.write.form.subject_placeholder}"
+                       th:classappend="${(#fields.hasErrors('subject'))? 'is-invalid':''}" required aria-describedby="helpSubject"/>
+                <small id="helpSubject" class="text-muted" th:unless="${#fields.hasErrors('subject')}" th:text="#{components.messaging.write.form.subject_help}">Indicate the subject of the message</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('subject')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('subject')}" th:text="${error}"/>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label th:for="content" th:text="#{components.messaging.write.form.content}" class="col-2 col-form-label">Content</label>
+            <div class="col-10">
+                <textarea th:field="*{content}" class="form-control" th:classappend="${(#fields.hasErrors('content'))? 'is-invalid':''}" required aria-describedby="helpContent"></textarea>
+                <small id="helpContent" class="text-muted" th:unless="${#fields.hasErrors('content')}" th:text="#{components.messaging.write.form.content_help}">The content of your Message</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('content')}" th:text="${error}"/>
+                    </ul>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('content', CkEditorConfig.basic);
+            </script>
+        </div>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0" th:text="#{components.messaging.write.form.anonymous}">Anonymous</legend>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" th:field="*{anonymous}" value="true" checked>
+                        <label class="form-check-label" th:for="anonymous" th:text="#{forms.yes}">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" th:field="*{anonymous}" value="false">
+                        <label class="form-check-label" th:for="anonymous" th:text="#{forms.no}">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0" th:text="#{components.messaging.write.form.signature}">Signature</legend>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" th:field="*{signature}" value="true" checked>
+                        <label class="form-check-label" th:for="signature" th:text="#{forms.yes}">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" th:field="*{signature}" value="false">
+                        <label class="form-check-label" th:for="signature" th:text="#{forms.no}">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group row">
+            <div class="col-2"></div>
+            <div class="col-10">
+                <button type="submit" class="btn btn-primary" th:text="#{actions.send}">Send</button>
+                <a class="btn btn-danger ml-2" th:text="#{actions.cancel}" th:href="@{'/secure/chronicle/' + ${_chronicle.id}}">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:fragment="writeMessageJs">
+    <script>
+        var $j = jQuery.noConflict();
+        $j(function () {
+            $j('#anonymous1,#anonymous2').change(function () {
+                if ($j('#anonymous1').is(':checked')) {
+                    $j('#signature2').prop('checked',true);
+                }
+            });
+            $j('#signature1,#signature2').change(function () {
+                if ($j('#signature1').is(':checked')) {
+                    $j('#anonymous2').prop('checked',true);
+                }
+            });
+        });
+    </script>
+</div>
 </body>
 </html>
