@@ -72,7 +72,7 @@ public class MessagingController {
     public String readMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder, @PathVariable Message message, HttpSession session) {
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
 
-        if(messagingService.isRecipent(message, currentCharacter) || message.getSender().equals(currentCharacter)){
+        if(messagingService.isRecipent(message, currentCharacter) || messagingService.isSender(message,currentCharacter)){
             MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
 
             model.addAttribute("folderList", messagingService.getFolderList(currentCharacter));
@@ -99,7 +99,7 @@ public class MessagingController {
                                Locale locale) {
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
 
-        if(messagingService.isRecipent(message, currentCharacter) || message.getSender().equals(currentCharacter)){
+        if(messagingService.isRecipent(message, currentCharacter) || messagingService.isSender(message,currentCharacter)){
 
             MessageForm replyMessage = new MessageForm();
 
@@ -136,6 +136,72 @@ public class MessagingController {
         } else {
             return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders";
         }
+    }
+
+    @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}/trash/{message}")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public String moveMessageToTrash(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder,
+                                @PathVariable Message message,
+                                HttpSession session) {
+        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+
+        //Check if the currentCharacter is allow to access this message
+        if(messagingService.isRecipent(message, currentCharacter) || messagingService.isSender(message,currentCharacter)){
+
+            //Check if the Message is stored in a folder that belongs to the currentCharacter
+            MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
+
+            if(messageFolder != null) {
+                messagingService.moveToTrash(message);
+            }
+
+        }
+        return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders/" + folder;
+    }
+
+    @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}/restore/{message}")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public String restoreMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable MessageFolder folder,
+                                     @PathVariable Message message,
+                                     HttpSession session) {
+        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+
+        //Check if the currentCharacter is allow to access this message
+        if(messagingService.isRecipent(message, currentCharacter) || messagingService.isSender(message,currentCharacter)){
+
+            //Check if the Message is stored in a folder that belongs to the currentCharacter
+            MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
+
+            if(messageFolder != null) {
+                if(message.getSender()==null || !message.getSender().equals(currentCharacter)){
+                    messagingService.moveToInbox(message);
+                } else {
+                    messagingService.moveToSent(message);
+                }
+            }
+        }
+        return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders/" + folder;
+    }
+
+    @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}/delete/{message}")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public String deleteMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder,
+                               @PathVariable Message message,
+                               HttpSession session) {
+        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+
+        //Check if the currentCharacter is allow to access this message
+        if(messagingService.isRecipent(message, currentCharacter) || message.getSender().equals(currentCharacter)){
+
+            //Check if the Message is stored in a folder that belongs to the currentCharacter
+            MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
+
+            if(messageFolder != null) {
+                messagingService.delete(message);
+            }
+
+        }
+        return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders/" + folder;
     }
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/write")

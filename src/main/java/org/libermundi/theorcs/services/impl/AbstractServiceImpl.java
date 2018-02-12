@@ -2,10 +2,9 @@ package org.libermundi.theorcs.services.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.base.Identity;
-import org.libermundi.theorcs.repositories.BaseRepository;
+import org.libermundi.theorcs.repositories.base.UndeletableRepository;
 import org.libermundi.theorcs.services.BaseService;
 import org.libermundi.theorcs.utils.ObjectUtils;
-import org.springframework.data.domain.Example;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +21,7 @@ import java.util.Optional;
 @Transactional(rollbackFor=Exception.class,propagation=Propagation.REQUIRED)
 public abstract class AbstractServiceImpl<T extends Identity> implements BaseService<T> {
 
-	private BaseRepository<T,Long> repository;
+	private UndeletableRepository<T,Long> repository;
 
 	private Class<T> classType;
 	
@@ -31,16 +30,16 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 	 * @see org.libermundi.theorcs.services.base.BaseService#getRepository()
 	 */
 	@Override
-	public BaseRepository<T,Long> getRepository() {
+	public UndeletableRepository<T,Long> getRepository() {
 		return this.repository;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.BaseService#setDao(org.libermundi.theorcs.repositories.base.BaseRepository)
+	 * @see org.libermundi.theorcs.services.base.BaseService#setDao(org.libermundi.theorcs.repositories.base.UndeletableRepository)
 	 */
 	@Override
-	public void setRepository(BaseRepository<T,Long> repository, Class<T> classType) {
+	public void setRepository(UndeletableRepository<T,Long> repository, Class<T> classType) {
 		if(log.isDebugEnabled()) {
 			log.debug("Set Repository : " + repository);
 		}
@@ -61,6 +60,7 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 		if(log.isDebugEnabled()) {
 			log.debug("Delete Object with ID : " + id);
 		}
+
 		this.repository.deleteById(id);
 	}
 	
@@ -112,15 +112,6 @@ public abstract class AbstractServiceImpl<T extends Identity> implements BaseSer
 			log.debug(" Execute : getAllCount() ");
 		}
 		return this.repository.count();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.libermundi.theorcs.services.base.BaseService#findOne(java.io.Serializable)
-	 */
-	@Override
-	public Optional<T> findOne(Example<T> example) {
-		return this.repository.findOne(example);
 	}
 
 	/*

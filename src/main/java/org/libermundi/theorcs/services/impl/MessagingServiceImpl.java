@@ -2,6 +2,7 @@ package org.libermundi.theorcs.services.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.messaging.*;
@@ -28,12 +29,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MessagingServiceImpl extends AbstractServiceImpl<Message> implements MessagingService {
     private final MessageFolderRepository messageFolderRepository;
 
-    private final MessageRepository messageRepository;
-
-    public MessagingServiceImpl(MessageFolderRepository messageFolderRepository, MessageRepository messageRepository,
-                                MessageSource messageSource) {
+    public MessagingServiceImpl(MessageFolderRepository messageFolderRepository, MessageRepository messageRepository) {
         this.messageFolderRepository = messageFolderRepository;
-        this.messageRepository = messageRepository;
+        setRepository(messageRepository,Message.class);
     }
 
     @Override
@@ -50,7 +48,7 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
             MessageFolder sent = messageFolderRepository.findSent(messageForm.getFrom());
             Message messageSent = createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, sent);
             messageSent.setMarkAsRead(Boolean.TRUE);
-            messageRepository.save(
+            getRepository().save(
                 messageSent
             );
         }
@@ -59,21 +57,21 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
         //Then one copy of the message per Recipient (To/Cc/Bcc)
         messageForm.getTo().forEach(to -> {
             MessageFolder inbox = messageFolderRepository.findInbox(to);
-            messageRepository.save(
+            getRepository().save(
                     createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, inbox)
             );
         });
 
         messageForm.getCc().forEach(cc -> {
             MessageFolder inbox = messageFolderRepository.findInbox(cc);
-            messageRepository.save(
+            getRepository().save(
                     createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, inbox)
             );
         });
 
         messageForm.getBcc().forEach(bcc -> {
             MessageFolder inbox = messageFolderRepository.findInbox(bcc);
-            messageRepository.save(
+            getRepository().save(
                     createNew(messageForm.getFrom(),messageForm.getTo(), messageForm.getCc(), messageForm.getBcc(),content, inbox)
             );
         });
@@ -111,7 +109,7 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
     @Override
     public List<Message> findMessagesByFolder(Character character, MessageFolder messageFolder) {
         if(messageFolder.getOwner().equals(character)){
-            return messageRepository.findAllByFolder(messageFolder, Sort.by("content.date").descending());
+            return ((MessageRepository)getRepository()).findAllByFolderAndDeleted(messageFolder, Boolean.FALSE, Sort.by("content.date").descending());
         } else {
             return null;
         }
@@ -120,12 +118,12 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
 
     @Override
     public Long getUnreadMessageCount(MessageFolder messageFolder) {
-        return messageRepository.countUnread(messageFolder);
+        return ((MessageRepository)getRepository()).countUnread(messageFolder);
     }
 
     @Override
     public Long getUnreadMessageCount(Character character) {
-        return messageRepository.countUnread(character);
+        return ((MessageRepository)getRepository()).countUnread(character);
     }
 
     @Override
@@ -165,7 +163,7 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
         for (int i = 0; i < messages.length; i++) {
             Message message = messages[i];
             message.setMarkAsRead(Boolean.TRUE);
-            messageRepository.save(message);
+            getRepository().save(message);
         }
     }
 
@@ -180,6 +178,32 @@ public class MessagingServiceImpl extends AbstractServiceImpl<Message> implement
         }
 
         return Boolean.FALSE;
+    }
+
+    @Override
+    public boolean isSender(Message message, Character character) {
+        return message.getSender() != null && message.getSender().equals(character);
+    }
+
+    @Override
+    public void moveToTrash(Message message) {
+        moveToFolder(message, messageFolderRepository.findTrash(message.getFolder().getOwner()));
+    }
+
+    @Override
+    public void moveToInbox(Message message) {
+        moveToFolder(message, messageFolderRepository.findInbox(message.getFolder().getOwner()));
+    }
+
+    @Override
+    public void moveToSent(Message message) {
+        moveToFolder(message, messageFolderRepository.findSent(message.getFolder().getOwner()));
+    }
+
+    @Override
+    public void moveToFolder(Message message, MessageFolder folder) {
+        message.setFolder(folder);
+        getRepository().save(message);
     }
 
     @Override

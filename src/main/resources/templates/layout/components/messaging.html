@@ -62,12 +62,22 @@
        <div class="card-footer">
            <div class="row">
                <div class="col">
-                   <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/reply/' + ${message.id}}" class="btn btn-primary">Reply</a>
-                   <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/reply/' + ${message.id} + '?mode=all'}" class="btn btn-primary">Reply All</a>
-                   <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/reply/' + ${message.id} + '?mode=transfer'}" class="btn btn-secondary">Transfer</a>
+                   <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/reply/' + ${message.id}}" class="btn btn-primary" th:text="#{components.messaging.read.reply}">Reply</a>
+                   <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/reply/' + ${message.id} + '?mode=all'}" class="btn btn-primary" th:text="#{components.messaging.read.replyall}">Reply All</a>
+                   <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/reply/' + ${message.id} + '?mode=transfer'}" class="btn btn-secondary" th:text="#{components.messaging.read.transfer}">Transfer</a>
                </div>
                 <div class="col text-right">
-                    <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/delete/' + ${message.id}}" class="btn btn-danger">Delete</a>
+                    <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/trash/' + ${message.id}}" class="btn btn-danger"
+                       th:unless="${messageFolder.messageFolderType.equals(T(org.libermundi.theorcs.domain.jpa.messaging.MessageFolderType).TRASH)}"
+                       th:text="#{components.messaging.read.trash}">Move To Trash</a>
+
+                    <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/restore/' + ${message.id}}" class="btn btn-success"
+                       th:if="${messageFolder.messageFolderType.equals(T(org.libermundi.theorcs.domain.jpa.messaging.MessageFolderType).TRASH)}"
+                       th:text="#{components.messaging.read.restore}">Delete</a>
+
+                    <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/folders/'+ ${messageFolder.id} +'/delete/' + ${message.id}}" class="btn btn-danger"
+                       th:if="${messageFolder.messageFolderType.equals(T(org.libermundi.theorcs.domain.jpa.messaging.MessageFolderType).TRASH)}"
+                       th:text="#{components.messaging.read.delete}">Delete</a>
                 </div>
            </div>
        </div>

@@ -1,10 +1,7 @@
 package org.libermundi.theorcs.services;
 
 import org.libermundi.theorcs.domain.jpa.base.Identity;
-import org.libermundi.theorcs.repositories.BaseRepository;
-import org.springframework.data.domain.Example;
-
-import java.util.Optional;
+import org.libermundi.theorcs.repositories.base.UndeletableRepository;
 
 
 /**
@@ -47,12 +44,6 @@ public interface BaseService<T extends Identity> {
 	Iterable<T> findAll();
 
 	/**
-	 * Get one Object similar to the one provided
-	 * @return result
-	 */
-	Optional<T> findOne(Example<T> examplemple);
-	
-	/**
 	 * Make a simple "select count(*)"
 	 * @return the total numbers of managed items in the database
 	 */
@@ -62,7 +53,7 @@ public interface BaseService<T extends Identity> {
 	 * Getter of the DAO of the BaseService Manager
 	 * @return the instance of the Dao used by the Manager
 	 */
-	BaseRepository<T,Long> getRepository();
+	UndeletableRepository<T,Long> getRepository();
 
 	Class<T> getClassType();
 
@@ -70,7 +61,7 @@ public interface BaseService<T extends Identity> {
 	 * Setter of the DAO of the BaseService Manager
 	 * @param repository
 	 */
-	void setRepository(BaseRepository<T, Long> repository, Class<T> classType);
+	void setRepository(UndeletableRepository<T, Long> repository, Class<T> classType);
 	
 	/**
 	 * return a newly created T Object

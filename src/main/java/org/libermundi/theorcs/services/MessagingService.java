@@ -33,5 +33,14 @@ public interface MessagingService extends BaseService<Message> {
 
     boolean isRecipent(Message message, Character character);
 
+    boolean isSender(Message message, Character character);
+
+    void moveToTrash(Message message);
+
+    void moveToInbox(Message message);
+
+    void moveToSent(Message message);
+
+    void moveToFolder(Message message, MessageFolder folder);
 }
 

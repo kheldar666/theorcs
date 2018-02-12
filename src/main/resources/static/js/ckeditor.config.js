@@ -18,8 +18,10 @@ var CkEditorConfig = new Object();
     // One HTTP request less will result in a faster startup time.
     // For more information check http://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-customConfig
     customConfig: '',
+
     // Enabling extra plugins, available in the standard-all preset: http://ckeditor.com/presets-all
-    //extraPlugins: 'autoembed,embedsemantic,image2,uploadimage,uploadfile',
+    /* extraPlugins: 'autoembed,embedsemantic,image2,uploadimage,uploadfile', */
+
     /*********************** File management support ***********************/
     // In order to turn on support for file uploads, CKEditor has to be configured to use some server side
     // solution with file upload/management capabilities, like for example CKFinder.
@@ -28,8 +30,10 @@ var CkEditorConfig = new Object();
     // filebrowserBrowseUrl: 'http://example.com/ckfinder/ckfinder.html',
     // filebrowserUploadUrl: 'http://example.com/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
     /*********************** File management support ***********************/
+
     // Remove the default image plugin because image2, which offers captions for images, was enabled above.
-    //removePlugins: 'image',
+    /*removePlugins: 'image',*/
+
     // Make the editing area bigger than default.
     height: 150,
     // An array of stylesheets to style the WYSIWYG area.

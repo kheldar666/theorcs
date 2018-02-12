@@ -2,6 +2,7 @@ package org.libermundi.theorcs.repositories;
 
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.messaging.MessageFolder;
+import org.libermundi.theorcs.repositories.base.UndeletableRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MessageFolderRepository extends BaseRepository<MessageFolder, Long> {
+public interface MessageFolderRepository extends UndeletableRepository<MessageFolder, Long> {
 
     @Query("select f from MessageFolder f where messageFolderType = org.libermundi.theorcs.domain.jpa.messaging.MessageFolderType.INBOX AND owner = ?1")
     MessageFolder findInbox(Character character);
