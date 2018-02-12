@@ -170,9 +170,7 @@ public class MessagingController {
         if(messagingService.isRecipent(message, currentCharacter) || messagingService.isSender(message,currentCharacter)){
 
             //Check if the Message is stored in a folder that belongs to the currentCharacter
-            MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
-
-            if(messageFolder != null) {
+            if(folder.getOwner().equals(currentCharacter)) {
                 if(message.getSender()==null || !message.getSender().equals(currentCharacter)){
                     messagingService.moveToInbox(message);
                 } else {
