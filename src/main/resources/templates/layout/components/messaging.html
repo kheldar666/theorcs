@@ -40,8 +40,13 @@
    <script>
        $j = jQuery.noConflict();
        $j(document).ready(function() {
-           $j('#messageList > tbody > tr').on('click', function(){
-               window.location.href=$j(this).find("a").attr('href');
+           $j('#messageList > tbody > tr').on('click', function(event){
+               if(event.target.type == "checkbox"){
+                   //We let people select the checkbox
+                   event.stopPropagation();
+               } else {
+                   window.location.href=$j(this).find("a").attr('href');
+               }
            });
        });
    </script>
