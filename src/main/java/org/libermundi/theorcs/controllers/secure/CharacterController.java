@@ -22,10 +22,13 @@ import javax.validation.Valid;
 @Controller
 public class CharacterController {
 
-    @Autowired
     private CharacterService characterService;
-    @Autowired
     private PictureService pictureService;
+
+    public CharacterController(CharacterService characterService, PictureService pictureService) {
+        this.characterService = characterService;
+        this.pictureService = pictureService;
+    }
 
     @GetMapping("/secure/chronicle/{chronicle}/character/background")
     @PreAuthorize("hasPermission(#chronicle, 'read')")

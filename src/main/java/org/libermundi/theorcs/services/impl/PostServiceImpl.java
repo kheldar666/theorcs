@@ -5,6 +5,7 @@ import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.domain.jpa.scene.Post;
 import org.libermundi.theorcs.domain.jpa.scene.Scene;
+import org.libermundi.theorcs.forms.PostForm;
 import org.libermundi.theorcs.repositories.PostRepository;
 import org.libermundi.theorcs.repositories.SceneRepository;
 import org.libermundi.theorcs.services.*;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -44,8 +47,27 @@ public class PostServiceImpl extends AbstractServiceImpl<Post> implements PostSe
 
 	@Override
 	public List<Post> getAllPosts(Scene scene) {
-		List<Post> postList = ((PostRepository)getRepository()).findAllByScene(scene);
+		List<Post> postList = ((PostRepository)getRepository()).findAllBySceneOrderByCreatedDateDesc(scene);
 		return postList;
+	}
+
+	@Override
+	public void sendPost(PostForm postForm) {
+		getRepository().save(
+				createNew(postForm.getFrom(),
+						postForm.getContent(),
+						postForm.getScene())
+		);
+	}
+
+	private Post createNew(Character from, String content, Scene scene) {
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+		Post post = new Post();
+		post.setDate(sdf.format(new Date()));
+		post.setScene(scene);
+		post.setPerso(from);
+		post.setContent(content);
+		return post;
 	}
 
 	@Override

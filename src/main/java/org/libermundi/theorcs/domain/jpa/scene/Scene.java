@@ -8,10 +8,7 @@ import org.libermundi.theorcs.domain.jpa.base.UidAuditableEntity;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -35,4 +32,7 @@ public final class Scene extends UidAuditableEntity {
 
     @ManyToOne
     private Chronicle chronicle;
+
+    @ManyToMany
+    private Set<Character> registeredCharacters = Sets.newHashSet();
 }

@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends UndeletableRepository<Post, Long> {
-    List<Post> findAllByScene(Scene scene);
+    List<Post> findAllBySceneOrderByCreatedDateDesc(Scene scene);
 }
