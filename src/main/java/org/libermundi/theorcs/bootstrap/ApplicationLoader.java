@@ -12,28 +12,23 @@ import org.springframework.stereotype.Component;
 public class ApplicationLoader implements ApplicationListener<ContextRefreshedEvent> {
 
 	private final AuthorityService authorityService;
-	
 	private final UserService userService;
-
 	private final GameService gameService;
-
 	private final ChronicleService chronicleService;
-
 	private final GameSystemService gameSystemService;
-
 	private final SecurityService securityService;
-
 	private final CharacterService characterService;
-
 	private final NewsService newsService;
-
+	private final SceneService sceneService;
+	private final PostService postService;
 	private final MessagingService messagingService;
 
 
 	public ApplicationLoader(AuthorityService authorityService, UserService userService, GameService gameService,
 							 ChronicleService chronicleService, GameSystemService gameSystemService,
 							 SecurityService securityService, CharacterService characterService,
-							 NewsService newsService, MessagingService messagingService) {
+							 NewsService newsService, SceneService sceneService, PostService postService,
+							 MessagingService messagingService) {
 		this.authorityService = authorityService;
 		this.userService = userService;
 		this.gameService = gameService;
@@ -42,6 +37,8 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 		this.securityService = securityService;
 		this.characterService = characterService;
 		this.newsService = newsService;
+		this.sceneService = sceneService;
+		this.postService = postService;
 		this.messagingService = messagingService;
 	}
 
@@ -66,7 +63,8 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 		chronicleService.initData();
 		characterService.initData();
 		newsService.initData();
-
+		sceneService.initData();
+		postService.initData();
 
 		securityService.restoreUser();
 

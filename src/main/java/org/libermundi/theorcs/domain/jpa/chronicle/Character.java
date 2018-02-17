@@ -43,6 +43,9 @@ public final class Character extends UidAuditableEntity {
 	@Lob
 	private String hiddenInfos;
 
+	@Lob
+	private String signature;
+
 	private int age = 0;
 
 	@Enumerated(EnumType.STRING)
@@ -59,6 +62,5 @@ public final class Character extends UidAuditableEntity {
 
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Picture avatar;
-
 
 }

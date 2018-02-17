@@ -60,6 +60,19 @@
                         <a class="nav-link" th:href="@{'/secure/chronicle/' + ${_chronicle.id}}">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown" th:with="unreadMsgs = ${@MessagingService.getUnreadMessageCount(session._currentCharacter)}">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCharacter" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{includes.navs.topnav.character.title}">
+                            Character
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownCharacter">
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/character/background'}" th:text="#{includes.navs.topnav.character.background}">Background</a>
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/character/description'}" th:text="#{includes.navs.topnav.character.description}">Description</a>
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/lists'}" th:text="#{includes.navs.topnav.messaging.contact_list}">Contact Lists</a>
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/contacts'}" th:text="#{includes.navs.topnav.messaging.contacts}">Contacts</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/options'}" th:text="#{includes.navs.topnav.messaging.options}">Options</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown" th:with="unreadMsgs = ${@MessagingService.getUnreadMessageCount(session._currentCharacter)}">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:utext="${unreadMsgs == 0} ? #{includes.navs.topnav.messaging} : #{includes.navs.topnav.messaging_unread}">
                             Messaging
                         </a>
