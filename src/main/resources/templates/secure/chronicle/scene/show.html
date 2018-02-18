@@ -18,11 +18,16 @@
             </div>
         </div>
         <div class="col-sm-9">
-            <div th:each="post,postStat : ${posts}">
+            <div th:each="post,postStat : ${posts}" style="border: solid 1px;">
                 <p th:text="${post.perso.name}"></p>
+                <p th:if="${#lists.contains(characterList, post.perso)}">
+                    <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/scene/' + ${scene.id} + '/post/' + ${post.id} + '/delete'}">DEL</a>
+                </p>
+                <p th:if="${#lists.contains(characterList, post.perso)}">
+                    <a th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/scene/' + ${scene.id} + '/post/' + ${post.id} + '/edit'}">MOD</a>
+                </p>
                 <p th:text="${'Posté le ' + post.date}"></p>
                 <p th:utext="${post.content}"></p>
-
             </div>
             <!--/* CENTER SECTION */-->
         </div>

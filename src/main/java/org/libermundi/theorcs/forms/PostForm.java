@@ -22,5 +22,7 @@ public class PostForm {
     @NotNull
     private Scene scene;
 
+    private Long postId;
+
     private Boolean registerToScene = Boolean.FALSE;
 }

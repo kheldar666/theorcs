@@ -47,7 +47,7 @@ public class PostServiceImpl extends AbstractServiceImpl<Post> implements PostSe
 
 	@Override
 	public List<Post> getAllPosts(Scene scene) {
-		List<Post> postList = ((PostRepository)getRepository()).findAllBySceneOrderByCreatedDateDesc(scene);
+		List<Post> postList = ((PostRepository)getRepository()).findAllBySceneAndDeletedOrderByCreatedDateDesc(scene, Boolean.FALSE);
 		return postList;
 	}
 
@@ -58,6 +58,18 @@ public class PostServiceImpl extends AbstractServiceImpl<Post> implements PostSe
 						postForm.getContent(),
 						postForm.getScene())
 		);
+	}
+
+	@Override
+	public void updatePost(PostForm postForm) {
+		Post toUpdate = findById(postForm.getPostId());
+
+		if(null != toUpdate) {
+			toUpdate.setContent(postForm.getContent());
+			toUpdate.setPerso(postForm.getFrom());
+
+			getRepository().save(toUpdate);
+		}
 	}
 
 	private Post createNew(Character from, String content, Scene scene) {

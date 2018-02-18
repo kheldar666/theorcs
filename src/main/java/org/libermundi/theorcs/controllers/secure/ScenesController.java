@@ -3,6 +3,7 @@ package org.libermundi.theorcs.controllers.secure;
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
+import org.libermundi.theorcs.domain.jpa.scene.Post;
 import org.libermundi.theorcs.domain.jpa.scene.Scene;
 import org.libermundi.theorcs.forms.CharacterForm;
 import org.libermundi.theorcs.forms.MessageForm;
@@ -55,6 +56,8 @@ public class ScenesController {
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
 
         model.addAttribute("posts", postService.getAllPosts(scene));
+        model.addAttribute("scene", scene);
+        model.addAttribute("characterList", characterService.getAllCharacters(securityService.getCurrentUser(),chronicle));
 
         return "/secure/chronicle/scene/show";
     }
@@ -89,8 +92,46 @@ public class ScenesController {
             return "/secure/chronicle/post/write";
         }
 
-        postService.sendPost(postForm);
+        if(null != postForm.getPostId()) {
+            postService.updatePost(postForm);
+        } else {
+            postService.sendPost(postForm);
+        }
 
         return "redirect:/secure/chronicle/" + chronicle.getId() + "/scene/" + postForm.getScene().getId();
+    }
+
+    @GetMapping("/secure/chronicle/{chronicle}/scene/{scene}/post/{post}/delete")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public String write(Model model, @PathVariable Chronicle chronicle,
+                        @PathVariable Scene scene, @PathVariable Post post, HttpSession session) {
+
+        postService.delete(post);
+
+        return "redirect:/secure/chronicle/" + chronicle.getId() + "/scene/" + scene.getId();
+    }
+
+    @GetMapping("/secure/chronicle/{chronicle}/scene/{scene}/post/{post}/edit")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public String edit(Model model, @PathVariable Chronicle chronicle,
+                        @PathVariable Scene scene, @PathVariable Post post, HttpSession session) {
+
+        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+
+        if(!model.containsAttribute("newPost")) { // Can happen when there is a Mod
+            PostForm form = new PostForm();
+            form.setRegisterToScene(currentCharacter.getRegisteredScenes().contains(scene));
+            form.setContent(post.getContent());
+            form.setScene(scene);
+            form.setFrom(post.getPerso());
+            form.setPostId(post.getId());
+
+            model.addAttribute("newPost", form);
+        }
+
+        model.addAttribute("scene", scene);
+        model.addAttribute("characterList", characterService.getAllCharacters(securityService.getCurrentUser(),chronicle));
+
+        return "/secure/chronicle/post/write";
     }
 }

@@ -6,14 +6,14 @@
     <form th:object="${newPost}" th:action="@{'/secure/chronicle/' + ${_chronicle.id} + '/post/send'}" method="post" enctype="application/x-www-form-urlencoded">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <input type="hidden" th:name="scene" th:value="${scene.id}"/>
+        <input type="hidden" th:field="*{postId}" />
         <div class="form-group row">
             <label th:for="from" th:text="#{components.messaging.write.form.from}" class="col-2 col-form-label">From</label>
             <div class="col-10">
-                <select class="form-control" name="from">
+                <select class="form-control" th:field="*{from}">
                     <option th:each="aCharacter : ${characterList}"
                             th:value="${aCharacter.id}"
-                            th:text="${aCharacter.name}"
-                            th:selected="${aCharacter.equals(session._currentCharacter)}">Character's Name</option>
+                            th:text="${aCharacter.name}">Character's Name</option>
                 </select>
             </div>
         </div>
