@@ -22,10 +22,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.libermundi.theorcs.domain.jpa.base.Identity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -35,13 +32,27 @@ import java.util.Set;
 @ToString(of = {"name","chronicle"},callSuper = true)
 public final class CharacterGroup extends Identity {
 
-	@Column(length=50, nullable=false)
+	@Column(length=128, nullable=false)
 	private String name;
+
+	@Column(length=256, nullable=false)
+	private String description;
 
 	@ManyToOne
 	private Chronicle chronicle;
 
+	@Enumerated(EnumType.STRING)
+	@Column(length=64, nullable=false)
+	private CharacterGroupType type;
+
+	private Boolean publicVisibility;
+
+	private Boolean open;
+
 	@ManyToMany
 	private Set<Character> members = Sets.newHashSet();
+
+	@ManyToMany
+	private Set<Character> leaders = Sets.newHashSet();
 
 }
