@@ -56,11 +56,11 @@ public class MessagingController {
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String folders(Model model, @PathVariable Chronicle chronicle, @PathVariable MessageFolder messageFolder, HttpSession session) {
+    public String folders(Model model, @PathVariable Chronicle chronicle, @PathVariable MessageFolder folder, HttpSession session) {
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
 
-        model.addAttribute("messageFolder", messageFolder);
-        model.addAttribute("messageList", messagingService.findMessagesByFolder(currentCharacter, messageFolder));
+        model.addAttribute("messageFolder", folder);
+        model.addAttribute("messageList", messagingService.findMessagesByFolder(currentCharacter, folder));
         model.addAttribute("folderList", messagingService.getFolderList(currentCharacter));
 
         return "/secure/chronicle/messaging/folders";
