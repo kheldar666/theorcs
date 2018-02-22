@@ -56,10 +56,9 @@ public class MessagingController {
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String folders(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder, HttpSession session) {
+    public String folders(Model model, @PathVariable Chronicle chronicle, @PathVariable MessageFolder messageFolder, HttpSession session) {
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
 
-        MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
         model.addAttribute("messageFolder", messageFolder);
         model.addAttribute("messageList", messagingService.findMessagesByFolder(currentCharacter, messageFolder));
         model.addAttribute("folderList", messagingService.getFolderList(currentCharacter));
@@ -69,12 +68,10 @@ public class MessagingController {
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}/read/{message}")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String readMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder, @PathVariable Message message, HttpSession session) {
+    public String readMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable MessageFolder messageFolder, @PathVariable Message message, HttpSession session) {
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
 
         if(messagingService.isRecipent(message, currentCharacter) || messagingService.isSender(message,currentCharacter)){
-            MessageFolder messageFolder = messagingService.findMessageFolderById(currentCharacter, folder);
-
             model.addAttribute("folderList", messagingService.getFolderList(currentCharacter));
 
             model.addAttribute("message", message);
@@ -91,7 +88,7 @@ public class MessagingController {
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}/reply/{message}")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String replyMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable Long folder,
+    public String replyMessage(Model model, @PathVariable Chronicle chronicle, @PathVariable MessageFolder messageFolder,
                                @PathVariable Message message,
                                @RequestParam(defaultValue = "single") String mode,
                                HttpSession session,
