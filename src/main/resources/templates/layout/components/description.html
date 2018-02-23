@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="currentDescription">
+    <div class="row">
+        <div class="col-4">
+            <img th:src="@{'/secure/chronicle/' + ${_chronicle.id} + '/picture/' + ${perso.avatar.id} + '/thumbnail/250'}" th:if="${perso.avatar != null}" class="img-fluid img-thumbnail">
+        </div>
+        <div class="col-8">
+            <span th:utext="${perso.description}"></span>
+        </div>
+    </div>
+</div>
+<div th:fragment="descriptionForm">
+    <form th:object="${descriptionForm}" th:action="@{'/secure/chronicle/' + ${_chronicle.id} + '/character/description'}" method="post" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label th:for="description" th:text="#{components.description.form.description}" class="col-2 col-form-label">Description</label>
+            <div class="col-10">
+                <textarea th:field="*{description}" class="form-control" th:classappend="${(#fields.hasErrors('description'))? 'is-invalid':''}" required aria-describedby="helpContent"></textarea>
+                <small id="helpContent" class="text-muted" th:unless="${#fields.hasErrors('description')}" th:text="#{components.messaging.write.form.content_help}">The content of your Message</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('description')}" th:text="${error}"/>
+                    </ul>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('description', CkEditorConfig.basic);
+            </script>
+            <label th:for="signature" th:text="#{components.description.form.signature}" class="col-2 col-form-label">Signature</label>
+            <div class="col-10">
+                <textarea th:field="*{signature}" class="form-control" th:classappend="${(#fields.hasErrors('signature'))? 'is-invalid':''}" required aria-describedby="helpContent"></textarea>
+                <small id="helpContent" class="text-muted" th:unless="${#fields.hasErrors('signature')}" th:text="#{components.messaging.write.form.content_help}">The content of your Message</small>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('signature')}">
+                    <ul>
+                        <li th:each="error : ${#fields.errors('signature')}" th:text="${error}"/>
+                    </ul>
+                </div>
+            </div>
+            <script>
+                CKEDITOR.replace('signature', CkEditorConfig.basic);
+            </script>
+            <label th:for="profilePicture" th:text="#{components.description.form.avatar}" class="col-2 col-form-label">Avatar</label>
+            <div class="col-10">
+                <input th:type="file" th:field="*{profilePicture}" />
+            </div>
+            <div class="row">
+                <div class="col-2">&nbsp;</div>
+                <div class="col-10">
+                    <button type="submit" class="btn btn-primary" th:text="#{actions.send}">Send</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

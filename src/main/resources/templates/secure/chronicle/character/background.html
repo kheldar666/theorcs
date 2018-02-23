@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title th:text="#{pages.secure.chronicle.home.title}">Page Title</title>
+    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: chronav"></th:block> /*/-->
+<div class="container-fluid">
+    <h1>YOUR BACKGROUND</h1>
+    <div>
+        <div class="col-sm-3">
+            <!--/* LEFT SECTION */-->
+            <div class="row">
+                <div class="col">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9" th:with="perso = ${session._currentCharacter}">
+            <span th:text="${perso.background}"></span>
+            <!--/* CENTER SECTION */-->
+        </div>
+    </div>
+</div>
+
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
+
+<!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
+</body>
+</html>

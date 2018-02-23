@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title th:text="#{pages.secure.chronicle.home.title}">Page Title</title>
+    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
+    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: ckeditor"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: chronav"></th:block> /*/-->
+<div class="container-fluid">
+    <h1>WRITE POST</h1>
+    <div class="row">
+        <div class="col-sm-3">
+            <!--/* LEFT SECTION */-->
+            <div class="row">
+                <div class="col">
+                    <!--/*/ <th:block th:include="/layout/components/character :: characterSmall"></th:block> /*/-->
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <!--/* PLACEHOLDER */-->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <!--/* CENTER SECTION */-->
+            <!--/*/ <th:block th:include="/layout/components/post :: writePost"></th:block> /*/-->
+        </div>
+        <div class="col-sm-3">
+            <!--/* RIGHT SECTION */-->
+            <div class="row">
+                <div class="col">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <!--/* PLACEHOLDER */-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
+
+<!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
+</body>
+</html>

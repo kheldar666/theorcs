@@ -10,6 +10,8 @@ import org.libermundi.theorcs.domain.Gender;
 import org.libermundi.theorcs.domain.jpa.Picture;
 import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.domain.jpa.base.UidAuditableEntity;
+import org.libermundi.theorcs.domain.jpa.scene.Scene;
+import org.libermundi.theorcs.domain.jpa.security.Authority;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -43,6 +45,9 @@ public final class Character extends UidAuditableEntity {
 	@Lob
 	private String hiddenInfos;
 
+	@Lob
+	private String signature;
+
 	private int age = 0;
 
 	@Enumerated(EnumType.STRING)
@@ -60,5 +65,8 @@ public final class Character extends UidAuditableEntity {
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	private Picture avatar;
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "Characters2Scenes")
+	private Set<Scene> registeredScenes = Sets.newHashSet();
 
 }

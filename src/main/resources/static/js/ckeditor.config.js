@@ -5,10 +5,13 @@ var CkEditorConfig = new Object();
     // The standard preset from CDN which we used as a base provides more features than we need.
     // Also by default it comes with a 2-line toolbar. Here we put all buttons in a single row.
     toolbar: [
+        { name: 'source', items: [ 'Source' ] },
         { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
-        { name: 'styles', items: [ 'Styles', 'Format' ] },
+        { name: 'size', items : [ 'Font','FontSize' ] },
         { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+        { name: 'colors', items : [ 'TextColor','BGColor' ] },
         { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+        { name: 'align', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
         { name: 'links', items: [ 'Link', 'Unlink' ] },
         { name: 'insert', items: [ 'Image', 'Table' ] },
         { name: 'tools', items: [ 'Maximize' ] },
