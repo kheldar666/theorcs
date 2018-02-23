@@ -20,7 +20,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.libermundi.theorcs.domain.jpa.base.Identity;
+import org.libermundi.theorcs.domain.jpa.base.UidAuditableEntity;
+import org.libermundi.theorcs.domain.jpa.scene.Scene;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -30,13 +31,19 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @ToString(of = {"name","chronicle"},callSuper = true)
-public final class CharacterGroup extends Identity {
+public final class CharacterGroup extends UidAuditableEntity {
 
 	@Column(length=128, nullable=false)
 	private String name;
 
-	@Column(length=256, nullable=false)
+	@Lob
 	private String description;
+
+	@Column(length=256, nullable=false)
+	private String reason;
+
+	@Column(nullable = false, length = 15)
+	private String date;
 
 	@ManyToOne
 	private Chronicle chronicle;
@@ -54,5 +61,8 @@ public final class CharacterGroup extends Identity {
 
 	@ManyToMany
 	private Set<Character> leaders = Sets.newHashSet();
+
+	@OneToMany(mappedBy = "characterGroup")
+	private Set<Scene> scenes = Sets.newHashSet();
 
 }
