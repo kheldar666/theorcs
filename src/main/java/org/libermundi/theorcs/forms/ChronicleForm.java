@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(of = {"title","game","admin"},callSuper = true)
+@ToString(of = {"title"},callSuper = true)
 public class ChronicleForm {
 
     @NotNull

@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(of = {"subject","date"},callSuper = true)
+@ToString(of = {"sender"},callSuper = true)
 public class Message extends StatefulEntity {
 
     @ManyToOne(optional = true) //If from == null => Sent by System
