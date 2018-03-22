@@ -240,4 +240,10 @@ public class MessagingController {
         return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders";
     }
 
+    @GetMapping("/secure/chronicle/{chronicle}/messaging/contacts")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public String contacts(Model model, @PathVariable Chronicle chronicle) {
+        return "/secure/chronicle/messaging/contacts";
+    }
+
 }

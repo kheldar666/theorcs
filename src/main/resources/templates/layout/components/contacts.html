@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="folderList(folders)" th:assert="folders != null">
+    <div class="card">
+        <div class="card-header">
+            <span class="fas fa-folder-open" aria-hidden="true"></span> <span th:text="#{components.contacts.your_folders}">Your Folders</span>
+        </div>
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action list-group-item-light" th:each="folder,folderStat : ${folders}" th:classappend="${(messageFolder.equals(folder))?'active':''}"
+                    th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/contacts/' + ${folder.id}}" th:text="${folder.name}">Folder Name</a>
+        </div>
+    </div>
+</div>
+<div th:fragment="folderContent">
+    <table class="table table-hover table-sm" id="contactList">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Name</th>
+                <th scope="col">Actions</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="contactList" type="java.util.List<org.libermundi.theorcs.domain.jpa.chronicle.Character>"*/-->
+            <tr th:each="contact : ${contactList}">
+               <td><a class="text-dark" th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/write?recipientId='+ ${contact.id}}"  aria-hidden="true"><i class="fa fa-arrow-right"></i></a></td>
+               <td th:text="${contact.name}">Contact name</td>
+               <td>Voir / Ecrire / Supprimer</td>
+               <td><input type="checkbox" value="${message.id}"/></td>
+           </tr>
+       </tbody>
+   </table>
+</div>
+<div th:fragment="folderJs">
+   <script>
+       $j = jQuery.noConflict();
+       $j(document).ready(function() {
+           $j('#contactList > tbody > tr').on('click', function(event){
+               if(event.target.type == "checkbox"){
+                   //We let people select the checkbox
+                   event.stopPropagation();
+               } else {
+                   window.location.href=$j(this).find("a").attr('href');
+               }
+           });
+       });
+   </script>
+</div>
+</body>
+</html>

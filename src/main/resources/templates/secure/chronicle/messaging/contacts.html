@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-    <title th:text="#{pages.secure.chronicle.home.title}">Page Title</title>
+    <title th:text="#{pages.secure.chronicle.messaging.contacts.title}">Page Title</title>
     <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
 </head>
 <body>
 <!--/*/ <th:block th:include="/layout/layout/inc_navs :: chronav"></th:block> /*/-->
 <div class="container-fluid">
-    <h1>YOUR MAILBOX</h1>
+    <h1 th:text="#{pages.secure.chronicle.messaging.contacts.your_contacts(${contactFolder.name})}">YOUR MAILBOX</h1>
     <div class="row">
         <div class="col-sm-3">
             <!--/* LEFT SECTION */-->
             <div class="row">
-                <div class="col">
-                    <!--/*/ <th:block th:include="/layout/components/messaging :: folderList(folders = ${folderList})"></th:block> /*/-->
+                <div class="col" th:with="folders = ${folderList}">
+                    <!--/*/ <th:block th:include="/layout/components/contacts :: folderList"></th:block> /*/-->
                 </div>
             </div>
         </div>
         <div class="col-sm-9">
             <!--/* CENTER SECTION */-->
-            <!--/*/ <th:block th:include="/layout/components/messaging :: readMessage(message = ${message})"></th:block> /*/-->
+            <!--/*/ <th:block th:include="/layout/components/contacts :: folderContent"></th:block> /*/-->
         </div>
     </div>
 </div>

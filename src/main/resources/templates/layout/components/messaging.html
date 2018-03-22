@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="folderList">
+<div th:fragment="folderList(folders)" th:assert="folders != null">
     <div class="card">
         <div class="card-header">
             <span class="fas fa-folder-open" aria-hidden="true"></span> <span th:text="#{components.messaging.your_folders}">Your Folders</span>
@@ -13,7 +13,7 @@
         </div>
     </div>
 </div>
-<div th:fragment="folderContent">
+<div th:fragment="folderContent(messageList)" th:assert="messageList != null">
     <table class="table table-hover table-sm" id="messageList">
         <thead>
             <tr>
@@ -51,7 +51,7 @@
        });
    </script>
 </div>
-<div th:fragment="readMessage">
+<div th:fragment="readMessage(message)" th:assert="message != null">
    <div class="card">
        <!--/*@thymesVar id="message" type="org.libermundi.theorcs.domain.jpa.messaging.Message"*/-->
        <div class="card-header" th:with="cced = ${@MessagingService.getRecipientNamesAsStringList(message,T(org.libermundi.theorcs.domain.jpa.messaging.MessageType).CC)}">
