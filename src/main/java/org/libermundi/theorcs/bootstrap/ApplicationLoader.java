@@ -79,6 +79,7 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 		postService.initData();
 		characterGroupService.initData();
 		addressBookService.initData();
+		messagingService.initData();
 
 		securityService.restoreUser();
 
