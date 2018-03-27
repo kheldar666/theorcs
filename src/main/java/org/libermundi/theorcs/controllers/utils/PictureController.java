@@ -1,11 +1,10 @@
 package org.libermundi.theorcs.controllers.utils;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.libermundi.theorcs.domain.jpa.Picture;
+import org.libermundi.theorcs.domain.jpa.utils.Picture;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.exceptions.ImageManipulationException;
 import org.libermundi.theorcs.utils.PictureUtils;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

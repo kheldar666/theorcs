@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.libermundi.theorcs.domain.jpa.User;
 import org.libermundi.theorcs.domain.jpa.base.Identity;
 import org.springframework.security.core.GrantedAuthority;
 

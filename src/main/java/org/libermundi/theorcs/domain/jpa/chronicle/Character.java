@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
-import org.libermundi.theorcs.domain.Gender;
-import org.libermundi.theorcs.domain.jpa.Picture;
-import org.libermundi.theorcs.domain.jpa.User;
+import org.libermundi.theorcs.domain.jpa.security.Gender;
+import org.libermundi.theorcs.domain.jpa.utils.Picture;
+import org.libermundi.theorcs.domain.jpa.security.User;
 import org.libermundi.theorcs.domain.jpa.base.UidAuditableEntity;
 import org.libermundi.theorcs.domain.jpa.scene.Scene;
-import org.libermundi.theorcs.domain.jpa.security.Authority;
 
 import javax.persistence.*;
 import java.util.Set;

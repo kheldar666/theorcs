@@ -1,13 +1,12 @@
 package org.libermundi.theorcs.repositories.impl;
 
 import org.libermundi.theorcs.domain.jpa.security.RememberMeToken;
-import org.libermundi.theorcs.repositories.RememberMeTokenRepository;
+import org.libermundi.theorcs.repositories.security.RememberMeTokenRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.Optional;
 

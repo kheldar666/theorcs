@@ -1,15 +1,14 @@
 package org.libermundi.theorcs.controllers.secure;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.domain.jpa.messaging.Message;
 import org.libermundi.theorcs.domain.jpa.messaging.MessageFolder;
 import org.libermundi.theorcs.forms.MessageForm;
-import org.libermundi.theorcs.services.CharacterService;
-import org.libermundi.theorcs.services.MessagingService;
-import org.libermundi.theorcs.services.SecurityService;
+import org.libermundi.theorcs.services.chronicle.CharacterService;
+import org.libermundi.theorcs.services.messaging.MessagingService;
+import org.libermundi.theorcs.services.security.SecurityService;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Locale;
 
 @Slf4j

@@ -1,8 +1,13 @@
 package org.libermundi.theorcs.bootstrap;
 
 import lombok.extern.slf4j.Slf4j;
-import org.libermundi.theorcs.domain.jpa.messaging.Message;
-import org.libermundi.theorcs.services.*;
+import org.libermundi.theorcs.services.chronicle.*;
+import org.libermundi.theorcs.services.messaging.MessagingService;
+import org.libermundi.theorcs.services.scene.PostService;
+import org.libermundi.theorcs.services.scene.SceneService;
+import org.libermundi.theorcs.services.security.AuthorityService;
+import org.libermundi.theorcs.services.security.SecurityService;
+import org.libermundi.theorcs.services.security.UserService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;

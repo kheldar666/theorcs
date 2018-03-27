@@ -2,7 +2,7 @@ package org.libermundi.theorcs.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.imgscalr.Scalr;
-import org.libermundi.theorcs.domain.jpa.Picture;
+import org.libermundi.theorcs.domain.jpa.utils.Picture;
 import org.libermundi.theorcs.exceptions.ImageManipulationException;
 
 import javax.imageio.ImageIO;

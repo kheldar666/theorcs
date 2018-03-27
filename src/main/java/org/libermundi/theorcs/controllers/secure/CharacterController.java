@@ -1,13 +1,12 @@
 package org.libermundi.theorcs.controllers.secure;
 
 import lombok.extern.slf4j.Slf4j;
-import org.libermundi.theorcs.domain.jpa.Picture;
+import org.libermundi.theorcs.domain.jpa.utils.Picture;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.forms.CharacterForm;
-import org.libermundi.theorcs.services.CharacterService;
-import org.libermundi.theorcs.services.PictureService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.libermundi.theorcs.services.chronicle.CharacterService;
+import org.libermundi.theorcs.services.utils.PictureService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

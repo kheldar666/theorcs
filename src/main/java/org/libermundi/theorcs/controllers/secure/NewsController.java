@@ -1,13 +1,11 @@
 package org.libermundi.theorcs.controllers.secure;
 
 import lombok.extern.slf4j.Slf4j;
-import org.libermundi.theorcs.domain.jpa.Picture;
+import org.libermundi.theorcs.domain.jpa.utils.Picture;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
 import org.libermundi.theorcs.domain.jpa.chronicle.News;
-import org.libermundi.theorcs.services.ChronicleService;
-import org.libermundi.theorcs.services.NewsService;
-import org.libermundi.theorcs.services.PictureService;
-import org.springframework.http.MediaType;
+import org.libermundi.theorcs.services.chronicle.NewsService;
+import org.libermundi.theorcs.services.utils.PictureService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller

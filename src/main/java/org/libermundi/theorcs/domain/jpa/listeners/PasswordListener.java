@@ -1,6 +1,6 @@
 package org.libermundi.theorcs.domain.jpa.listeners;
 
-import org.libermundi.theorcs.domain.jpa.User;
+import org.libermundi.theorcs.domain.jpa.security.User;
 import org.libermundi.theorcs.utils.SecurityUtils;
 
 import javax.persistence.PrePersist;

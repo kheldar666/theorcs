@@ -1,14 +1,13 @@
 package org.libermundi.theorcs.controllers.advice;
 
-import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.libermundi.theorcs.domain.jpa.User;
+import org.libermundi.theorcs.domain.jpa.security.User;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
-import org.libermundi.theorcs.services.CharacterService;
-import org.libermundi.theorcs.services.ChronicleService;
-import org.libermundi.theorcs.services.SecurityService;
+import org.libermundi.theorcs.services.chronicle.CharacterService;
+import org.libermundi.theorcs.services.chronicle.ChronicleService;
+import org.libermundi.theorcs.services.security.SecurityService;
 import org.springframework.ui.Model;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j

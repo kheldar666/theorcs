@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
-import org.libermundi.theorcs.domain.jpa.User;
+import org.libermundi.theorcs.domain.jpa.security.User;
 import org.libermundi.theorcs.domain.jpa.base.StatefulEntity;
 
 import javax.persistence.*;

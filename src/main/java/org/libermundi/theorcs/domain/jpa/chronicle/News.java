@@ -4,12 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Cascade;
-import org.libermundi.theorcs.domain.jpa.Picture;
+import org.libermundi.theorcs.domain.jpa.utils.Picture;
 import org.libermundi.theorcs.domain.jpa.base.Identity;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter

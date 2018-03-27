@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="folderList(folders)" th:assert="folders != null">
+<div th:fragment="addressBooks(addressBooks)" th:assert="addressBooks != null">
     <div class="card">
         <div class="card-header">
-            <span class="fas fa-folder-open" aria-hidden="true"></span> <span th:text="#{components.contacts.your_folders}">Your Folders</span>
+            <span class="fas fa-folder-open" aria-hidden="true"></span> <span th:text="#{components.contacts.your_addresBooks}">Your Address Books</span>
         </div>
         <div class="list-group">
-            <a class="list-group-item list-group-item-action list-group-item-light" th:each="folder,folderStat : ${folders}" th:classappend="${(messageFolder.equals(folder))?'active':''}"
-                    th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/contacts/' + ${folder.id}}" th:text="${folder.name}">Folder Name</a>
+            <a class="list-group-item list-group-item-action list-group-item-light" th:each="addressBook,addressBookStat : ${addressBooks}" th:classappend="${(currentAddressBook.equals(addressBook))?'active':''}"
+                    th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/addressbook/' + ${addressbook.id}}" th:text="${addressbook.name}">Folder Name</a>
         </div>
     </div>
 </div>
-<div th:fragment="folderContent">
+<div th:fragment="contactList">
     <table class="table table-hover table-sm" id="contactList">
         <thead>
             <tr>
