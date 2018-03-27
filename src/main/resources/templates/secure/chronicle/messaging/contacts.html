@@ -7,19 +7,19 @@
 <body>
 <!--/*/ <th:block th:include="/layout/layout/inc_navs :: chronav"></th:block> /*/-->
 <div class="container-fluid">
-    <h1 th:text="#{pages.secure.chronicle.messaging.contacts.your_contacts(${contactFolder.name})}">YOUR CONTACTS</h1>
+    <h1 th:text="#{pages.secure.chronicle.messaging.contacts.your_contacts(${currentAddressBook.name})}">YOUR CONTACTS</h1>
     <div class="row">
         <div class="col-sm-3">
             <!--/* LEFT SECTION */-->
             <div class="row">
-                <div class="col" th:with="contacts = ${contactList}">
-                    <!--/*/ <th:block th:include="/layout/components/contacts :: folderList"></th:block> /*/-->
+                <div class="col">
+                    <!--/*/ <th:block th:include="/layout/components/contacts :: addressBooks(addressBooks = ${addressBooks})"></th:block> /*/-->
                 </div>
             </div>
         </div>
         <div class="col-sm-9">
             <!--/* CENTER SECTION */-->
-            <!--/*/ <th:block th:include="/layout/components/contacts :: folderContent"></th:block> /*/-->
+            <!--/*/ <th:block th:include="/layout/components/contacts :: contactList(contactList = ${currentAddressBook.contacts})"></th:block> /*/-->
         </div>
     </div>
 </div>

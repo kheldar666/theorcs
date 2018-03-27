@@ -1,4 +1,4 @@
-package org.libermundi.theorcs.repositories.impl;
+package org.libermundi.theorcs.repositories.base.impl;
 
 import org.libermundi.theorcs.domain.jpa.base.Undeletable;
 import org.springframework.data.domain.Page;

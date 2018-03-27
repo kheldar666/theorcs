@@ -1,4 +1,4 @@
-package org.libermundi.theorcs.repositories.impl;
+package org.libermundi.theorcs.repositories.security.impl;
 
 import org.libermundi.theorcs.domain.jpa.security.RememberMeToken;
 import org.libermundi.theorcs.repositories.security.RememberMeTokenRepository;

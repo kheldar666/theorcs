@@ -3,10 +3,12 @@ package org.libermundi.theorcs.controllers.secure;
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.domain.jpa.chronicle.Character;
 import org.libermundi.theorcs.domain.jpa.chronicle.Chronicle;
+import org.libermundi.theorcs.domain.jpa.messaging.AddressBook;
 import org.libermundi.theorcs.domain.jpa.messaging.Message;
 import org.libermundi.theorcs.domain.jpa.messaging.MessageFolder;
 import org.libermundi.theorcs.forms.MessageForm;
 import org.libermundi.theorcs.services.chronicle.CharacterService;
+import org.libermundi.theorcs.services.messaging.AddressBookService;
 import org.libermundi.theorcs.services.messaging.MessagingService;
 import org.libermundi.theorcs.services.security.SecurityService;
 import org.springframework.context.MessageSource;
@@ -34,12 +36,15 @@ public class MessagingController {
 
     private final MessageSource messageSource;
 
+    private final AddressBookService addressBookService;
+
     public MessagingController(CharacterService characterService, SecurityService securityService,
-                               MessagingService messagingService, MessageSource messageSource) {
+                               MessagingService messagingService, MessageSource messageSource, AddressBookService addressBookService) {
         this.characterService = characterService;
         this.securityService = securityService;
         this.messagingService = messagingService;
         this.messageSource = messageSource;
+        this.addressBookService = addressBookService;
     }
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/folders")
@@ -54,14 +59,18 @@ public class MessagingController {
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String folders(Model model, @PathVariable Chronicle chronicle, @PathVariable MessageFolder folder, HttpSession session) {
+    public String folders(Model model, @PathVariable Chronicle chronicle, @PathVariable MessageFolder folder, HttpSession session){
         Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+        if(folder.getOwner().equals(currentCharacter)){
+            model.addAttribute("messageFolder", folder);
+            model.addAttribute("messageList", messagingService.findMessagesByFolder(currentCharacter, folder));
+            model.addAttribute("folderList", messagingService.getFolderList(currentCharacter));
 
-        model.addAttribute("messageFolder", folder);
-        model.addAttribute("messageList", messagingService.findMessagesByFolder(currentCharacter, folder));
-        model.addAttribute("folderList", messagingService.getFolderList(currentCharacter));
+            return "/secure/chronicle/messaging/folders";
 
-        return "/secure/chronicle/messaging/folders";
+        } else {
+            return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders";
+        }
     }
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/folders/{folder}/read/{message}")
@@ -240,8 +249,28 @@ public class MessagingController {
 
     @GetMapping("/secure/chronicle/{chronicle}/messaging/contacts")
     @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String contacts(Model model, @PathVariable Chronicle chronicle) {
-        return "/secure/chronicle/messaging/contacts";
+    public String defaultContacts(Model model, @PathVariable Chronicle chronicle,
+                           HttpSession session) {
+        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+        AddressBook defaultAddressBook = addressBookService.findDefaultAddressBook(currentCharacter);
+
+        return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/contacts/" + defaultAddressBook.getId();
+    }
+
+    @GetMapping("/secure/chronicle/{chronicle}/messaging/contacts/{addressBook}")
+    @PreAuthorize("hasPermission(#chronicle, 'read')")
+    public String contacts(Model model, @PathVariable Chronicle chronicle,
+                           @PathVariable AddressBook addressBook,
+                           HttpSession session) {
+        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
+
+        if(addressBook.getOwner().equals(currentCharacter)){
+            model.addAttribute("currentAddressBook",addressBook);
+            model.addAttribute("addressBooks",addressBookService.findAllByOwner(currentCharacter));
+            return "/secure/chronicle/messaging/contacts";
+        } else {
+            return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/contacts";
+        }
     }
 
 }

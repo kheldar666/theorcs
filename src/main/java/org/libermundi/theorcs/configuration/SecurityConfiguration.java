@@ -3,7 +3,7 @@ package org.libermundi.theorcs.configuration;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.libermundi.theorcs.repositories.security.RememberMeTokenRepository;
-import org.libermundi.theorcs.repositories.impl.PersistentTokenRepositoryImpl;
+import org.libermundi.theorcs.repositories.security.impl.PersistentTokenRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

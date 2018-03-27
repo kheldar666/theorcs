@@ -4,15 +4,15 @@
 <div th:fragment="addressBooks(addressBooks)" th:assert="addressBooks != null">
     <div class="card">
         <div class="card-header">
-            <span class="fas fa-folder-open" aria-hidden="true"></span> <span th:text="#{components.contacts.your_addresBooks}">Your Address Books</span>
+            <span class="fas fa-folder-open" aria-hidden="true"></span> <span th:text="#{components.contacts.your_addressBooks}">Your Address Books</span>
         </div>
         <div class="list-group">
             <a class="list-group-item list-group-item-action list-group-item-light" th:each="addressBook,addressBookStat : ${addressBooks}" th:classappend="${(currentAddressBook.equals(addressBook))?'active':''}"
-                    th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/addressbook/' + ${addressbook.id}}" th:text="${addressbook.name}">Folder Name</a>
+                    th:href="@{'/secure/chronicle/' + ${_chronicle.id} + '/messaging/addressbook/' + ${addressBook.id}}" th:text="${addressBook.name}">Folder Name</a>
         </div>
     </div>
 </div>
-<div th:fragment="contactList">
+<div th:fragment="contactList(contactList)">
     <table class="table table-hover table-sm" id="contactList">
         <thead>
             <tr>
