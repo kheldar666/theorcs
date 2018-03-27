@@ -1,6 +1,7 @@
 package org.libermundi.theorcs.bootstrap;
 
 import lombok.extern.slf4j.Slf4j;
+import org.libermundi.theorcs.services.chronicle.CharacterGroupService;
 import org.libermundi.theorcs.services.chronicle.*;
 import org.libermundi.theorcs.services.messaging.AddressBookService;
 import org.libermundi.theorcs.services.messaging.MessagingService;
@@ -29,13 +30,15 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 	private final PostService postService;
 	private final MessagingService messagingService;
 	private final AddressBookService addressBookService;
+	private final CharacterGroupService characterGroupService;
 
 
 	public ApplicationLoader(AuthorityService authorityService, UserService userService, GameService gameService,
 							 ChronicleService chronicleService, GameSystemService gameSystemService,
 							 SecurityService securityService, CharacterService characterService,
 							 NewsService newsService, SceneService sceneService, PostService postService,
-							 MessagingService messagingService, AddressBookService addressBookService) {
+							 MessagingService messagingService, AddressBookService addressBookService,
+							 CharacterGroupService characterGroupService) {
 		this.authorityService = authorityService;
 		this.userService = userService;
 		this.gameService = gameService;
@@ -48,6 +51,7 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 		this.postService = postService;
 		this.messagingService = messagingService;
 		this.addressBookService = addressBookService;
+		this.characterGroupService = characterGroupService;
 	}
 
 	@Override
@@ -73,6 +77,7 @@ public class ApplicationLoader implements ApplicationListener<ContextRefreshedEv
 		newsService.initData();
 		sceneService.initData();
 		postService.initData();
+		characterGroupService.initData();
 		addressBookService.initData();
 
 		securityService.restoreUser();
