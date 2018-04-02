@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/portal}">
 <head lang="en">
     <title th:text="#{pages.secure.index.title}">Page Title</title>
-    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
 </head>
 <body>
-    <!--/*/ <th:block th:include="/layout/layout/inc_navs :: topnav"></th:block> /*/-->
+<section layout:fragment="content">
     <h1>SECURED PAGE</h1>
-
-    <!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
-
-    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
+</section>
 </body>
 </html>

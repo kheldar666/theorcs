@@ -1,5 +1,6 @@
 package org.libermundi.theorcs.configuration;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
@@ -23,6 +24,11 @@ public class AppConfiguration {
         cmfb.setConfigLocation(new ClassPathResource("ehcache.xml"));
         cmfb.setShared(true);
         return cmfb;
+    }
+
+    @Bean
+    public LayoutDialect layoutDialect() {
+        return new LayoutDialect();
     }
 
 }

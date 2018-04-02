@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <head lang="en">
+            <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">TheORCS</title>
+
+            <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
+
+            <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: ckeditor" th:if="${useCK == true}"></th:block> /*/-->
+        </head>
+    </head>
+    <body>
+        <!--/*/ <th:block th:include="/layout/layout/inc_navs :: chronav"></th:block> /*/-->
+        <section layout:fragment="content">
+            <p>Page content goes here</p>
+        </section>
+
+        <!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
+
+        <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
+
+        <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: dump" th:if="${useDump == true}"></th:block> /*/-->
+    </body>
+</html>

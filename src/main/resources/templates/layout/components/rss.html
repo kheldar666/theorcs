@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<div th:fragment="rssfeed">
+<div th:fragment="rssfeed(rssUrl,rssTitle,rssDisplay,rssLimit)">
     <div th:if="${!T(com.google.common.base.Strings).isNullOrEmpty(rssUrl)}" th:with="feedEntries=${@RSSService.reedFeed(rssUrl)}">
         <!--/*@thymesVar id="feedEntries" type="java.util.List<com.rometools.rome.feed.synd.SyndEntry>"*/-->
         <div class="card" th:if="${feedEntries.size() > 0}">

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
+<div th:fragment="addContactForm">
+ <h1>MODAL CONTACT</h1>
+</div>
 <div th:fragment="addressBooks(addressBooks)" th:assert="addressBooks != null">
     <div class="card">
         <div class="card-header">
@@ -31,10 +34,16 @@
                <td><input type="checkbox" value="${message.id}"/></td>
            </tr>
        </tbody>
-   </table>
+    </table>
+    <div class="row">
+        <div class="col text-right">
+            <button class="btn btn-primary" onclick="javascript:openAddContactModal();">Add Contact</button>
+        </div>
+    </div>
 </div>
 <div th:fragment="folderJs">
    <script>
+       /*<![CDATA[*/
        $j = jQuery.noConflict();
        $j(document).ready(function() {
            $j('#contactList > tbody > tr').on('click', function(event){
@@ -46,6 +55,16 @@
                }
            });
        });
+       function openAddContactModal() {
+           $j.ajax({
+               url:"/secure/chronicle/" + [[${_chronicle.id}]] + "/messaging/contacts/add",
+               success:function(data){
+                   $j("#modalHolder").html(data);
+                   $j("#modalHolder").modal("show");
+               }
+           })
+       }
+       /*]]>*/
    </script>
 </div>
 </body>

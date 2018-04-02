@@ -246,31 +246,4 @@ public class MessagingController {
 
         return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/folders";
     }
-
-    @GetMapping("/secure/chronicle/{chronicle}/messaging/contacts")
-    @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String defaultContacts(Model model, @PathVariable Chronicle chronicle,
-                           HttpSession session) {
-        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
-        AddressBook defaultAddressBook = addressBookService.findDefaultAddressBook(currentCharacter);
-
-        return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/contacts/" + defaultAddressBook.getId();
-    }
-
-    @GetMapping("/secure/chronicle/{chronicle}/messaging/contacts/{addressBook}")
-    @PreAuthorize("hasPermission(#chronicle, 'read')")
-    public String contacts(Model model, @PathVariable Chronicle chronicle,
-                           @PathVariable AddressBook addressBook,
-                           HttpSession session) {
-        Character currentCharacter = (Character)session.getAttribute("_currentCharacter");
-
-        if(addressBook.getOwner().equals(currentCharacter)){
-            model.addAttribute("currentAddressBook",addressBook);
-            model.addAttribute("addressBooks",addressBookService.findAllByOwner(currentCharacter));
-            return "/secure/chronicle/messaging/contacts";
-        } else {
-            return "redirect:/secure/chronicle/" + chronicle.getId() + "/messaging/contacts";
-        }
-    }
-
 }

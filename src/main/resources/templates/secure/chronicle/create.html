@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/portal}" th:with="useCK=true">
 <head lang="en">
     <title th:text="#{pages.secure.index.title}">Page Title</title>
-    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
-    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: ckeditor"></th:block> /*/-->
 </head>
 <body>
-<!--/*/ <th:block th:include="/layout/layout/inc_navs :: topnav"></th:block> /*/-->
+<section layout:fragment="content">
 <div class="container-fluid">
     <h1 th:text="#{pages.secure.chronicle.create.title}">CREATE CHRONICLE</h1>
     <!--/*@thymesVar id="chronicleForm" type="org.libermundi.theorcs.forms.ChronicleForm"*/-->
@@ -159,8 +159,7 @@
 
 </div>
 
-<!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
 
-<!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
+</section>
 </body>
 </html>

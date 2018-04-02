@@ -1,48 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
-    <title th:text="#{pages.secure.chronicle.home.title}">Page Title</title>
-    <!--/*/ <th:block th:include="/layout/layout/inc_scripts :: header"></th:block> /*/-->
-</head>
-<body>
-<!--/*/ <th:block th:include="/layout/layout/inc_navs :: chronav"></th:block> /*/-->
-<div class="container-fluid">
-    <h1>CHRONICLE HOME</h1>
-    <div class="row">
-        <div class="col-3">
-            <!--/* LEFT SECTION */-->
-            <div class="row">
-                <div class="col">
-                    <!--/*/ <th:block th:include="/layout/components/character :: characterSmall(perso = ${session._currentCharacter}, title=#{components.character.your_character})"></th:block> /*/-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout/chronicle}">
+    <head lang="en">
+        <title th:text="#{pages.secure.chronicle.home.title}">Page Title</title>
+    </head>
+    <body>
+        <section layout:fragment="content">
+            <div class="container-fluid">
+                <h1>CHRONICLE HOME</h1>
+                <div class="row">
+                    <div class="col-3">
+                        <!--/* LEFT SECTION */-->
+                        <div class="row">
+                            <div class="col">
+                                <!--/*/ <th:block th:include="/layout/components/character :: characterSmall(perso = ${session._currentCharacter}, title=#{components.character.your_character})"></th:block> /*/-->
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <!--/* PLACEHOLDER */-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <!--/* CENTER SECTION */-->
+                    </div>
+                    <div class="col-3">
+                        <!--/* TIGHT SECTION */-->
+                        <div class="row">
+                            <div class="col">
+                                <!--/*/ <th:block th:include="/layout/components/news :: newslist"></th:block> /*/-->
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <!--/* PLACEHOLDER */-->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row mt-2">
-                <div class="col">
-                    <!--/* PLACEHOLDER */-->
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <!--/* CENTER SECTION */-->
-        </div>
-        <div class="col-3">
-            <!--/* TIGHT SECTION */-->
-            <div class="row">
-                <div class="col">
-                    <!--/*/ <th:block th:include="/layout/components/news :: newslist"></th:block> /*/-->
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col">
-                    <!--/* PLACEHOLDER */-->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--/*/ <th:block th:include="/layout/layout/inc_navs :: footer"></th:block> /*/-->
-
-<!--/*/ <th:block th:include="/layout/layout/inc_scripts :: footer"></th:block> /*/-->
-</body>
+        </section>
+    </body>
 </html>
