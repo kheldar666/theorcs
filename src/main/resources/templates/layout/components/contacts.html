@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 <div th:fragment="addContactForm">
  <h1>MODAL CONTACT</h1>
@@ -40,6 +41,9 @@
             <button class="btn btn-primary" onclick="javascript:openAddContactModal();">Add Contact</button>
         </div>
     </div>
+    <div layout:insert="/layout/layout/modal :: modal(modalId='addcontact', modalHeader = 'Add a contact')" th:remove="tag">
+        <p layout:fragment="modal-body">Hello Modal</p>
+    </div>
 </div>
 <div th:fragment="folderJs">
    <script>
@@ -59,8 +63,8 @@
            $j.ajax({
                url:"/secure/chronicle/" + [[${_chronicle.id}]] + "/messaging/contacts/add",
                success:function(data){
-                   $j("#modalHolder").html(data);
-                   $j("#modalHolder").modal("show");
+                   //$j("#addcontact-modal").html(data);
+                   $j("#addcontact-modal").modal("show");
                }
            })
        }
