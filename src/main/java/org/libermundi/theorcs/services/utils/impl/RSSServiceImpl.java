@@ -39,10 +39,10 @@ public class RSSServiceImpl implements RSSService {
                     log.debug("Successfully loaded {} entries from feed at : {}", entries.size(), url);
                 }
             } catch (FeedException e) {
-                log.error("Error while Loading Feeds: " + e.getMessage());
+                log.error("FeedException: Error while Loading Feeds from {} : {}", url, e.getMessage());
             }
         } catch (IOException e) {
-            log.error("Error while Loading Feeds: " + e.getMessage());
+            log.error("IOException: Error while Loading Feeds from {} : {}", url, e.getMessage());
         }
         return entries;
     }

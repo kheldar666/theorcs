@@ -24,11 +24,14 @@ import javax.sql.DataSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class AclSecurityConfiguration {
 
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
-    @Autowired
-    private EhCacheCacheManager cacheManager;
+    private final EhCacheCacheManager cacheManager;
+
+    public AclSecurityConfiguration(DataSource dataSource, EhCacheCacheManager cacheManager) {
+        this.dataSource = dataSource;
+        this.cacheManager = cacheManager;
+    }
 
     @Value("${spring.datasource.platform}")
     private String platform;
